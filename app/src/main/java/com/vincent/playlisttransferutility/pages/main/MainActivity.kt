@@ -1,7 +1,8 @@
-package com.vincent.playlisttransferutility
+package com.vincent.playlisttransferutility.pages.main
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.vincent.playlisttransferutility.R
 
 class MainActivity : AppCompatActivity() {
 
