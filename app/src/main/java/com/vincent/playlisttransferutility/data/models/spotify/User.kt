@@ -1,8 +1,8 @@
-package com.vincent.playlisttransferutility.data_objects.spotify
+package com.vincent.playlisttransferutility.data.models.spotify
 
 import com.google.gson.annotations.SerializedName
 
-class User(
+data class User(
         @SerializedName("id") val id: String,
         @SerializedName("uri") val uri: String,
         @SerializedName("display_name") val displayName: String?,

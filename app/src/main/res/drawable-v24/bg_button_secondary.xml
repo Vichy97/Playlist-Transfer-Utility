@@ -4,5 +4,5 @@
 
     <corners android:radius="@dimen/half_spacing"/>
     <stroke android:width="@dimen/quarter_spacing"
-            android:color="@color/colorSecondaryDark"/>
+            android:color="@color/colorPrimary"/>
 </shape>

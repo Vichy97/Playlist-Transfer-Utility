@@ -1,8 +1,8 @@
-package com.vincent.playlisttransferutility.data_objects.spotify.request
+package com.vincent.playlisttransferutility.data.models.spotify.request
 
 import com.google.gson.annotations.SerializedName
 
-class PlaylistRequest(
+data class PlaylistRequest(
         @SerializedName("name") val name: String,
         @SerializedName("public") val public: Boolean?,
         @SerializedName("collabrative") val collabrative: Boolean?,

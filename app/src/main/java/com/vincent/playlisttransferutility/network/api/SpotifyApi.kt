@@ -1,10 +1,10 @@
 package com.vincent.playlisttransferutility.network.api
 
 import android.provider.MediaStore
-import com.vincent.playlisttransferutility.data_objects.spotify.PagingObject
-import com.vincent.playlisttransferutility.data_objects.spotify.Playlist
-import com.vincent.playlisttransferutility.data_objects.spotify.Track
-import com.vincent.playlisttransferutility.data_objects.spotify.request.PlaylistRequest
+import com.vincent.playlisttransferutility.data.models.spotify.PagingObject
+import com.vincent.playlisttransferutility.data.models.spotify.Playlist
+import com.vincent.playlisttransferutility.data.models.spotify.Track
+import com.vincent.playlisttransferutility.data.models.spotify.request.PlaylistRequest
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response

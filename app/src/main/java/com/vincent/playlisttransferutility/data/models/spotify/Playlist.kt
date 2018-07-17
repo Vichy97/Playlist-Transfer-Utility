@@ -1,8 +1,8 @@
-package com.vincent.playlisttransferutility.data_objects.spotify
+package com.vincent.playlisttransferutility.data.models.spotify
 
 import com.google.gson.annotations.SerializedName
 
-class Playlist(
+data class Playlist(
         @SerializedName("id") val id: String,
         @SerializedName("collabrative") val collabrative: Boolean,
         @SerializedName("images") val images: List<Image>,
