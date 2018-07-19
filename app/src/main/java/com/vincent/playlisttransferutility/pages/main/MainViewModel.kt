@@ -1,30 +1,70 @@
 package com.vincent.playlisttransferutility.pages.main
 
-import android.view.View
+import android.content.Intent
 import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import com.spotify.sdk.android.authentication.AuthenticationClient
+import com.spotify.sdk.android.authentication.AuthenticationRequest
+import com.spotify.sdk.android.authentication.AuthenticationResponse
+import com.vincent.playlisttransferutility.BuildConfig
+import io.reactivex.subjects.PublishSubject
 
 class MainViewModel(mainModel: MainModel) {
 
-    private var subject: BehaviorSubject<String> = BehaviorSubject.create()
+    companion object {
+        const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
+        const val SPOTIFY_REDIRECT_URI: String = "playlistutil://main"
+    }
+
+    private var toastMessage: PublishSubject<String> = PublishSubject.create()
+    private var spotifyLogin: PublishSubject<AuthenticationRequest> = PublishSubject.create()
 
     fun getToastMessage(): Observable<String> {
-        return subject
+        return toastMessage
+    }
+
+    fun getSpotifyLogin(): Observable<AuthenticationRequest> {
+        return spotifyLogin
+    }
+
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == SPOTIFY_LOGIN_REQUEST_CODE) {
+            onSpotifyLogin(data, resultCode)
+        }
+    }
+
+    private fun onSpotifyLogin(data: Intent?, resultCode: Int) {
+        val response = AuthenticationClient.getResponse(resultCode, data)
+        when (response.type) {
+            AuthenticationResponse.Type.TOKEN -> {
+                //TODO: create access token and save it
+            }
+
+            AuthenticationResponse.Type.ERROR -> {
+                //TODO: toast or something
+            }
+        }
     }
 
     fun onSpotifyClicked() {
-        subject.onNext("Spotify Clicked")
+        //TODO: authenticate
+        val builder: AuthenticationRequest.Builder =
+                AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID,
+                        AuthenticationResponse.Type.TOKEN, SPOTIFY_REDIRECT_URI)
+        val scopes: Array<String> = arrayOf("playlist-modify-private", "playlist-modify-public")
+        builder.setScopes(scopes).setShowDialog(true)
+
+        spotifyLogin.onNext(builder.build())
     }
 
     fun onAppleMusicClicked() {
-        subject.onNext("Apple Music Clicked")
+        toastMessage.onNext("Apple Music Clicked")
     }
 
     fun onGooglePlayMusicClicked() {
-        subject.onNext("Google Play Music Clicked")
+        toastMessage.onNext("Google Play Music Clicked")
     }
 
     fun onStartTransferClicked() {
-        subject.onNext("Start Transfer Clicked")
+        toastMessage.onNext("Start Transfer Clicked")
     }
 }
