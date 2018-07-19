@@ -8,10 +8,7 @@ import com.vincent.playlisttransferutility.data.models.spotify.request.PlaylistR
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 
 interface SpotifyApi {
 
@@ -19,11 +16,11 @@ interface SpotifyApi {
     @POST("/users/{userId}/playlists/{playlistId}/tracks")
     fun addTracksToPlaylist(@Path("userId") userId: String,
                             @Path("playlistId") playlistId: String,
-                            trackUris: List<String>): Observable<Response<ResponseBody>>
+                            @Body trackUris: List<String>): Observable<Response<ResponseBody>>
 
     @POST("/users/{userId}/playlists")
     fun createPlaylist(@Path("userId") userId: String,
-                       playlist: PlaylistRequest): Observable<PagingObject<Playlist>>
+                       @Body playlist: PlaylistRequest): Observable<PagingObject<Playlist>>
 
     @GET("/users/playlists")
     fun getAllPlaylists(limit: Int?): Observable<List<MediaStore.Audio.Playlists>>
