@@ -1,6 +1,5 @@
 package com.vincent.playlisttransferutility.network
 
-import com.vincent.playlisttransferutility.network.api.SpotifyAccountApi
 import com.vincent.playlisttransferutility.network.api.SpotifyApi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -22,16 +21,6 @@ class ApiFactory {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build()
             return retrofit.create(SpotifyApi::class.java)
-        }
-
-        fun getSpotifyAuthorizeApi(): SpotifyAccountApi {
-            val retrofit: Retrofit = Retrofit.Builder()
-                    .baseUrl(SPOTIFY_ACCOUNTS_API_BASE_URL)
-                    .client(getOkHttpClient())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build()
-            return retrofit.create(SpotifyAccountApi::class.java)
         }
 
         //TODO: add logging interceptor

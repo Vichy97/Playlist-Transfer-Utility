@@ -2,7 +2,7 @@ package com.vincent.playlisttransferutility.data.models.spotify
 
 import com.google.gson.annotations.SerializedName
 
-class AccessTokenResponse(
+class AuthToken(
         @SerializedName("access_token")
         val accessToken: String,
         @SerializedName("token_type")
