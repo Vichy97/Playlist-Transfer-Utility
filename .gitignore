@@ -13,3 +13,4 @@
 *.properties
 gradle.properties
 gradle/wrapper/gradle-wrapper.properties
+.idea/misc.xml
