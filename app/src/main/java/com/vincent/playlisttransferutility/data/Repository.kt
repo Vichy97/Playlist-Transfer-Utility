@@ -26,6 +26,7 @@ class Repository {
     }
 
     fun saveSpotifyAuthToken(authToken: AuthToken) {
+        spotifyAuthToken = authToken
         dataSource.saveSpotifyAuthToken(authToken)
     }
 }

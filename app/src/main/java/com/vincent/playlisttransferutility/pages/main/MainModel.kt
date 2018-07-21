@@ -18,7 +18,7 @@ class MainModel {
         repository.saveSpotifyAuthToken(authToken)
     }
 
-    fun getSpotiftAuthToken(): Observable<AuthToken> {
+    fun getSpotifyAuthToken(): Observable<AuthToken> {
         return repository.getSpotifyAuthToken()
     }
 }

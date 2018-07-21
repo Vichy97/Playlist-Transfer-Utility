@@ -7,6 +7,7 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
+import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.subjects.PublishSubject
 
@@ -48,9 +49,10 @@ class MainViewModel {
         val response = AuthenticationClient.getResponse(resultCode, data)
         when (response.type) {
             AuthenticationResponse.Type.TOKEN -> {
-                //TODO: create access token and save it
-            }
+                val authToken: AuthToken = AuthToken.fromAuthenticationResponse(response)
 
+                mainModel.saveSpotifyAuthToken(authToken)
+            }
             AuthenticationResponse.Type.ERROR -> {
                 //TODO: toast or something
             }
@@ -86,7 +88,7 @@ class MainViewModel {
 
         return builder.build()
     }
-    
+
     private fun getSpotifyRedirectUri(): String {
         val scheme: String = resourceProvider.getString(R.string.uri_scheme)
         val host: String = resourceProvider.getString(R.string.uri_host_main)
