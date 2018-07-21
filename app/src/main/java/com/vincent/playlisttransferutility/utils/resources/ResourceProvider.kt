@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.resources
+package com.vincent.playlisttransferutility.utils.resources
 
 import android.content.Context
 import android.support.annotation.IntegerRes

@@ -2,8 +2,8 @@ package com.vincent.playlisttransferutility.pages.main
 
 import com.vincent.playlisttransferutility.data.Repository
 import com.vincent.playlisttransferutility.data.RepositoryModule
-import com.vincent.playlisttransferutility.resources.ResourceProvider
-import com.vincent.playlisttransferutility.resources.ResourceProviderModule
+import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
+import com.vincent.playlisttransferutility.utils.resources.ResourceProviderModule
 import dagger.Component
 import javax.inject.Singleton
 

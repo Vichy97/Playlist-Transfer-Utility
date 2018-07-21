@@ -7,7 +7,7 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
-import com.vincent.playlisttransferutility.resources.ResourceProvider
+import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.subjects.PublishSubject
 
 class MainViewModel {
