@@ -1,17 +1,15 @@
 package com.vincent.playlisttransferutility.pages.main
 
+import com.vincent.playlisttransferutility.data.Repository
+
 class MainModel {
 
-    fun loginToSpotify() {
+    private val repository: Repository
 
-    }
-
-    fun loginToGooglePlayMusic() {
-
-    }
-
-    fun loginToAppleMusic() {
-
+    init {
+        repository = DaggerMainComponent.builder()
+                .build()
+                .getRepository()
     }
 
 }

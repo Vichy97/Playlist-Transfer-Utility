@@ -1,11 +1,18 @@
 package com.vincent.playlisttransferutility.pages.main
 
 import com.vincent.playlisttransferutility.data.Repository
+import com.vincent.playlisttransferutility.data.RepositoryModule
+import com.vincent.playlisttransferutility.resources.ResourceProvider
+import com.vincent.playlisttransferutility.resources.ResourceProviderModule
 import dagger.Component
+import javax.inject.Singleton
 
-@Component
+@Component(modules = [ResourceProviderModule::class, RepositoryModule::class, MainModule::class])
+@Singleton
 interface MainComponent {
 
-    fun getRepository(): Repository
     fun getMainModel(): MainModel
+    fun getMainViewModel(): MainViewModel
+    fun getRepository(): Repository
+    fun getResourceProvider(): ResourceProvider
 }

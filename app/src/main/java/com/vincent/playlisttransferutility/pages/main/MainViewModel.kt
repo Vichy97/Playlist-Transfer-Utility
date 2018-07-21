@@ -6,21 +6,28 @@ import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
+import com.vincent.playlisttransferutility.resources.ResourceProvider
 import io.reactivex.subjects.PublishSubject
 
-class MainViewModel(mainModel: MainModel) {
+class MainViewModel {
 
     companion object {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
         const val SPOTIFY_REDIRECT_URI: String = "playlistutil://main"
     }
 
-    private var toastMessage: PublishSubject<String> = PublishSubject.create()
-    private var spotifyLogin: PublishSubject<AuthenticationRequest> = PublishSubject.create()
+    private val mainComponent: MainComponent
+    private val mainModel: MainModel
+    private val resourceProvider: ResourceProvider
 
+    private val toastMessage: PublishSubject<String> = PublishSubject.create()
+    private val spotifyLogin: PublishSubject<AuthenticationRequest> = PublishSubject.create()
 
     init {
+        mainComponent = DaggerMainComponent.builder().build()
 
+        mainModel = mainComponent.getMainModel()
+        resourceProvider = mainComponent.getResourceProvider()
     }
 
     fun getToastMessage(): Observable<String> {
@@ -47,6 +54,9 @@ class MainViewModel(mainModel: MainModel) {
             AuthenticationResponse.Type.ERROR -> {
                 //TODO: toast or something
             }
+            else -> {
+                //TODO: toast or something
+            }
         }
     }
 
@@ -70,6 +80,7 @@ class MainViewModel(mainModel: MainModel) {
         val builder: AuthenticationRequest.Builder =
                 AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID,
                         AuthenticationResponse.Type.TOKEN, SPOTIFY_REDIRECT_URI)
+        //TODO: stop hardcoding these values
         val scopes: Array<String> = arrayOf("playlist-modify-private", "playlist-modify-public")
         builder.setScopes(scopes).setShowDialog(true)
 
