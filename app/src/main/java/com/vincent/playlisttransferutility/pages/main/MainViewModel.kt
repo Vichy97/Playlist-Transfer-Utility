@@ -6,6 +6,7 @@ import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
+import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.resources.ResourceProvider
 import io.reactivex.subjects.PublishSubject
 
@@ -13,7 +14,6 @@ class MainViewModel {
 
     companion object {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
-        const val SPOTIFY_REDIRECT_URI: String = "playlistutil://main"
     }
 
     private val mainComponent: MainComponent
@@ -79,11 +79,17 @@ class MainViewModel {
     private fun getSpotifyAuthenticationRequest(): AuthenticationRequest {
         val builder: AuthenticationRequest.Builder =
                 AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID,
-                        AuthenticationResponse.Type.TOKEN, SPOTIFY_REDIRECT_URI)
+                        AuthenticationResponse.Type.TOKEN, getSpotifyRedirectUri())
         //TODO: stop hardcoding these values
         val scopes: Array<String> = arrayOf("playlist-modify-private", "playlist-modify-public")
         builder.setScopes(scopes).setShowDialog(true)
 
         return builder.build()
+    }
+    
+    private fun getSpotifyRedirectUri(): String {
+        val scheme: String = resourceProvider.getString(R.string.uri_scheme)
+        val host: String = resourceProvider.getString(R.string.uri_host_main)
+        return "$scheme://$host"
     }
 }

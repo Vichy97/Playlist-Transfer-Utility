@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_start_transfer_button">Start Transfer</string>
+    <string name="main_header">Login To Music Services</string>
+    <string name="main_body">To start transfer, you must login to a service to transfer from, and a
+        service to transfer to
+    </string>
+</resources>

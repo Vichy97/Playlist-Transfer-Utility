@@ -1,12 +1,6 @@
 <resources>
     <string name="app_name">Playlist Transfer Utility</string>
-
     <string name="spotify">Spotify</string>
     <string name="google_play_music">Google Play Music</string>
     <string name="apple_music">Apple Music</string>
-    <string name="start_transfer">Start Transfer</string>
-    <string name="login_header">Login To Music Services</string>
-    <string name="login_body">To start transfer, you must login to a service to transfer from, and a
-        service to transfer to
-    </string>
 </resources>

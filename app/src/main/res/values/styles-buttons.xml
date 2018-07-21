@@ -8,6 +8,7 @@
     </style>
 
     <style name="AppTheme.Button.Primary">
+        <item name="android:layout_width">@dimen/primary_button_width</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
@@ -16,6 +17,7 @@
     </style>
 
     <style name="AppTheme.Button.Secondary">
+        <item name="android:layout_width">@dimen/primary_button_width</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorPrimary</item>

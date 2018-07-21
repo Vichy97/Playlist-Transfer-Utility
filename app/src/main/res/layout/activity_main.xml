@@ -13,89 +13,92 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".pages.main.MainActivity"
-        android:padding="@dimen/triple_spacing">
+        android:padding="@dimen/triple_spacing"
+        tools:context=".pages.main.MainActivity">
 
+        <!-- Header Text -->
         <TextView
-            android:id="@+id/tv_login_header"
+            android:id="@+id/tv_header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_header"
+            android:text="@string/main_header"
             android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tv_login_body"
+            app:layout_constraintBottom_toTopOf="@id/tv_body_text"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"/>
 
+        <!-- Body Text -->
         <TextView
-            android:id="@+id/tv_login_body"
+            android:id="@+id/tv_body_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing"
             android:gravity="center"
-            android:text="@string/login_body"
+            android:text="@string/main_body"
             android:textAlignment="center"
             android:textColor="@color/colorSecondaryDark"
             android:textSize="@dimen/text_size_small"
-            app:layout_constraintBottom_toTopOf="@id/btn_spotify"
+            app:layout_constraintBottom_toTopOf="@id/btn_spotify_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_login_header"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_header_text"/>
 
+        <!-- Spotify Button -->
         <Button
-            android:id="@+id/btn_spotify"
+            android:id="@+id/btn_spotify_button"
             style="@style/AppTheme.Button.Secondary"
-            android:layout_width="@dimen/primary_button_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/double_spacing"
-            android:text="@string/spotify"
             android:onClick="@{() -> viewModel.onSpotifyClicked()}"
-            app:layout_constraintBottom_toTopOf="@id/btn_apple_music"
+            android:text="@string/spotify"
+            app:layout_constraintBottom_toTopOf="@id/btn_apple_music_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_login_body"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_body_text"/>
 
+        <!-- Apple Music Button -->
         <Button
-            android:id="@+id/btn_apple_music"
+            android:id="@+id/btn_apple_music_button"
             style="@style/AppTheme.Button.Secondary"
-            android:layout_width="@dimen/primary_button_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing"
-            android:text="@string/apple_music"
             android:onClick="@{() -> viewModel.onAppleMusicClicked()}"
-            app:layout_constraintBottom_toTopOf="@id/btn_google_play_music"
+            android:text="@string/apple_music"
+            app:layout_constraintBottom_toTopOf="@id/btn_google_play_music_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_spotify"/>
+            app:layout_constraintTop_toBottomOf="@id/btn_spotify_button"/>
 
+        <!-- Google Play Music Button -->
         <Button
-            android:id="@+id/btn_google_play_music"
+            android:id="@+id/btn_google_play_music_button"
             style="@style/AppTheme.Button.Secondary"
-            android:layout_width="@dimen/primary_button_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing"
-            android:text="@string/google_play_music"
             android:onClick="@{() -> viewModel.onGooglePlayMusicClicked()}"
-            app:layout_constraintBottom_toTopOf="@id/btn_start_transfer"
+            android:text="@string/google_play_music"
+            app:layout_constraintBottom_toTopOf="@id/btn_start_transfer_button"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_apple_music"/>
+            app:layout_constraintTop_toBottomOf="@id/btn_apple_music_button"/>
 
+        <!-- Start Transfer Button -->
         <Button
-            android:id="@+id/btn_start_transfer"
+            android:id="@+id/btn_start_transfer_button"
             style="@style/AppTheme.Button.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/quadruple_spacing"
-            android:text="@string/start_transfer"
             android:onClick="@{() -> viewModel.onStartTransferClicked()}"
+            android:text="@string/main_start_transfer_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_google_play_music"/>
+            app:layout_constraintTop_toBottomOf="@id/btn_google_play_music_button"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>
