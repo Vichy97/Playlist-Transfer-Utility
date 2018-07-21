@@ -18,6 +18,11 @@ class MainViewModel(mainModel: MainModel) {
     private var toastMessage: PublishSubject<String> = PublishSubject.create()
     private var spotifyLogin: PublishSubject<AuthenticationRequest> = PublishSubject.create()
 
+
+    init {
+
+    }
+
     fun getToastMessage(): Observable<String> {
         return toastMessage
     }
@@ -46,14 +51,7 @@ class MainViewModel(mainModel: MainModel) {
     }
 
     fun onSpotifyClicked() {
-        //TODO: authenticate
-        val builder: AuthenticationRequest.Builder =
-                AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID,
-                        AuthenticationResponse.Type.TOKEN, SPOTIFY_REDIRECT_URI)
-        val scopes: Array<String> = arrayOf("playlist-modify-private", "playlist-modify-public")
-        builder.setScopes(scopes).setShowDialog(true)
-
-        spotifyLogin.onNext(builder.build())
+        spotifyLogin.onNext(getSpotifyAuthenticationRequest())
     }
 
     fun onAppleMusicClicked() {
@@ -66,5 +64,15 @@ class MainViewModel(mainModel: MainModel) {
 
     fun onStartTransferClicked() {
         toastMessage.onNext("Start Transfer Clicked")
+    }
+
+    private fun getSpotifyAuthenticationRequest(): AuthenticationRequest {
+        val builder: AuthenticationRequest.Builder =
+                AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID,
+                        AuthenticationResponse.Type.TOKEN, SPOTIFY_REDIRECT_URI)
+        val scopes: Array<String> = arrayOf("playlist-modify-private", "playlist-modify-public")
+        builder.setScopes(scopes).setShowDialog(true)
+
+        return builder.build()
     }
 }

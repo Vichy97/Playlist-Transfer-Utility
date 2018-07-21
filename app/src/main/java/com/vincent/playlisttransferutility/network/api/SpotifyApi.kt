@@ -1,6 +1,5 @@
 package com.vincent.playlisttransferutility.network.api
 
-import android.provider.MediaStore
 import com.vincent.playlisttransferutility.data.models.spotify.PagingObject
 import com.vincent.playlisttransferutility.data.models.spotify.Playlist
 import com.vincent.playlisttransferutility.data.models.spotify.Track
@@ -23,11 +22,11 @@ interface SpotifyApi {
                        @Body playlist: PlaylistRequest): Observable<PagingObject<Playlist>>
 
     @GET("/users/playlists")
-    fun getAllPlaylists(limit: Int?): Observable<List<MediaStore.Audio.Playlists>>
+    fun getAllPlaylists(@Body limit: Int?): Observable<List<Playlist>>
     //endregion Playlists
 
     //region Search
     @GET("/search")
-    fun searchTracks(@QueryMap queryMap: QueryMap): PagingObject<Track>
+    fun searchTracks(@QueryMap queryMap: QueryMap): Observable<PagingObject<Track>>
     //endregion Search
 }

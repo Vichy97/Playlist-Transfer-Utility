@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".PlaylistTransferApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,8 +19,8 @@
             android:name=".pages.main.MainActivity">
             <intent-filter>
                 <data
-                    android:scheme="playlistutil"
-                    android:host="main"/>
+                    android:host="@string/uri_host_main"
+                    android:scheme="@string/uri_scheme"/>
 
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -28,7 +29,7 @@
 
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
     </application>
 
 </manifest>

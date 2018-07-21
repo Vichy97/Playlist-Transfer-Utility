@@ -1,33 +1,34 @@
 package com.vincent.playlisttransferutility.network.api
 
 import com.google.gson.Gson
+import com.vincent.playlisttransferutility.data.GsonModule
 import com.vincent.playlisttransferutility.network.OkHttpClientModule
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module(includes = [OkHttpClientModule::class])
+@Module(includes = [OkHttpClientModule::class, GsonModule::class])
 class SpotifyModule {
 
     companion object {
-        private const val SPOTIFY_API_BASE_URL: String = "https://api.spotify.com/v1"
+        private const val SPOTIFY_API_BASE_URL: String = "https://api.spotify.com/v1/"
     }
 
     @Provides
     @Singleton
-    fun spotifyApi(retrofit: Retrofit): SpotifyApi {
+    fun provideSpotifyApi(retrofit: Retrofit): SpotifyApi {
         return retrofit.create(SpotifyApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun retrofit(okHttpClient: OkHttpClient,
+    fun provideRetrofit(okHttpClient: OkHttpClient,
                  gsonConverterFactory: GsonConverterFactory,
-                 rxJavaCallAdapterFactory: RxJavaCallAdapterFactory): Retrofit {
+                 rxJavaCallAdapterFactory: RxJava2CallAdapterFactory): Retrofit {
         return Retrofit.Builder()
                 .client(okHttpClient)
                 .addConverterFactory(gsonConverterFactory)
@@ -38,19 +39,13 @@ class SpotifyModule {
 
     @Provides
     @Singleton
-    fun rxJavaCallAdapterFactory(): RxJavaCallAdapterFactory {
-        return RxJavaCallAdapterFactory.create()
+    fun provideRxJavaCallAdapterFactory(): RxJava2CallAdapterFactory {
+        return RxJava2CallAdapterFactory.create()
     }
 
     @Provides
     @Singleton
-    fun gsonConverterFactory(gson: Gson): GsonConverterFactory {
+    fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory {
         return GsonConverterFactory.create(gson)
-    }
-
-    @Provides
-    @Singleton
-    fun gson(): Gson {
-        return Gson()
     }
 }

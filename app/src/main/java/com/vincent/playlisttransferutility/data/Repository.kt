@@ -1,31 +1,31 @@
 package com.vincent.playlisttransferutility.data
 
 import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
+import com.vincent.playlisttransferutility.data.sources.DataSource
 import com.vincent.playlisttransferutility.network.api.SpotifyApi
 import io.reactivex.Observable
-import javax.inject.Inject
 
-class Repository @Inject constructor() {
-
-    private var spotifyAuthToken: AuthToken? = null
+class Repository {
 
     private val repositoryComponent: RepositoryComponent
-    private val authTokenDataSource: AuthTokenDataSource
+    private val dataSource: DataSource
     private val spotifyApi: SpotifyApi
+
+    private var spotifyAuthToken: AuthToken? = null
 
     init {
         repositoryComponent = DaggerRepositoryComponent.builder().build()
         spotifyApi = repositoryComponent.getSpotifyApi()
-        authTokenDataSource = PreferencesAuthTokenDataSource()
+        dataSource = repositoryComponent.getAuthTokenDataSource()
 
-        spotifyAuthToken = authTokenDataSource.getSpotifyAuthToken()
+        spotifyAuthToken = dataSource.getSpotifyAuthToken()
     }
 
     fun getSpotifyAuthToken(): Observable<AuthToken> {
-        return Observable.just(authTokenDataSource.getSpotifyAuthToken());
+        return Observable.just(spotifyAuthToken)
     }
 
     fun saveSpotifyAuthToken(authToken: AuthToken) {
-        authTokenDataSource.saveSpotifyAuthToken(authToken)
+        dataSource.saveSpotifyAuthToken(authToken)
     }
 }
