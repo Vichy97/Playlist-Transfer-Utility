@@ -1,7 +1,7 @@
 package com.vincent.playlisttransferutility.pages.main
 
+import android.arch.lifecycle.ViewModel
 import android.content.Intent
-import io.reactivex.Observable
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -9,15 +9,18 @@ import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-class MainViewModel {
+class MainViewModel : ViewModel() {
 
     companion object {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
     }
 
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mainModel: MainModel
     private val resourceProvider: ResourceProvider
 
@@ -33,6 +36,12 @@ class MainViewModel {
         resourceProvider = mainComponent.getResourceProvider()
 
         initViewState()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        compositeDisposable.clear()
     }
 
     private fun initViewState() {

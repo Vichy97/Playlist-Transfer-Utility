@@ -1,5 +1,6 @@
 package com.vincent.playlisttransferutility.pages.main
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
@@ -11,7 +12,6 @@ import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.ActivityMainBinding
-import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -19,23 +19,20 @@ import io.reactivex.schedulers.Schedulers
 class MainActivity : AppCompatActivity() {
 
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private val mainViewModel: MainViewModel
-    private val resourceProvider: ResourceProvider
+    private lateinit var mainViewModel: MainViewModel
 
     private lateinit var spotifyButton: Button
     private lateinit var googlePlayMusicButton: Button
     private lateinit var appleMusicButton: Button
 
     init {
-        val component: MainComponent = DaggerMainComponent.builder().build()
-
-        mainViewModel = component.getMainViewModel()
-        resourceProvider = component.getResourceProvider()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         setupDataBinding()
 
         spotifyButton = btn_spotify_button

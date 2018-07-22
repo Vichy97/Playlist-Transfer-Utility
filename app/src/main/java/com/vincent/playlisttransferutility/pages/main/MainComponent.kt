@@ -12,7 +12,6 @@ import javax.inject.Singleton
 interface MainComponent {
 
     fun getMainModel(): MainModel
-    fun getMainViewModel(): MainViewModel
     fun getRepository(): Repository
     fun getResourceProvider(): ResourceProvider
 }
