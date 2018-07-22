@@ -95,6 +95,7 @@
             android:layout_marginTop="@dimen/quadruple_spacing"
             android:onClick="@{() -> viewModel.onStartTransferClicked()}"
             android:text="@string/main_start_transfer_button"
+            android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

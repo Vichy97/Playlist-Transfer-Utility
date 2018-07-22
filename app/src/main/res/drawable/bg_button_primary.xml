@@ -3,5 +3,5 @@
        android:shape="rectangle">
 
     <corners android:radius="@dimen/half_spacing"/>
-    <solid android:color="@color/colorPrimary"/>
+    <solid android:color="@color/button_primary_background_color"/>
 </shape>

@@ -9,18 +9,16 @@
 
     <style name="AppTheme.Button.Primary">
         <item name="android:layout_width">@dimen/primary_button_width</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/button_primary_text_color</item>
         <item name="android:background">@drawable/bg_button_primary</item>
-        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
     <style name="AppTheme.Button.Secondary">
         <item name="android:layout_width">@dimen/primary_button_width</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/button_secondary_text_color</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:background">@drawable/bg_button_secondary</item>
     </style>

@@ -9,6 +9,7 @@ import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 class MainViewModel {
@@ -17,26 +18,39 @@ class MainViewModel {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
     }
 
-    private val mainComponent: MainComponent
     private val mainModel: MainModel
     private val resourceProvider: ResourceProvider
 
     private val toastMessage: PublishSubject<String> = PublishSubject.create()
-    private val spotifyLogin: PublishSubject<AuthenticationRequest> = PublishSubject.create()
+    private val spotifyLoginRequest: PublishSubject<AuthenticationRequest> = PublishSubject.create()
+    private val viewStateSubject: BehaviorSubject<MainViewState> = BehaviorSubject.create()
+
+    private lateinit var viewState: MainViewState
 
     init {
-        mainComponent = DaggerMainComponent.builder().build()
-
+        val mainComponent: MainComponent = DaggerMainComponent.builder().build()
         mainModel = mainComponent.getMainModel()
         resourceProvider = mainComponent.getResourceProvider()
+
+        initViewState()
+    }
+
+    private fun initViewState() {
+        viewState = MainViewState()
+
+       //TODO: get view state from model and pass to view
     }
 
     fun getToastMessage(): Observable<String> {
         return toastMessage
     }
 
-    fun getSpotifyLogin(): Observable<AuthenticationRequest> {
-        return spotifyLogin
+    fun getSpotifyLoginRequest(): Observable<AuthenticationRequest> {
+        return spotifyLoginRequest
+    }
+
+    fun getViewState(): Observable<MainViewState> {
+        return viewStateSubject
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -49,21 +63,23 @@ class MainViewModel {
         val response = AuthenticationClient.getResponse(resultCode, data)
         when (response.type) {
             AuthenticationResponse.Type.TOKEN -> {
-                val authToken: AuthToken = AuthToken.fromAuthenticationResponse(response)
-
-                mainModel.saveSpotifyAuthToken(authToken)
-            }
-            AuthenticationResponse.Type.ERROR -> {
-                //TODO: toast or something
+                onSpotifyTokenReceived(response)
             }
             else -> {
-                //TODO: toast or something
+                toastMessage.onNext(resourceProvider.getString(R.string.login_error))
             }
         }
     }
 
+    private fun onSpotifyTokenReceived(response: AuthenticationResponse) {
+        val authToken: AuthToken = AuthToken.fromAuthenticationResponse(response)
+        mainModel.saveSpotifyAuthToken(authToken)
+        viewState.spotifyLogin = true
+        viewStateSubject.onNext(viewState)
+    }
+
     fun onSpotifyClicked() {
-        spotifyLogin.onNext(getSpotifyAuthenticationRequest())
+        spotifyLoginRequest.onNext(getSpotifyAuthenticationRequest())
     }
 
     fun onAppleMusicClicked() {

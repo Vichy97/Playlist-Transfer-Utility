@@ -3,4 +3,5 @@
     <string name="spotify">Spotify</string>
     <string name="google_play_music">Google Play Music</string>
     <string name="apple_music">Apple Music</string>
+    <string name="login_error">Login Error</string>
 </resources>
