@@ -25,9 +25,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var googlePlayMusicButton: Button
     private lateinit var appleMusicButton: Button
 
-    init {
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -65,19 +62,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun subscribeToViewModelEvents() {
         compositeDisposable.add(mainViewModel
-                .getToastMessage()
+                .getToastMessageEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
                 })
-        compositeDisposable.add(mainViewModel.getSpotifyLoginRequest()
+        compositeDisposable.add(mainViewModel.getSpotifyLoginRequestEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     loginToSpotify(it)
                 })
-        compositeDisposable.add(mainViewModel.getViewState()
+        compositeDisposable.add(mainViewModel.getViewStateEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {

@@ -8,6 +8,7 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
+import com.vincent.playlisttransferutility.data.models.spotify.request.RequestScope
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -24,8 +25,8 @@ class MainViewModel : ViewModel() {
     private val mainModel: MainModel
     private val resourceProvider: ResourceProvider
 
-    private val toastMessage: PublishSubject<String> = PublishSubject.create()
-    private val spotifyLoginRequest: PublishSubject<AuthenticationRequest> = PublishSubject.create()
+    private val toastMessageSubject: PublishSubject<String> = PublishSubject.create()
+    private val spotifyLoginRequestSubject: PublishSubject<AuthenticationRequest> = PublishSubject.create()
     private val viewStateSubject: BehaviorSubject<MainViewState> = BehaviorSubject.create()
 
     private lateinit var viewState: MainViewState
@@ -38,30 +39,33 @@ class MainViewModel : ViewModel() {
         initViewState()
     }
 
+    private fun initViewState() {
+        viewState = MainViewState()
+
+       //TODO: create view state based on data from model and pass to view
+    }
+
     override fun onCleared() {
         super.onCleared()
 
         compositeDisposable.clear()
     }
 
-    private fun initViewState() {
-        viewState = MainViewState()
-
-       //TODO: get view state from model and pass to view
+    //region Events
+    fun getToastMessageEvents(): Observable<String> {
+        return toastMessageSubject
     }
 
-    fun getToastMessage(): Observable<String> {
-        return toastMessage
+    fun getSpotifyLoginRequestEvents(): Observable<AuthenticationRequest> {
+        return spotifyLoginRequestSubject
     }
 
-    fun getSpotifyLoginRequest(): Observable<AuthenticationRequest> {
-        return spotifyLoginRequest
-    }
-
-    fun getViewState(): Observable<MainViewState> {
+    fun getViewStateEvents(): Observable<MainViewState> {
         return viewStateSubject
     }
+    //endregion Events
 
+    //region Activity Results
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SPOTIFY_LOGIN_REQUEST_CODE) {
             onSpotifyLogin(data, resultCode)
@@ -75,7 +79,7 @@ class MainViewModel : ViewModel() {
                 onSpotifyTokenReceived(response)
             }
             else -> {
-                toastMessage.onNext(resourceProvider.getString(R.string.login_error))
+                toastMessageSubject.onNext(resourceProvider.getString(R.string.login_error))
             }
         }
     }
@@ -86,29 +90,32 @@ class MainViewModel : ViewModel() {
         viewState.spotifyLogin = true
         viewStateSubject.onNext(viewState)
     }
+    //endregion Activity Results
 
+    //region View Events
     fun onSpotifyClicked() {
-        spotifyLoginRequest.onNext(getSpotifyAuthenticationRequest())
+        spotifyLoginRequestSubject.onNext(getSpotifyAuthenticationRequest())
     }
 
     fun onAppleMusicClicked() {
-        toastMessage.onNext("Apple Music Clicked")
+        toastMessageSubject.onNext("Apple Music Clicked")
     }
 
     fun onGooglePlayMusicClicked() {
-        toastMessage.onNext("Google Play Music Clicked")
+        toastMessageSubject.onNext("Google Play Music Clicked")
     }
 
     fun onStartTransferClicked() {
-        toastMessage.onNext("Start Transfer Clicked")
+        toastMessageSubject.onNext("Start Transfer Clicked")
     }
+    //endregion View Events
 
     private fun getSpotifyAuthenticationRequest(): AuthenticationRequest {
         val builder: AuthenticationRequest.Builder =
                 AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID,
                         AuthenticationResponse.Type.TOKEN, getSpotifyRedirectUri())
-        //TODO: stop hardcoding these values
-        val scopes: Array<String> = arrayOf("playlist-modify-private", "playlist-modify-public")
+        val scopes: Array<String> = arrayOf(RequestScope.MODIFY_PLAYLIST_PUBLIC.toString(),
+                RequestScope.MODIFY_PLAYLIST_PRIVATE.toString())
         builder.setScopes(scopes).setShowDialog(true)
 
         return builder.build()
