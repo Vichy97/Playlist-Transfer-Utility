@@ -78,7 +78,9 @@ class MainActivity : AppCompatActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-
+                    spotifyButton.isEnabled = !it.spotifyLogin
+                    googlePlayMusicButton.isEnabled = !it.googlePlayMusicLogin
+                    appleMusicButton.isEnabled = !it.appleMusicLogin
                 })
     }
 

@@ -2,7 +2,6 @@ package com.vincent.playlisttransferutility.network
 
 import dagger.Module
 import dagger.Provides
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
@@ -12,7 +11,7 @@ class OkHttpClientModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(headerInterceptor: Interceptor,
+    fun provideOkHttpClient(headerInterceptor: HeaderInterceptor,
                      loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient().newBuilder()
                 .addInterceptor(headerInterceptor)
@@ -22,22 +21,16 @@ class OkHttpClientModule {
 
     @Provides
     @Singleton
-    fun provideHeaderInterceptor(): Interceptor {
-        return Interceptor { chain ->
-            val original = chain.request()
-            val requestBuilder = original.newBuilder()
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Accept", "text/plain")
-                    .method(original.method(), original.body())
-            val request = requestBuilder.build()
-            chain.proceed(request)
-        }
+    fun provideHeaderInterceptor(): HeaderInterceptor {
+        return HeaderInterceptor()
     }
 
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor()
+        val loggingInterceptor: HttpLoggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        return loggingInterceptor
     }
 
 }

@@ -2,16 +2,20 @@ package com.vincent.playlisttransferutility.pages.main
 
 import android.arch.lifecycle.ViewModel
 import android.content.Intent
+import android.util.Log
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
+import com.vincent.playlisttransferutility.data.models.spotify.Playlist
 import com.vincent.playlisttransferutility.data.models.spotify.request.RequestScope
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -42,7 +46,14 @@ class MainViewModel : ViewModel() {
     private fun initViewState() {
         viewState = MainViewState()
 
-       //TODO: create view state based on data from model and pass to view
+        //TODO: fetch all auth tokens from model
+        compositeDisposable.add(mainModel.getSpotifyAuthToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    viewState.spotifyLogin = (it != null)
+                    viewStateSubject.onNext(viewState)
+                })
     }
 
     override fun onCleared() {
@@ -98,7 +109,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun onAppleMusicClicked() {
-        toastMessageSubject.onNext("Apple Music Clicked")
+
     }
 
     fun onGooglePlayMusicClicked() {

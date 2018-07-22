@@ -21,8 +21,8 @@ interface SpotifyApi {
     fun createPlaylist(@Path("userId") userId: String,
                        @Body playlist: PlaylistRequest): Observable<PagingObject<Playlist>>
 
-    @GET("/users/playlists")
-    fun getAllPlaylists(@Body limit: Int?): Observable<List<Playlist>>
+    @GET("/v1/users/me/playlists")
+    fun getAllPlaylists(): Observable<ArrayList<Playlist>>
     //endregion Playlists
 
     //region Search
