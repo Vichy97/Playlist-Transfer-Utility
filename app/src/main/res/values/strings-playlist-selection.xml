@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="playlist_selection_service_one_label">Transfer From:</string>
+    <string name="playlist_selection_service_two_label">Transfer To:</string>
+    <string name="playlist_selection_transfer_button_label">Transfer</string>
+</resources>

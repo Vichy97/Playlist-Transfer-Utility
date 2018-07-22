@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/spacing"
+    android:paddingStart="@dimen/spacing">
+
+    <ImageView
+        android:id="@+id/iv_service_icon"
+        android:layout_width="@dimen/service_spinner_icon_size"
+        android:layout_height="@dimen/service_spinner_icon_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_service_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/double_spacing"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_service_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Spotify"/>
+
+</android.support.constraint.ConstraintLayout>
