@@ -10,9 +10,4 @@ class MainModule {
     fun provideMainModel(): MainModel {
         return MainModel()
     }
-    
-    @Provides
-    fun provideMainViewModel(): MainViewModel {
-        return MainViewModel()
-    }
 }

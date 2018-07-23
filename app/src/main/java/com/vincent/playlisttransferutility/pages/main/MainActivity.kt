@@ -12,9 +12,7 @@ import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.ActivityMainBinding
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,27 +59,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeToViewModelEvents() {
-        compositeDisposable.add(mainViewModel
-                .getToastMessageEvents()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-                })
-        compositeDisposable.add(mainViewModel.getSpotifyLoginRequestEvents()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    loginToSpotify(it)
-                })
-        compositeDisposable.add(mainViewModel.getViewStateEvents()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    spotifyButton.isEnabled = !it.spotifyLogin
-                    googlePlayMusicButton.isEnabled = !it.googlePlayMusicLogin
-                    appleMusicButton.isEnabled = !it.appleMusicLogin
-                })
+        compositeDisposable.addAll(
+                mainViewModel.getToastMessageEvents().subscribe(this::onToastMessageReceived),
+                mainViewModel.getSpotifyLoginRequestEvents().subscribe(this::onSpotifyLoginRequestReceived),
+                mainViewModel.getViewStateEvents().subscribe(this::onViewStateUpdateReceived)
+        )
+    }
+
+    private fun onToastMessageReceived(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onSpotifyLoginRequestReceived(request: AuthenticationRequest) {
+        loginToSpotify(request)
+    }
+
+    private fun onViewStateUpdateReceived(viewState: MainViewState) {
+        spotifyButton.isEnabled = !viewState.spotifyLogin
+        googlePlayMusicButton.isEnabled = !viewState.googlePlayMusicLogin
+        appleMusicButton.isEnabled = !viewState.appleMusicLogin
     }
 
     private fun loginToSpotify(request: AuthenticationRequest) {
