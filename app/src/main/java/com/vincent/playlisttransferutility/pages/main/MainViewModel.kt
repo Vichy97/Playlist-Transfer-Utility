@@ -2,14 +2,12 @@ package com.vincent.playlisttransferutility.pages.main
 
 import android.arch.lifecycle.ViewModel
 import android.content.Intent
-import android.util.Log
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
-import com.vincent.playlisttransferutility.data.models.spotify.Playlist
 import com.vincent.playlisttransferutility.data.models.spotify.request.RequestScope
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.Observable
@@ -32,6 +30,7 @@ class MainViewModel : ViewModel() {
     private val toastMessageSubject: PublishSubject<String> = PublishSubject.create()
     private val spotifyLoginRequestSubject: PublishSubject<AuthenticationRequest> = PublishSubject.create()
     private val viewStateSubject: BehaviorSubject<MainViewState> = BehaviorSubject.create()
+    private val navigateSubject: PublishSubject<Boolean> = PublishSubject.create()
 
     private lateinit var viewState: MainViewState
 
@@ -73,6 +72,10 @@ class MainViewModel : ViewModel() {
 
     fun getViewStateEvents(): Observable<MainViewState> {
         return viewStateSubject
+    }
+
+    fun getNavigationEvents(): Observable<Boolean> {
+        return navigateSubject
     }
     //endregion Events
 
@@ -117,7 +120,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun onStartTransferClicked() {
-        toastMessageSubject.onNext("Start Transfer Clicked")
+        navigateSubject.onNext(true)
     }
     //endregion View Events
 

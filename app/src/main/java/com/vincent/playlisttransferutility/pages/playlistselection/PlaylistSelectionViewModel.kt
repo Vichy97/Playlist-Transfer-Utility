@@ -13,7 +13,7 @@ class PlaylistSelectionViewModel : ViewModel() {
     val model: PlaylistSelectionModel
 
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    val playlistSubject: BehaviorSubject<ArrayList<Playlist>> = BehaviorSubject.create()
+    val playlistSubject: BehaviorSubject<List<Playlist>> = BehaviorSubject.create()
 
     val selectedPlaylists: Set<String> = HashSet()
 
@@ -33,7 +33,7 @@ class PlaylistSelectionViewModel : ViewModel() {
         compositeDisposable.clear()
     }
 
-    fun getPlaylistsEvent(): Observable<ArrayList<Playlist>> {
+    fun getPlaylistsEvent(): Observable<List<Playlist>> {
         return playlistSubject
     }
 

@@ -38,12 +38,14 @@ class Repository {
         dataSource.saveSpotifyAuthToken(authToken)
     }
 
-    fun getSpotifyPlaylists(): Observable<ArrayList<Playlist>> {
+    fun getSpotifyPlaylists(): Observable<List<Playlist>> {
         //TODO: possibly cache these...
         if (spotifyAuthToken == null) {
             return Observable.empty()
         }
 
-        return spotifyApi.getAllPlaylists()
+        return spotifyApi.getAllPlaylists().map {
+            it.items
+        }
     }
 }

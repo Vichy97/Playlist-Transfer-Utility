@@ -12,6 +12,7 @@ import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.ActivityMainBinding
+import com.vincent.playlisttransferutility.pages.playlistselection.PlaylistSelectionActivity
 import io.reactivex.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity() {
@@ -62,7 +63,8 @@ class MainActivity : AppCompatActivity() {
         compositeDisposable.addAll(
                 mainViewModel.getToastMessageEvents().subscribe(this::onToastMessageReceived),
                 mainViewModel.getSpotifyLoginRequestEvents().subscribe(this::onSpotifyLoginRequestReceived),
-                mainViewModel.getViewStateEvents().subscribe(this::onViewStateUpdateReceived)
+                mainViewModel.getViewStateEvents().subscribe(this::onViewStateUpdateReceived),
+                mainViewModel.getNavigationEvents().subscribe{navigateToPlaylistSelection()}
         )
     }
 
@@ -75,12 +77,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onViewStateUpdateReceived(viewState: MainViewState) {
-        spotifyButton.isEnabled = !viewState.spotifyLogin
-        googlePlayMusicButton.isEnabled = !viewState.googlePlayMusicLogin
-        appleMusicButton.isEnabled = !viewState.appleMusicLogin
+        //spotifyButton.isEnabled = !viewState.spotifyLogin
+        //googlePlayMusicButton.isEnabled = !viewState.googlePlayMusicLogin
+        //appleMusicButton.isEnabled = !viewState.appleMusicLogin
     }
 
     private fun loginToSpotify(request: AuthenticationRequest) {
         AuthenticationClient.openLoginActivity(this, MainViewModel.SPOTIFY_LOGIN_REQUEST_CODE, request)
+    }
+
+    private fun navigateToPlaylistSelection() {
+        val intent: Intent = Intent(this, PlaylistSelectionActivity::class.java)
+        startActivity(intent)
     }
 }

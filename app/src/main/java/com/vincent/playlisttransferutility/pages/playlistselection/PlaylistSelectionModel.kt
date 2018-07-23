@@ -3,7 +3,6 @@ package com.vincent.playlisttransferutility.pages.playlistselection
 import com.vincent.playlisttransferutility.data.Repository
 import com.vincent.playlisttransferutility.data.models.spotify.Playlist
 import io.reactivex.Observable
-import kotlin.collections.ArrayList
 
 class PlaylistSelectionModel {
 
@@ -15,7 +14,7 @@ class PlaylistSelectionModel {
                 .getRepository()
     }
 
-    fun getPlaylists(): Observable<ArrayList<Playlist>> {
+    fun getPlaylists(): Observable<List<Playlist>> {
         return repository.getSpotifyPlaylists()
     }
 }

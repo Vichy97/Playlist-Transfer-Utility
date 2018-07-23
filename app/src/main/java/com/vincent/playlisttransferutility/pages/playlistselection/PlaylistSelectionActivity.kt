@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.spotify.Playlist
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_playlist_selection.*;
+import kotlinx.android.synthetic.main.activity_playlist_selection.*
 
 class PlaylistSelectionActivity : AppCompatActivity() {
 
@@ -15,11 +16,11 @@ class PlaylistSelectionActivity : AppCompatActivity() {
     private lateinit var viewModel: PlaylistSelectionViewModel
 
     private lateinit var playlistSelectionAdapter: PlaylistSelectionAdapter
-
-    private val playlistSelectionList: RecyclerView = rv_playlist_selection_list
+    private lateinit var playlistSelectionList: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_playlist_selection)
 
         viewModel = ViewModelProviders.of(this).get(PlaylistSelectionViewModel::class.java)
         setupPlaylistSelectionList()
@@ -27,6 +28,7 @@ class PlaylistSelectionActivity : AppCompatActivity() {
 
     fun setupPlaylistSelectionList() {
         playlistSelectionAdapter = PlaylistSelectionAdapter(viewModel, this)
+        playlistSelectionList = rv_playlist_selection_list
         playlistSelectionList.layoutManager = LinearLayoutManager(this)
         playlistSelectionList.adapter = playlistSelectionAdapter
     }
@@ -47,7 +49,7 @@ class PlaylistSelectionActivity : AppCompatActivity() {
         compositeDisposable.add(viewModel.getPlaylistsEvent().subscribe(this::onPlaylistsRecieved))
     }
 
-    private fun onPlaylistsRecieved(playlists: ArrayList<Playlist>) {
+    private fun onPlaylistsRecieved(playlists: List<Playlist>) {
         playlistSelectionAdapter.setPlaylists(playlists)
     }
 }

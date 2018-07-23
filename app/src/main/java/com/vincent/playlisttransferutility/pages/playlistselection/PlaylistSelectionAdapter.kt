@@ -10,17 +10,19 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.vincent.playlisttransferutility.BR
 import com.vincent.playlisttransferutility.data.models.spotify.Playlist
 import com.vincent.playlisttransferutility.R
 import kotlinx.android.synthetic.main.playlist_list_view_item.view.*
+import kotlin.coroutines.experimental.coroutineContext
 
 class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
                                context: Context) :
         RecyclerView.Adapter<PlaylistSelectionAdapter.PlaylistSelectionViewHolder>() {
 
     private val playlists: ArrayList<Playlist> = ArrayList()
-    private val context: Context
+    val context: Context
     private val layoutInflater: LayoutInflater
     private val viewModel: PlaylistSelectionViewModel
 
@@ -77,7 +79,9 @@ class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
 
 
         fun setCoverArt(imageUrl: String) {
-            //TODO: glide
+            Glide.with(itemView)
+                    .load(imageUrl)
+                    .into(playlistCoverArtView)
         }
 
         fun setTitle(title: String) {
