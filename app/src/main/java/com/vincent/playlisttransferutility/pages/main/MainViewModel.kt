@@ -8,7 +8,7 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
-import com.vincent.playlisttransferutility.data.models.spotify.request.RequestScope
+import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyAuthenticationRequestScope
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -128,8 +128,8 @@ class MainViewModel : ViewModel() {
         val builder: AuthenticationRequest.Builder =
                 AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID,
                         AuthenticationResponse.Type.TOKEN, getSpotifyRedirectUri())
-        val scopes: Array<String> = arrayOf(RequestScope.MODIFY_PLAYLIST_PUBLIC.toString(),
-                RequestScope.MODIFY_PLAYLIST_PRIVATE.toString())
+        val scopes: Array<String> = arrayOf(SpotifyAuthenticationRequestScope.MODIFY_PLAYLIST_PUBLIC.toString(),
+                SpotifyAuthenticationRequestScope.MODIFY_PLAYLIST_PRIVATE.toString())
         builder.setScopes(scopes).setShowDialog(true)
 
         return builder.build()

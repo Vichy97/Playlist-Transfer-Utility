@@ -1,7 +1,7 @@
 package com.vincent.playlisttransferutility.data
 
 import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
-import com.vincent.playlisttransferutility.data.models.spotify.Playlist
+import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
 import com.vincent.playlisttransferutility.data.sources.DataSource
 import com.vincent.playlisttransferutility.network.HeaderInterceptor
 import com.vincent.playlisttransferutility.network.api.SpotifyApi
@@ -38,14 +38,14 @@ class Repository {
         dataSource.saveSpotifyAuthToken(authToken)
     }
 
-    fun getSpotifyPlaylists(): Observable<List<Playlist>> {
-        //TODO: possibly cache these...
+    fun getSpotifyPlaylists(): Observable<List<SpotifyPlaylist>> {
         if (spotifyAuthToken == null) {
             return Observable.empty()
         }
 
-        return spotifyApi.getAllPlaylists().map {
-            it.items
+        //TODO: cache these... also make use of pagination in the future
+        return spotifyApi.getAllPlaylists(null, null).flatMapObservable {
+            Observable.just(it.items)
         }
     }
 }

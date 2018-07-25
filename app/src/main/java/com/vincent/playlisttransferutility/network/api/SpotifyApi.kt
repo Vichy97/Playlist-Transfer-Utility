@@ -1,10 +1,10 @@
 package com.vincent.playlisttransferutility.network.api
 
-import com.vincent.playlisttransferutility.data.models.spotify.PagingObject
-import com.vincent.playlisttransferutility.data.models.spotify.Playlist
-import com.vincent.playlisttransferutility.data.models.spotify.Track
-import com.vincent.playlisttransferutility.data.models.spotify.request.PlaylistRequest
-import io.reactivex.Observable
+import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPagingObject
+import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
+import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyTrack
+import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyPlaylistRequest
+import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -12,21 +12,22 @@ import retrofit2.http.*
 interface SpotifyApi {
 
     //region Playlists
-    @POST("/users/{userId}/playlists/{playlistId}/tracks")
+    @POST("/v1/users/{userId}/playlists/{playlistId}/tracks")
     fun addTracksToPlaylist(@Path("userId") userId: String,
                             @Path("playlistId") playlistId: String,
-                            @Body trackUris: List<String>): Observable<Response<ResponseBody>>
+                            @Body trackUris: List<String>): Single<Response<ResponseBody>>
 
-    @POST("/users/{userId}/playlists")
+    @POST("/v1/users/{userId}/playlists")
     fun createPlaylist(@Path("userId") userId: String,
-                       @Body playlist: PlaylistRequest): Observable<PagingObject<Playlist>>
+                       @Body playlist: SpotifyPlaylistRequest): Single<SpotifyPagingObject<SpotifyPlaylist>>
 
     @GET("/v1/me/playlists")
-    fun getAllPlaylists(): Observable<PagingObject<Playlist>>
+    fun getAllPlaylists(@Query("limit") limit: Int?,
+                        @Query("offset") offset: Int?): Single<SpotifyPagingObject<SpotifyPlaylist>>
     //endregion Playlists
 
     //region Search
     @GET("/search")
-    fun searchTracks(@QueryMap queryMap: QueryMap): Observable<PagingObject<Track>>
+    fun searchTracks(@QueryMap queryMap: QueryMap): Single<SpotifyPagingObject<SpotifyTrack>>
     //endregion Search
 }

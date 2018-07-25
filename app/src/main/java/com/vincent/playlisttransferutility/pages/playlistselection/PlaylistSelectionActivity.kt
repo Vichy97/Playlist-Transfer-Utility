@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.vincent.playlisttransferutility.R
-import com.vincent.playlisttransferutility.data.models.spotify.Playlist
+import com.vincent.playlisttransferutility.data.models.Playlist
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_playlist_selection.*
 

@@ -1,7 +1,8 @@
 package com.vincent.playlisttransferutility.pages.playlistselection
 
 import android.arch.lifecycle.ViewModel
-import com.vincent.playlisttransferutility.data.models.spotify.Playlist
+import com.vincent.playlisttransferutility.data.models.Playlist
+import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

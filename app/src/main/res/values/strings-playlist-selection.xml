@@ -3,4 +3,5 @@
     <string name="playlist_selection_service_one_label">Transfer From:</string>
     <string name="playlist_selection_service_two_label">Transfer To:</string>
     <string name="playlist_selection_transfer_button_label">Transfer</string>
+    <string name="playlist_selection_playlist_track_count">%d tracks</string>
 </resources>

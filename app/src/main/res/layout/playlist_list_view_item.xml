@@ -15,10 +15,10 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_marginTop="@dimen/spacing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        android:layout_marginTop="@dimen/spacing">
 
         <ImageView
             android:id="@+id/iv_playlist_cover_art"
@@ -59,7 +59,6 @@
             android:id="@+id/cb_playlist_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/double_spacing"
             android:onCheckedChanged="@{(switch, checked) -> viewModel.onPlaylistSelectionChanged(playlistId, checked)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
