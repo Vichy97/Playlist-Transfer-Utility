@@ -112,11 +112,11 @@ class MainViewModel : ViewModel() {
     }
 
     fun onAppleMusicClicked() {
-
+        //TODO: apple music authentication
     }
 
     fun onGooglePlayMusicClicked() {
-        toastMessageSubject.onNext("Google Play Music Clicked")
+        //TODO: google play music authentication
     }
 
     fun onStartTransferClicked() {

@@ -9,6 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
+//TODO: listen to spinner events
 class PlaylistSelectionViewModel : ViewModel() {
 
     val model: PlaylistSelectionModel
@@ -39,6 +40,7 @@ class PlaylistSelectionViewModel : ViewModel() {
     }
 
     fun onPlaylistSelectionChanged(playlistId: String, checked: Boolean) {
+        //TODO: update viewstate
         if (checked) {
             selectedPlaylists.plus(playlistId)
         } else {
@@ -47,6 +49,6 @@ class PlaylistSelectionViewModel : ViewModel() {
     }
 
     fun onTransferClicked() {
-        //TODO:
+        //TODO: only enabled if transferFrom and transferTo are not the same, and at least one playlist is selected
     }
 }

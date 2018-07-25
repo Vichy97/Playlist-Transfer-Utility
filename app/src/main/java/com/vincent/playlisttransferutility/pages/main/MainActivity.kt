@@ -77,6 +77,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onViewStateUpdateReceived(viewState: MainViewState) {
+        //TODO: disable buttons if service is already logged in. Only enable
+        //transfer button if at least 2 services are logged in
+
         //spotifyButton.isEnabled = !viewState.spotifyLogin
         //googlePlayMusicButton.isEnabled = !viewState.googlePlayMusicLogin
         //appleMusicButton.isEnabled = !viewState.appleMusicLogin
