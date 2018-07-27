@@ -7,7 +7,7 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
-import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
+import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyAuthenticationRequestScope
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.Observable
@@ -20,7 +20,7 @@ import io.reactivex.subjects.PublishSubject
 class MainViewModel : ViewModel() {
 
     companion object {
-        const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
+        private const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
     }
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -49,10 +49,12 @@ class MainViewModel : ViewModel() {
         compositeDisposable.add(mainModel.getSpotifyAuthToken()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
+                .subscribe ({
                     viewState.spotifyLogin = (it != null)
                     viewStateSubject.onNext(viewState)
-                })
+                }, {
+                    //TODO: handle error
+                }))
     }
 
     override fun onCleared() {
@@ -99,7 +101,8 @@ class MainViewModel : ViewModel() {
     }
 
     private fun onSpotifyTokenReceived(response: AuthenticationResponse) {
-        val authToken: AuthToken = AuthToken.fromAuthenticationResponse(response)
+        //TODO: move conversion to model
+        val authToken: AuthToken = AuthToken.fromSpotifyAuthenticationResponse(response)
         mainModel.saveSpotifyAuthToken(authToken)
         viewState.spotifyLogin = true
         viewStateSubject.onNext(viewState)
@@ -116,7 +119,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun onGooglePlayMusicClicked() {
-        //TODO: google play music authentication
+
     }
 
     fun onStartTransferClicked() {
@@ -124,6 +127,7 @@ class MainViewModel : ViewModel() {
     }
     //endregion View Events
 
+    //TODO: maybe move to model?
     private fun getSpotifyAuthenticationRequest(): AuthenticationRequest {
         val builder: AuthenticationRequest.Builder =
                 AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID,

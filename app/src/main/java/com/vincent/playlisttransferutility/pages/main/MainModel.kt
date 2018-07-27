@@ -1,8 +1,8 @@
 package com.vincent.playlisttransferutility.pages.main
 
 import com.vincent.playlisttransferutility.data.Repository
-import com.vincent.playlisttransferutility.data.models.spotify.AuthToken
-import io.reactivex.Observable
+import com.vincent.playlisttransferutility.data.models.AuthToken
+import io.reactivex.Single
 
 class MainModel {
 
@@ -18,7 +18,15 @@ class MainModel {
         repository.setSpotifyAuthToken(authToken)
     }
 
-    fun getSpotifyAuthToken(): Observable<AuthToken> {
+    fun getSpotifyAuthToken(): Single<AuthToken> {
         return repository.getSpotifyAuthToken()
+    }
+
+    fun saveGooglePlayAuthToken(authToken: AuthToken) {
+        repository.setGooglePlayAuthToken(authToken)
+    }
+
+    fun getGooglePlayAuthToken(): Single<AuthToken> {
+        return repository.getGooglePlayAuthToken()
     }
 }
