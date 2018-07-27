@@ -20,7 +20,7 @@ import io.reactivex.subjects.PublishSubject
 class MainViewModel : ViewModel() {
 
     companion object {
-        private const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
+        const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
     }
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -49,7 +49,7 @@ class MainViewModel : ViewModel() {
         compositeDisposable.add(mainModel.getSpotifyAuthToken()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe ({
+                .subscribe({
                     viewState.spotifyLogin = (it != null)
                     viewStateSubject.onNext(viewState)
                 }, {
