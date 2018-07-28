@@ -13,9 +13,20 @@ class Playlist(val id: String,
             val coverArtUrl: String = spotifyPlaylist.images[spotifyPlaylist.images.size - 1].url
 
             return Playlist(spotifyPlaylist.id,
-                    spotifyPlaylist.name, coverArtUrl,
+                    spotifyPlaylist.name,
+                    coverArtUrl,
                     spotifyPlaylist.tracks.total,
                     MusicService.SPOTIFY)
+        }
+
+        fun fromGooglePlayMusicPlaylist(playlist: com.github.felixgail.gplaymusic.model.Playlist): Playlist {
+            val coverArtUrl: String = playlist.artRef[0].url
+
+            return Playlist(playlist.id,
+                    playlist.name,
+                    coverArtUrl,
+                    -1,
+                    MusicService.GOOGLE_PLAY_MUSIC);
         }
     }
 }

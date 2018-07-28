@@ -26,7 +26,7 @@ class PlaylistSelectionActivity : AppCompatActivity() {
         setupPlaylistSelectionList()
     }
 
-    fun setupPlaylistSelectionList() {
+    private fun setupPlaylistSelectionList() {
         playlistSelectionAdapter = PlaylistSelectionAdapter(viewModel, this)
         playlistSelectionList = rv_playlist_selection_list
         playlistSelectionList.layoutManager = LinearLayoutManager(this)
@@ -45,11 +45,11 @@ class PlaylistSelectionActivity : AppCompatActivity() {
         subscribeToViewModelEvents()
     }
 
-    fun subscribeToViewModelEvents() {
-        compositeDisposable.add(viewModel.getPlaylistsEvent().subscribe(this::onPlaylistsRecieved))
+    private fun subscribeToViewModelEvents() {
+        compositeDisposable.add(viewModel.getPlaylistsEvents().subscribe(this::onPlaylistsReceived))
     }
 
-    private fun onPlaylistsRecieved(playlists: List<Playlist>) {
+    private fun onPlaylistsReceived(playlists: List<Playlist>) {
         playlistSelectionAdapter.setPlaylists(playlists)
     }
 }

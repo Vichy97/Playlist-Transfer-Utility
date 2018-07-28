@@ -7,7 +7,6 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
-import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyAuthenticationRequestScope
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.Observable
@@ -101,9 +100,7 @@ class MainViewModel : ViewModel() {
     }
 
     private fun onSpotifyTokenReceived(response: AuthenticationResponse) {
-        //TODO: move conversion to model
-        val authToken: AuthToken = AuthToken.fromSpotifyAuthenticationResponse(response)
-        mainModel.saveSpotifyAuthToken(authToken)
+        mainModel.saveSpotifyAuthToken(response)
         viewState.spotifyLogin = true
         viewStateSubject.onNext(viewState)
     }
@@ -127,7 +124,6 @@ class MainViewModel : ViewModel() {
     }
     //endregion View Events
 
-    //TODO: maybe move to model?
     private fun getSpotifyAuthenticationRequest(): AuthenticationRequest {
         val builder: AuthenticationRequest.Builder =
                 AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID,

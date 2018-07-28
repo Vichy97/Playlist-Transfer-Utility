@@ -11,6 +11,7 @@ class PlaylistSelectionModel {
     private val repository: Repository
     private var transferFrom: MusicService = MusicService.SPOTIFY
     private var transferTo: MusicService = MusicService.SPOTIFY
+    private val selectedPlaylistIds: Set<String> = HashSet()
 
     init {
         repository = DaggerPlaylistSelectionComponent.builder()
@@ -33,7 +34,7 @@ class PlaylistSelectionModel {
     }
 
     private fun getPlaylistsFromSpotify(): Observable<List<Playlist>> {
-        return repository.getSpotifyPlaylists().map{
+        return repository.getSpotifyPlaylists().map {
             val playlists: ArrayList<Playlist> = ArrayList()
 
             for (spotifyPlaylist: SpotifyPlaylist in it) {
@@ -45,8 +46,15 @@ class PlaylistSelectionModel {
     }
 
     private fun getPlaylistsFromGooglePlayMusic(): Observable<List<Playlist>> {
-        //TODO: fill in when google play is implemented
-        return Observable.empty()
+        return repository.getGooglePlayMusicPlaylists().map {
+            val playlists: ArrayList<Playlist> = ArrayList()
+
+            for (playlist: com.github.felixgail.gplaymusic.model.Playlist in it) {
+                playlists.add(Playlist.fromGooglePlayMusicPlaylist(playlist))
+            }
+
+            return@map playlists
+        }
     }
 
     private fun getPlaylistsFromAppleMusic(): Observable<List<Playlist>> {
@@ -55,18 +63,18 @@ class PlaylistSelectionModel {
     }
 
     //Int represents transfer progress... maybe this should return something else though
-    fun transfer() : Observable<Int> {
+    fun transfer(): Observable<Int> {
         //TODO: transfer selected playlists
         //for selected playlists ids:
-            //get playlist details for playlist id from transferFrom service
-            //create playlist in transferTo service using playlist details
-                //get tracks for playlist id in transferFrom service
-                //for each track in playlist
-                    //search for track in transferTo service based on name and artist
-                    //if first search result matches name and artist:
-                        //add first search result to playlist
-                    //else
-                        //add to list of unavailable tracks to show user which tracks couldnt be found
+        //    get playlist details for playlist id from transferFrom service
+        //    create playlist in transferTo service using playlist details
+        //        get tracks for playlist id in transferFrom service
+        //        for each track in playlist
+        //            search for track in transferTo service based on name and artist
+        //            if first search result matches name and artist:
+        //                add first search result to playlist
+        //            else
+        //                add to list of unavailable tracks to show user which tracks couldnt be found
         return Observable.empty()
     }
 
@@ -77,5 +85,13 @@ class PlaylistSelectionModel {
 
     fun setTransferTo(musicService: MusicService) {
         transferTo = musicService
+    }
+
+    fun selectPlaylist(playlistId: String) {
+        selectedPlaylistIds.plus(playlistId)
+    }
+
+    fun deselectPlaylist(playlistId: String) {
+        selectedPlaylistIds.minus(playlistId)
     }
 }

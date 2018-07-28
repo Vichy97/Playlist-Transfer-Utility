@@ -2,7 +2,6 @@ package com.vincent.playlisttransferutility.pages.playlistselection
 
 import android.arch.lifecycle.ViewModel
 import com.vincent.playlisttransferutility.data.models.Playlist
-import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -16,8 +15,6 @@ class PlaylistSelectionViewModel : ViewModel() {
 
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
     val playlistSubject: BehaviorSubject<List<Playlist>> = BehaviorSubject.create()
-
-    val selectedPlaylists: Set<String> = HashSet()
 
     init {
         model = DaggerPlaylistSelectionComponent.builder().build().getModel()
@@ -35,16 +32,16 @@ class PlaylistSelectionViewModel : ViewModel() {
         compositeDisposable.clear()
     }
 
-    fun getPlaylistsEvent(): Observable<List<Playlist>> {
+    fun getPlaylistsEvents(): Observable<List<Playlist>> {
         return playlistSubject
     }
 
     fun onPlaylistSelectionChanged(playlistId: String, checked: Boolean) {
         //TODO: update viewstate
         if (checked) {
-            selectedPlaylists.plus(playlistId)
+            model.selectPlaylist(playlistId)
         } else {
-            selectedPlaylists.minus(playlistId)
+            model.deselectPlaylist(playlistId)
         }
     }
 
