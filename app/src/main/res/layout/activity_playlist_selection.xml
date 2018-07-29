@@ -27,12 +27,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/sp_service_selection_one"/>
 
-        <Spinner
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/sp_service_selection_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:onItemSelected="@{(p, v, pos, id) -> viewModel.onFromMusicServiceSelectionChanged(pos)}"
             tools:listitem="@layout/service_selection_spinner_item"/>
 
         <TextView
@@ -47,13 +49,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/sp_service_selection_two"/>
 
-        <Spinner
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/sp_service_selection_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/double_spacing"
+            android:gravity="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sp_service_selection_one"
+            android:onItemSelected="@{(p, v, pos, id) -> viewModel.onToMusicServiceSelectionChanged(pos)}"
             tools:listitem="@layout/service_selection_spinner_item"/>
 
         <android.support.v7.widget.RecyclerView
@@ -75,6 +79,7 @@
             android:layout_marginTop="@dimen/double_spacing"
             android:text="@string/playlist_selection_transfer_button_label"
             android:textAllCaps="true"
+            android:onClick="@{() -> viewModel.onTransferClicked()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

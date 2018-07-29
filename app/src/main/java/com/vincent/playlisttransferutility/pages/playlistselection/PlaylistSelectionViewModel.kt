@@ -1,39 +1,40 @@
 package com.vincent.playlisttransferutility.pages.playlistselection
 
 import android.arch.lifecycle.ViewModel
+import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 
-//TODO: listen to spinner events
 class PlaylistSelectionViewModel : ViewModel() {
 
     val model: PlaylistSelectionModel
 
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    val playlistSubject: BehaviorSubject<List<Playlist>> = BehaviorSubject.create()
 
     init {
         model = DaggerPlaylistSelectionComponent.builder().build().getModel()
-
-        compositeDisposable.add(model.getPlaylists()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    playlistSubject.onNext(it)
-                })
     }
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.clear()
+
+        compositeDisposable.dispose()
+        model.onClear()
     }
 
     fun getPlaylistsEvents(): Observable<List<Playlist>> {
-        return playlistSubject
+        return model.getPlaylistEvents()
+    }
+
+    fun onFromMusicServiceSelectionChanged(position: Int) {
+        model.setTransferFrom(MusicService.values()[position])
+    }
+
+    fun onToMusicServiceSelectionChanged(position: Int) {
+        model.setTransferTo(MusicService.values()[position])
     }
 
     fun onPlaylistSelectionChanged(playlistId: String, checked: Boolean) {
@@ -46,6 +47,10 @@ class PlaylistSelectionViewModel : ViewModel() {
     }
 
     fun onTransferClicked() {
+        compositeDisposable.add(model.transfer()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe())
         //TODO: only enabled if transferFrom and transferTo are not the same, and at least one playlist is selected
     }
 }

@@ -5,13 +5,20 @@ import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 
 class PlaylistSelectionModel {
 
     private val repository: Repository
-    private var transferFrom: MusicService = MusicService.SPOTIFY
+    private var transferFrom: MusicService = MusicService.GOOGLE_PLAY_MUSIC
     private var transferTo: MusicService = MusicService.SPOTIFY
     private val selectedPlaylistIds: Set<String> = HashSet()
+
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val playlistSubject: BehaviorSubject<List<Playlist>> = BehaviorSubject.create()
 
     init {
         repository = DaggerPlaylistSelectionComponent.builder()
@@ -19,7 +26,15 @@ class PlaylistSelectionModel {
                 .getRepository()
     }
 
-    fun getPlaylists(): Observable<List<Playlist>> {
+    fun onClear() {
+        compositeDisposable.dispose()
+    }
+
+    fun getPlaylistEvents(): BehaviorSubject<List<Playlist>> {
+        return playlistSubject
+    }
+
+    private fun getPlaylists(): Observable<List<Playlist>> {
         return when (transferFrom) {
             MusicService.SPOTIFY -> {
                 getPlaylistsFromSpotify()
@@ -46,7 +61,8 @@ class PlaylistSelectionModel {
     }
 
     private fun getPlaylistsFromGooglePlayMusic(): Observable<List<Playlist>> {
-        return repository.getGooglePlayMusicPlaylists().map {
+        return repository.getGooglePlayMusicPlaylists()
+                .map {
             val playlists: ArrayList<Playlist> = ArrayList()
 
             for (playlist: com.github.felixgail.gplaymusic.model.Playlist in it) {
@@ -78,12 +94,27 @@ class PlaylistSelectionModel {
         return Observable.empty()
     }
 
-    //TODO: have value set based on spinner selection
     fun setTransferFrom(musicService: MusicService) {
+        if (transferFrom == musicService) {
+            return
+        }
+
         transferFrom = musicService
+        compositeDisposable.add(
+        getPlaylists().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    playlistSubject.onNext(it)
+                }, {
+                    playlistSubject.onError(it)
+                }))
     }
 
     fun setTransferTo(musicService: MusicService) {
+        if (transferTo == musicService) {
+            return
+        }
+
         transferTo = musicService
     }
 

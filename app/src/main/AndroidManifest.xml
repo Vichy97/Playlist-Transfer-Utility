@@ -18,12 +18,14 @@
         <activity
             android:name=".pages.main.MainActivity">
             <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <intent-filter>
                 <data
                     android:host="@string/uri_host_main"
                     android:scheme="@string/uri_scheme"/>
-
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 

@@ -2,16 +2,20 @@ package com.vincent.playlisttransferutility.pages.main
 
 import android.arch.lifecycle.ViewModel
 import android.content.Intent
+import android.util.Log
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
+import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyAuthenticationRequestScope
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -42,17 +46,23 @@ class MainViewModel : ViewModel() {
     }
 
     private fun initViewState() {
-        viewState = MainViewState()
-
-        //TODO: fetch all auth tokens from model
-        compositeDisposable.add(mainModel.getSpotifyAuthToken()
+        compositeDisposable.add(Single.zip(
+                mainModel.getSpotifyAuthToken(),
+                mainModel.getGooglePlayAuthToken(),
+                BiFunction { spotifyAuthToken: AuthToken,
+                             googlePlayAuthToken: AuthToken ->
+                    {
+                        MainViewState(spotifyAuthToken.accessToken.isNotEmpty(),
+                                googlePlayAuthToken.accessToken.isNotEmpty())
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    viewState.spotifyLogin = (it != null)
+                    viewState = it.invoke()
                     viewStateSubject.onNext(viewState)
                 }, {
-                    //TODO: handle error
+                    Log.e("Error", it.toString())
                 }))
     }
 

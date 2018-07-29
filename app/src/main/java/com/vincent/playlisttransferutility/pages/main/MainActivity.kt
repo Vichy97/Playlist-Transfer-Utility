@@ -13,6 +13,7 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.ActivityMainBinding
 import com.vincent.playlisttransferutility.pages.playlistselection.PlaylistSelectionActivity
+import com.vincent.playlisttransferutility.utils.BooleanUtils
 import io.reactivex.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var googlePlayMusicButton: Button
     private lateinit var appleMusicButton: Button
 
+    private lateinit var startTransferButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         spotifyButton = btn_spotify_button
         googlePlayMusicButton = btn_google_play_music_button
         appleMusicButton = btn_apple_music_button
+        startTransferButton = btn_start_transfer_button
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -64,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 mainViewModel.getToastMessageEvents().subscribe(this::onToastMessageReceived),
                 mainViewModel.getSpotifyLoginRequestEvents().subscribe(this::onSpotifyLoginRequestReceived),
                 mainViewModel.getViewStateEvents().subscribe(this::onViewStateUpdateReceived),
-                mainViewModel.getNavigationEvents().subscribe{navigateToPlaylistSelection()}
+                mainViewModel.getNavigationEvents().subscribe { navigateToPlaylistSelection() }
         )
     }
 
@@ -80,9 +84,13 @@ class MainActivity : AppCompatActivity() {
         //TODO: disable buttons if service is already logged in. Only enable
         //transfer button if at least 2 services are logged in
 
-        //spotifyButton.isEnabled = !viewState.spotifyLogin
-        //googlePlayMusicButton.isEnabled = !viewState.googlePlayMusicLogin
-        //appleMusicButton.isEnabled = !viewState.appleMusicLogin
+        spotifyButton.isEnabled = !viewState.spotifyLogin
+        googlePlayMusicButton.isEnabled = !viewState.googlePlayMusicLogin
+        appleMusicButton.isEnabled = !viewState.appleMusicLogin
+
+        startTransferButton.isEnabled = BooleanUtils.atLeastTwo(viewState.spotifyLogin,
+                viewState.googlePlayMusicLogin,
+                viewState.appleMusicLogin)
     }
 
     private fun loginToSpotify(request: AuthenticationRequest) {
