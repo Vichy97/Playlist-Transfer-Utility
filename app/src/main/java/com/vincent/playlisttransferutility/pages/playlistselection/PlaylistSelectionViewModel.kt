@@ -15,7 +15,7 @@ class PlaylistSelectionViewModel : ViewModel() {
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     init {
-        model = DaggerPlaylistSelectionComponent.builder().build().getModel()
+        model = DaggerPlaylistSelectionComponent.builder().build().playlistSelectionModel
     }
 
     override fun onCleared() {

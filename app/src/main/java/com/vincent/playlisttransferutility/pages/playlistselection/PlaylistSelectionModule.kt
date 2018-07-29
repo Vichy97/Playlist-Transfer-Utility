@@ -9,7 +9,7 @@ class PlaylistSelectionModule {
 
     @Provides
     @Singleton
-    fun provideModel(): PlaylistSelectionModel {
+    fun providePlaylistSelectionModel(): PlaylistSelectionModel {
         return PlaylistSelectionModel()
     }
 }

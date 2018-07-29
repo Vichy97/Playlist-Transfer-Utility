@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.BR
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.Playlist
@@ -76,7 +77,7 @@ class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
             playlistCountTextView = itemView.tv_playlist_count
             checkBox = itemView.cb_playlist_select
             viewBinding = DataBindingUtil.bind(itemView)
-            resourceProvider = DaggerPlaylistSelectionComponent.builder().build().getResourceProvider()
+            resourceProvider = AppComponent.instance.resourceProvider
         }
 
 

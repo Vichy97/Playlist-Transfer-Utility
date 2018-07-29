@@ -6,6 +6,7 @@ import android.util.Log
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
+import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.AuthToken
@@ -38,9 +39,8 @@ class MainViewModel : ViewModel() {
     private lateinit var viewState: MainViewState
 
     init {
-        val mainComponent: MainComponent = DaggerMainComponent.builder().build()
-        mainModel = mainComponent.getMainModel()
-        resourceProvider = mainComponent.getResourceProvider()
+        mainModel =  DaggerMainComponent.builder().build().mainModel
+        resourceProvider = AppComponent.instance.resourceProvider
 
         initViewState()
     }

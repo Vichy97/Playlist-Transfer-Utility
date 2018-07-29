@@ -2,8 +2,7 @@ package com.vincent.playlisttransferutility.data.sources.preferences
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.vincent.playlisttransferutility.ContextModule
-import com.vincent.playlisttransferutility.PlaylistTransferApplication
+import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.keystore.KeyStore
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.sources.DataSource
@@ -23,12 +22,10 @@ class PreferencesDataSource : DataSource {
     private val keystore: KeyStore
 
     init {
-        preferencesDataSourceComponent = DaggerPreferencesDataSourceComponent.builder()
-                .contextModule(ContextModule(PlaylistTransferApplication.getInstance()))
-                .build()
-        gson = preferencesDataSourceComponent.getGson()
-        sharedPreferences = preferencesDataSourceComponent.getSharedPreferences()
-        keystore = preferencesDataSourceComponent.getKeystore()
+        preferencesDataSourceComponent = DaggerPreferencesDataSourceComponent.builder().build()
+        gson = preferencesDataSourceComponent.gson
+        keystore = preferencesDataSourceComponent.keystore
+        sharedPreferences = AppComponent.instance.sharedPreferences
     }
 
     override fun saveSpotifyAuthToken(authToken: AuthToken) {

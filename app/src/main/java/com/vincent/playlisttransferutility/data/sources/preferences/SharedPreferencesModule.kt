@@ -9,7 +9,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module(includes = [ContextModule::class])
-class PreferencesDataSourceModule {
+class SharedPreferencesModule {
 
     companion object {
         const val SHARED_PREFERENCES_NAME: String = "shared_preferences"

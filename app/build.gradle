@@ -60,6 +60,8 @@ dependencies {
     implementation 'com.spotify.android:auth:1.0.0-alpha'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'com.github.felixgail:gplaymusic:0.3.5'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

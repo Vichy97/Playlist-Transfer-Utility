@@ -1,5 +1,6 @@
 package com.vincent.playlisttransferutility.pages.playlistselection
 
+import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.Repository
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
@@ -21,9 +22,7 @@ class PlaylistSelectionModel {
     private val playlistSubject: BehaviorSubject<List<Playlist>> = BehaviorSubject.create()
 
     init {
-        repository = DaggerPlaylistSelectionComponent.builder()
-                .build()
-                .getRepository()
+        repository = AppComponent.instance.repository
     }
 
     fun onClear() {

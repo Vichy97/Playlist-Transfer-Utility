@@ -16,11 +16,8 @@ import javax.inject.Singleton
 @Singleton
 interface RepositoryComponent {
 
-    fun getSpotifyHeaderInterceptor(): HeaderInterceptor
-
-    fun getSpotifyApi(): SpotifyApi
-
-    fun getAuthTokenDataSource(): PreferencesDataSource
-
-    fun getGooglePlayMusicService(): GPlayMusic
+    val spotifyHeaderInterceptor: HeaderInterceptor
+    val spotifyApi: SpotifyApi //TODO: maybe make this an app level dependency...
+    val preferencesDataSource: PreferencesDataSource
+    val googlePlayMusicService: GPlayMusic
 }

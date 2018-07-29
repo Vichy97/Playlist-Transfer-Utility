@@ -1,18 +1,20 @@
 package com.vincent.playlisttransferutility
 
 import android.app.Application
+import com.squareup.leakcanary.LeakCanary
 
 class PlaylistTransferApplication : Application() {
+    
+    override fun onCreate() {
+        super.onCreate()
 
-    companion object {
-        private lateinit var instance: PlaylistTransferApplication
+        AppComponent.instance = DaggerAppComponent.builder()
+                .contextModule(ContextModule(this))
+                .build()
 
-        fun getInstance(): PlaylistTransferApplication {
-            return instance
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return
         }
-    }
-
-    init {
-        instance = this
+        LeakCanary.install(this)
     }
 }

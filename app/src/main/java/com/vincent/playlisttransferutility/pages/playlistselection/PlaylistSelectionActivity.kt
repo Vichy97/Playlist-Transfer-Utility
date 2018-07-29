@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatSpinner
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.vincent.playlisttransferutility.R
@@ -73,7 +74,9 @@ class PlaylistSelectionActivity : AppCompatActivity() {
     }
 
     private fun subscribeToViewModelEvents() {
-        compositeDisposable.add(viewModel.getPlaylistsEvents().subscribe(this::onPlaylistsReceived))
+        compositeDisposable.add(viewModel.getPlaylistsEvents().subscribe(this::onPlaylistsReceived) {
+            Log.e("ERROR", it.stackTrace.toString())
+        })
     }
 
     private fun onPlaylistsReceived(playlists: List<Playlist>) {

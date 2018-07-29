@@ -12,9 +12,8 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
-class Repository {
+class Repository  {
 
-    private val repositoryComponent: RepositoryComponent
     private val dataSource: DataSource
     private val spotifyApi: SpotifyApi
     private var googlePlayMusicService: GPlayMusic? = null
@@ -26,10 +25,19 @@ class Repository {
     private var googlePlayMusicPlaylists: List<Playlist>? = null
 
     init {
-        repositoryComponent = DaggerRepositoryComponent.builder().build()
-        dataSource = repositoryComponent.getAuthTokenDataSource()
-        spotifyApi = repositoryComponent.getSpotifyApi()
-        spotifyHeaderInterceptor = repositoryComponent.getSpotifyHeaderInterceptor()
+        val repositoryComponent: RepositoryComponent = DaggerRepositoryComponent.builder().build()
+        dataSource = repositoryComponent.preferencesDataSource
+        spotifyApi = repositoryComponent.spotifyApi
+        spotifyHeaderInterceptor = repositoryComponent.spotifyHeaderInterceptor
+
+        googlePlayAuthToken = dataSource.getGooglePlayAuthToken()
+        if (googlePlayAuthToken == null) {
+            googlePlayAuthToken = AuthToken("", MusicService.GOOGLE_PLAY_MUSIC, -1)
+        } else {
+            initGooglePlayService(googlePlayAuthToken!!)
+        }
+        //TODO: auth token expires so fast... might not be worth storing
+        spotifyAuthToken = AuthToken("", MusicService.SPOTIFY, -1)
     }
 
     private fun initGooglePlayService(googlePlayAuthToken: AuthToken): Completable {
@@ -49,14 +57,6 @@ class Repository {
     }
 
     fun getSpotifyAuthToken(): Single<AuthToken> {
-        if (spotifyAuthToken == null) {
-            spotifyAuthToken = dataSource.getSpotifyAuthToken()
-
-            if (spotifyAuthToken == null) {
-                spotifyAuthToken = AuthToken("", MusicService.SPOTIFY, -1)
-            }
-        }
-
         return Single.just(spotifyAuthToken)
     }
 
@@ -71,21 +71,11 @@ class Repository {
     }
 
     fun getGooglePlayAuthToken(): Single<AuthToken> {
-        if (googlePlayMusicService == null) {
-            googlePlayAuthToken = dataSource.getSpotifyAuthToken()
-
-            if (googlePlayAuthToken == null) {
-                googlePlayAuthToken = AuthToken("", MusicService.GOOGLE_PLAY_MUSIC, -1)
-            } else {
-                setGooglePlayAuthToken(googlePlayAuthToken!!)
-            }
-        }
-
         return Single.just(googlePlayAuthToken)
     }
 
     fun getSpotifyPlaylists(): Observable<List<SpotifyPlaylist>> {
-        if (spotifyAuthToken == null) {
+        if (spotifyAuthToken == null || spotifyAuthToken!!.accessToken.isEmpty()) {
             return Observable.empty()
         }
 
