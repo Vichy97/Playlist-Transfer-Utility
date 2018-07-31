@@ -2,6 +2,8 @@ package com.vincent.playlisttransferutility.data
 
 import com.github.felixgail.gplaymusic.api.GPlayMusic
 import com.github.felixgail.gplaymusic.model.Playlist
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
@@ -11,6 +13,7 @@ import com.vincent.playlisttransferutility.network.api.SpotifyApi
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 class Repository  {
 
@@ -18,32 +21,37 @@ class Repository  {
     private val spotifyApi: SpotifyApi
     private var googlePlayMusicService: GPlayMusic? = null
     private val spotifyHeaderInterceptor: HeaderInterceptor
-    private var spotifyAuthToken: AuthToken? = null
-    private var googlePlayAuthToken: AuthToken? = null
+    private val gson: Gson
+    private var spotifyAuthToken: AuthToken?
+    private var googlePlayAuthToken: AuthToken? //TODO: non-nullable
 
+    //TODO: make cache class
     private var spotifyPlaylists: List<SpotifyPlaylist>? = null
-    private var googlePlayMusicPlaylists: List<Playlist>? = null
+    private var googlePlayMusicPlaylists: ArrayList<Playlist>? = null
 
     init {
         val repositoryComponent: RepositoryComponent = DaggerRepositoryComponent.builder().build()
         dataSource = repositoryComponent.preferencesDataSource
         spotifyApi = repositoryComponent.spotifyApi
         spotifyHeaderInterceptor = repositoryComponent.spotifyHeaderInterceptor
+        gson = repositoryComponent.gson
 
         googlePlayAuthToken = dataSource.getGooglePlayAuthToken()
         if (googlePlayAuthToken == null) {
             googlePlayAuthToken = AuthToken("", MusicService.GOOGLE_PLAY_MUSIC, -1)
         } else {
             initGooglePlayService(googlePlayAuthToken!!)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
         }
-        //TODO: auth token expires so fast... might not be worth storing
+        //TODO: auth token expires so fast... might not be worth storing (it would need a timestamp)
         spotifyAuthToken = AuthToken("", MusicService.SPOTIFY, -1)
     }
 
     private fun initGooglePlayService(googlePlayAuthToken: AuthToken): Completable {
         return Completable.create {
             googlePlayMusicService = GPlayMusic.Builder()
-                    .setAuthToken(svarzee.gps.gpsoauth.AuthToken(googlePlayAuthToken.accessToken))
+                    .setAuthToken(svarzee.gps.gpsoauth.AuthToken(googlePlayAuthToken.accessToken, -1))
                     .setAndroidID("35803508140637")
                     .build()
             it.onComplete()
@@ -66,6 +74,8 @@ class Repository  {
             googlePlayMusicService!!.changeToken(svarzee.gps.gpsoauth.AuthToken(authToken.accessToken))
         } else {
             initGooglePlayService(authToken)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
         }
         dataSource.saveGooglePlayAuthToken(authToken)
     }
@@ -99,9 +109,10 @@ class Repository  {
             return Observable.just(googlePlayMusicPlaylists)
         }
 
-        return Observable.create {
-            googlePlayMusicPlaylists = googlePlayMusicService!!.playlistApi.listPlaylists()
-            it.onNext(googlePlayMusicPlaylists!!)
+        return Observable.fromCallable {
+            val jsonString: String = gson.toJson(googlePlayMusicService!!.playlistApi.listPlaylists())
+            googlePlayMusicPlaylists = gson.fromJson(jsonString, object : TypeToken<List<Playlist>>() {}.type)
+            return@fromCallable googlePlayMusicPlaylists
         }
     }
 }

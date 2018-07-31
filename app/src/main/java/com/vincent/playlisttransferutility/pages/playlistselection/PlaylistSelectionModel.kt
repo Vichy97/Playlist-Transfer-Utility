@@ -60,8 +60,7 @@ class PlaylistSelectionModel {
     }
 
     private fun getPlaylistsFromGooglePlayMusic(): Observable<List<Playlist>> {
-        return repository.getGooglePlayMusicPlaylists()
-                .map {
+        return repository.getGooglePlayMusicPlaylists().map {
             val playlists: ArrayList<Playlist> = ArrayList()
 
             for (playlist: com.github.felixgail.gplaymusic.model.Playlist in it) {

@@ -4,7 +4,7 @@ import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyP
 
 class Playlist(val id: String,
                val name: String,
-               val coverArtUrl: String,
+               val coverArtUrl: String?,
                val trackCount: Int,
                val musicService: MusicService) {
 
@@ -20,13 +20,16 @@ class Playlist(val id: String,
         }
 
         fun fromGooglePlayMusicPlaylist(playlist: com.github.felixgail.gplaymusic.model.Playlist): Playlist {
-            val coverArtUrl: String = playlist.artRef[0].url
+            var coverArtUrl: String? = null
+            if (playlist.artRef != null) {
+                coverArtUrl = playlist.artRef[0].url
+            }
 
             return Playlist(playlist.id,
                     playlist.name,
                     coverArtUrl,
                     -1,
-                    MusicService.GOOGLE_PLAY_MUSIC);
+                    MusicService.GOOGLE_PLAY_MUSIC)
         }
     }
 }

@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.BR
 import com.vincent.playlisttransferutility.R
@@ -80,10 +81,16 @@ class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
             resourceProvider = AppComponent.instance.resourceProvider
         }
 
+        //TODO: placeholder (or profile pic) for google play music
+        fun setCoverArt(imageUrl: String?) {
+            if (imageUrl == null) {
+                return
+            }
 
-        fun setCoverArt(imageUrl: String) {
+            val requestOptions: RequestOptions = RequestOptions().centerCrop()
             Glide.with(itemView)
                     .load(imageUrl)
+                    .apply(requestOptions)
                     .into(playlistCoverArtView)
         }
 
@@ -92,6 +99,10 @@ class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
         }
 
         fun setPlaylistCount(count: Int) {
+            if (count <= 0) {
+                return
+            }
+
             playlistCountTextView.text = itemView.context
                     .getString(R.string.playlist_selection_playlist_track_count, count)
         }
