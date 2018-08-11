@@ -17,17 +17,13 @@ class PreferencesDataSource : DataSource {
         private const val GOOGLE_PLAY_KEYSTORE_ALIAS: String = "google_play_keystore"
     }
 
-    private val preferencesDataSourceComponent: PreferencesDataSourceComponent
     private val sharedPreferences: SharedPreferences
     private val gson: Gson
     private val keystore: KeyStore
 
     init {
-        preferencesDataSourceComponent = DaggerPreferencesDataSourceComponent.builder()
-                .contextModule(ContextModule(AppComponent.instance.context))
-                .build()
-        keystore = preferencesDataSourceComponent.keystore
-        sharedPreferences = preferencesDataSourceComponent.sharedPreferences
+        keystore = AppComponent.instance.keystore
+        sharedPreferences = AppComponent.instance.sharedPreferences
         gson = AppComponent.instance.gson
     }
 

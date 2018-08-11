@@ -3,12 +3,11 @@ package com.vincent.playlisttransferutility.data.sources.preferences
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.vincent.playlisttransferutility.ContextModule
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [ContextModule::class])
+@Module
 class SharedPreferencesModule {
 
     companion object {

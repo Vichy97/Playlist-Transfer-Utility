@@ -1,10 +1,8 @@
 package com.vincent.playlisttransferutility.pages.main
 
-import com.vincent.playlisttransferutility.AppComponent
-import dagger.Component
-import javax.inject.Singleton
+import dagger.Subcomponent
 
-@Component(dependencies = [AppComponent::class], modules = [MainModule::class])
+@Subcomponent(modules = [MainModule::class])
 @MainScope
 interface MainComponent {
 

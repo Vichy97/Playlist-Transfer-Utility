@@ -1,6 +1,7 @@
 package com.vincent.playlisttransferutility.pages.playlistselection
 
 import android.arch.lifecycle.ViewModel
+import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import io.reactivex.Observable
@@ -15,7 +16,9 @@ class PlaylistSelectionViewModel : ViewModel() {
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     init {
-        model = DaggerPlaylistSelectionComponent.builder().build().playlistSelectionModel
+        model = AppComponent.instance
+                .newPlaylistSelectionComponent(PlaylistSelectionModule())
+                .playlistSelectionModel
     }
 
     override fun onCleared() {

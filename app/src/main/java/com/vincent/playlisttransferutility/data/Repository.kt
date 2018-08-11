@@ -31,10 +31,9 @@ class Repository  {
     private var googlePlayMusicPlaylists: ArrayList<Playlist>? = null
 
     init {
-        val repositoryComponent: RepositoryComponent = DaggerRepositoryComponent.builder().build()
-        dataSource = repositoryComponent.preferencesDataSource
+        dataSource = AppComponent.instance.preferencesDataSource
         spotifyApi = AppComponent.instance.spotifyApi
-        spotifyHeaderInterceptor = repositoryComponent.spotifyHeaderInterceptor
+        spotifyHeaderInterceptor = AppComponent.instance.spotifyHeaderInterceptor
         gson = AppComponent.instance.gson
 
         googlePlayAuthToken = dataSource.getGooglePlayAuthToken()

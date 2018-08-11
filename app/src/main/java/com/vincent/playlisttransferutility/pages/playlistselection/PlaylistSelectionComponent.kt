@@ -1,9 +1,8 @@
 package com.vincent.playlisttransferutility.pages.playlistselection
 
-import dagger.Component
-import javax.inject.Singleton
+import dagger.Subcomponent
 
-@Component(modules = [PlaylistSelectionModule::class])
+@Subcomponent(modules = [PlaylistSelectionModule::class])
 @PlaylistSelectionScope
 interface PlaylistSelectionComponent {
 

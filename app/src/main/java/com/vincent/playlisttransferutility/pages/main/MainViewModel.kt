@@ -39,7 +39,7 @@ class MainViewModel : ViewModel() {
     private lateinit var viewState: MainViewState
 
     init {
-        mainModel =  DaggerMainComponent.builder().build().mainModel
+        mainModel =  AppComponent.instance.newMainComponent(MainModule()).mainModel
         resourceProvider = AppComponent.instance.resourceProvider
 
         initViewState()

@@ -18,7 +18,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity() {
 
-    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var mainViewModel: MainViewModel
 
     private lateinit var spotifyButton: Button
