@@ -4,7 +4,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Component(modules = [PlaylistSelectionModule::class])
-@Singleton
+@PlaylistSelectionScope
 interface PlaylistSelectionComponent {
 
     val playlistSelectionModel: PlaylistSelectionModel

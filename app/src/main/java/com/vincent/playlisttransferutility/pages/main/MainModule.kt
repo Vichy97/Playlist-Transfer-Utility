@@ -7,6 +7,7 @@ import dagger.Provides
 class MainModule {
 
     @Provides
+    @MainScope
     fun provideMainModel(): MainModel {
         return MainModel()
     }

@@ -4,6 +4,7 @@ import com.github.felixgail.gplaymusic.api.GPlayMusic
 import com.github.felixgail.gplaymusic.model.Playlist
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
@@ -32,9 +33,9 @@ class Repository  {
     init {
         val repositoryComponent: RepositoryComponent = DaggerRepositoryComponent.builder().build()
         dataSource = repositoryComponent.preferencesDataSource
-        spotifyApi = repositoryComponent.spotifyApi
+        spotifyApi = AppComponent.instance.spotifyApi
         spotifyHeaderInterceptor = repositoryComponent.spotifyHeaderInterceptor
-        gson = repositoryComponent.gson
+        gson = AppComponent.instance.gson
 
         googlePlayAuthToken = dataSource.getGooglePlayAuthToken()
         if (googlePlayAuthToken == null) {

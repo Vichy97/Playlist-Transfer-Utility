@@ -1,5 +1,7 @@
 package com.vincent.playlisttransferutility.network.api
 
+import com.github.felixgail.gplaymusic.api.GPlayMusic
+import com.github.felixgail.gplaymusic.api.GPlayService
 import com.google.gson.Gson
 import com.vincent.playlisttransferutility.data.GsonModule
 import com.vincent.playlisttransferutility.network.OkHttpClientModule
@@ -12,10 +14,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module(includes = [OkHttpClientModule::class, GsonModule::class])
-class SpotifyModule {
+class NetworkModule {
 
     companion object {
         private const val SPOTIFY_API_BASE_URL: String = "https://api.spotify.com/v1/"
+    }
+
+    @Provides
+    @Singleton
+    fun provideGooglePlayService(): GPlayService {
+        return GPlayMusic.Builder().build().service
     }
 
     @Provides
@@ -27,8 +35,8 @@ class SpotifyModule {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient,
-                 gsonConverterFactory: GsonConverterFactory,
-                 rxJavaCallAdapterFactory: RxJava2CallAdapterFactory): Retrofit {
+                        gsonConverterFactory: GsonConverterFactory,
+                        rxJavaCallAdapterFactory: RxJava2CallAdapterFactory): Retrofit {
         return Retrofit.Builder()
                 .client(okHttpClient)
                 .addConverterFactory(gsonConverterFactory)
