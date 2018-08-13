@@ -1,7 +1,6 @@
 package com.vincent.playlisttransferutility.network.api
 
 import com.github.felixgail.gplaymusic.api.GPlayMusic
-import com.github.felixgail.gplaymusic.api.GPlayService
 import com.google.gson.Gson
 import com.vincent.playlisttransferutility.data.GsonModule
 import com.vincent.playlisttransferutility.network.OkHttpClientModule
@@ -22,8 +21,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideGooglePlayService(): GPlayService {
-        return GPlayMusic.Builder().build().service
+    fun provideGooglePlayService(): GPlayMusic {
+        return GPlayMusic.Builder().build()
     }
 
     @Provides

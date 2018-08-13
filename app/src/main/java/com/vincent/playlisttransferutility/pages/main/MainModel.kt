@@ -16,9 +16,9 @@ class MainModel {
         repository = AppComponent.instance.repository
     }
 
-    fun saveSpotifyAuthToken(authenticationResponse: AuthenticationResponse) {
+    fun saveSpotifyAuthToken(authenticationResponse: AuthenticationResponse): Completable {
         val authToken: AuthToken = AuthToken.fromSpotifyAuthenticationResponse(authenticationResponse)
-        repository.setSpotifyAuthToken(authToken)
+        return repository.setSpotifyAuthToken(authToken)
     }
 
     fun getSpotifyAuthToken(): Single<AuthToken> {

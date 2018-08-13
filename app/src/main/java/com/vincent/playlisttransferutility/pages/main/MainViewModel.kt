@@ -110,7 +110,12 @@ class MainViewModel : ViewModel() {
     }
 
     private fun onSpotifyTokenReceived(response: AuthenticationResponse) {
-        mainModel.saveSpotifyAuthToken(response)
+        compositeDisposable.add(mainModel.saveSpotifyAuthToken(response)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({}, {
+                    toastMessageSubject.onNext("Error Fetching Spotify User")
+                }))
         viewState.spotifyLogin = true
         viewStateSubject.onNext(viewState)
     }

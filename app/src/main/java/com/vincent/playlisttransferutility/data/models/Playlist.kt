@@ -2,7 +2,7 @@ package com.vincent.playlisttransferutility.data.models
 
 import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
 
-class Playlist(val id: String,
+data class Playlist(val id: String,
                val name: String,
                val coverArtUrl: String?,
                val trackCount: Int,

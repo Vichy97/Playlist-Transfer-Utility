@@ -2,7 +2,6 @@ package com.vincent.playlisttransferutility
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.github.felixgail.gplaymusic.api.GPlayService
 import com.google.gson.Gson
 import com.vincent.playlisttransferutility.data.GsonModule
 import com.vincent.playlisttransferutility.data.Repository
@@ -40,7 +39,6 @@ interface AppComponent {
     val repository: Repository
     val resourceProvider: ResourceProvider
     val spotifyApi: SpotifyApi
-    val googlePlayService: GPlayService
     val spotifyHeaderInterceptor: HeaderInterceptor
     val preferencesDataSource: PreferencesDataSource
     val sharedPreferences: SharedPreferences

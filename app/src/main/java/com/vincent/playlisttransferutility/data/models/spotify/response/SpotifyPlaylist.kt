@@ -8,5 +8,5 @@ data class SpotifyPlaylist(
         @SerializedName("images") val images: List<Image>,
         @SerializedName("name") val name: String,
         @SerializedName("public") val public: Boolean?,
-        @SerializedName("tracks") val tracks: SpotifyPlaylistTracks
+        @SerializedName("tracks") val tracks: SpotifyPagingObject<SpotifyPlaylistTrack>
 )

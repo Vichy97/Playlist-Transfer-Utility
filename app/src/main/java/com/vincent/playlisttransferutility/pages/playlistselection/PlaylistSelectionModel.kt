@@ -4,7 +4,10 @@ import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.Repository
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
+import com.vincent.playlisttransferutility.data.models.Track
 import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
+import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyTrack
+import com.vincent.playlisttransferutility.network.api.SpotifyApi
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -14,15 +17,18 @@ import io.reactivex.subjects.BehaviorSubject
 class PlaylistSelectionModel {
 
     private val repository: Repository
-    private var transferFrom: MusicService = MusicService.GOOGLE_PLAY_MUSIC
-    private var transferTo: MusicService = MusicService.SPOTIFY
-    private val selectedPlaylistIds: Set<String> = HashSet()
+    private val spotifyApi: SpotifyApi
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val playlistSubject: BehaviorSubject<List<Playlist>> = BehaviorSubject.create()
 
+    private var transferFrom: MusicService = MusicService.GOOGLE_PLAY_MUSIC
+    private var transferTo: MusicService = MusicService.SPOTIFY
+    private var selectedPlaylistIds: MutableSet<String> = mutableSetOf()
+
     init {
         repository = AppComponent.instance.repository
+        spotifyApi = AppComponent.instance.spotifyApi
     }
 
     fun onClear() {
@@ -117,10 +123,10 @@ class PlaylistSelectionModel {
     }
 
     fun selectPlaylist(playlistId: String) {
-        selectedPlaylistIds.plus(playlistId)
+        selectedPlaylistIds.add(playlistId)
     }
 
     fun deselectPlaylist(playlistId: String) {
-        selectedPlaylistIds.minus(playlistId)
+        selectedPlaylistIds.remove(playlistId)
     }
 }
