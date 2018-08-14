@@ -1,8 +1,8 @@
 package com.vincent.playlisttransferutility.utils.resources
 
 import android.content.Context
-import android.support.annotation.IntegerRes
-import android.support.annotation.StringRes
+import androidx.annotation.IntegerRes
+import androidx.annotation.StringRes
 import com.vincent.playlisttransferutility.AppComponent
 
 class ResourceProvider {

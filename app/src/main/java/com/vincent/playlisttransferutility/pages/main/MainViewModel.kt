@@ -1,6 +1,6 @@
 package com.vincent.playlisttransferutility.pages.main
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import android.content.Intent
 import android.util.Log
 import com.spotify.sdk.android.authentication.AuthenticationClient

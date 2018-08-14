@@ -4,11 +4,10 @@ import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.Repository
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
-import com.vincent.playlisttransferutility.data.models.Track
 import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
-import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyTrack
 import com.vincent.playlisttransferutility.network.api.SpotifyApi
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -39,7 +38,7 @@ class PlaylistSelectionModel {
         return playlistSubject
     }
 
-    private fun getPlaylists(): Observable<List<Playlist>> {
+    private fun getPlaylists(): Single<List<Playlist>> {
         return when (transferFrom) {
             MusicService.SPOTIFY -> {
                 getPlaylistsFromSpotify()
@@ -53,7 +52,7 @@ class PlaylistSelectionModel {
         }
     }
 
-    private fun getPlaylistsFromSpotify(): Observable<List<Playlist>> {
+    private fun getPlaylistsFromSpotify(): Single<List<Playlist>> {
         return repository.getSpotifyPlaylists().map {
             val playlists: ArrayList<Playlist> = ArrayList()
 
@@ -65,7 +64,7 @@ class PlaylistSelectionModel {
         }
     }
 
-    private fun getPlaylistsFromGooglePlayMusic(): Observable<List<Playlist>> {
+    private fun getPlaylistsFromGooglePlayMusic(): Single<List<Playlist>> {
         return repository.getGooglePlayMusicPlaylists().map {
             val playlists: ArrayList<Playlist> = ArrayList()
 
@@ -77,9 +76,9 @@ class PlaylistSelectionModel {
         }
     }
 
-    private fun getPlaylistsFromAppleMusic(): Observable<List<Playlist>> {
+    private fun getPlaylistsFromAppleMusic(): Single<List<Playlist>> {
         //TODO: fill in when apple music is implemented
-        return Observable.empty()
+        return Single.error(Exception("Not Implemented"))
     }
 
     //Int represents transfer progress... maybe this should return something else though

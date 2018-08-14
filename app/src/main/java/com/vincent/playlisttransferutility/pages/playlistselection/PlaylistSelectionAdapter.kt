@@ -1,9 +1,9 @@
 package com.vincent.playlisttransferutility.pages.playlistselection
 
 import android.content.Context
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,7 +62,7 @@ class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
         notifyDataSetChanged()
     }
 
-    class PlaylistSelectionViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    class PlaylistSelectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val playlistCoverArtView: ImageView
         private val playlistTitleTextView: TextView
@@ -73,7 +73,7 @@ class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
         val viewBinding: ViewDataBinding?
 
         init {
-            playlistCoverArtView = itemView!!.iv_playlist_cover_art
+            playlistCoverArtView = itemView.iv_playlist_cover_art
             playlistTitleTextView = itemView.tv_playlist_title
             playlistCountTextView = itemView.tv_playlist_count
             checkBox = itemView.cb_playlist_select
