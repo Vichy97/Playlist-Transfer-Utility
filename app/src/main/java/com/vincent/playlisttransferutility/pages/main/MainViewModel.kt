@@ -25,6 +25,7 @@ class MainViewModel : ViewModel() {
 
     companion object {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
+        const val TAG: String = "MainViewModel"
     }
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -62,7 +63,7 @@ class MainViewModel : ViewModel() {
                     viewState = it.invoke()
                     viewStateSubject.onNext(viewState)
                 }, {
-                    Log.e("Error", it.toString())
+                    Log.e("MainViewModel", "Error subscribing to Model Events", it)
                 }))
     }
 
@@ -85,6 +86,7 @@ class MainViewModel : ViewModel() {
         return viewStateSubject
     }
 
+    //TODO: navigator class
     fun getNavigationEvents(): Observable<Boolean> {
         return navigateSubject
     }
@@ -113,7 +115,10 @@ class MainViewModel : ViewModel() {
         compositeDisposable.add(mainModel.saveSpotifyAuthToken(response)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({}, {
+                .subscribe({
+
+                }, {
+                    Log.e(TAG, "Error Fetching Spotify User", it)
                     toastMessageSubject.onNext("Error Fetching Spotify User")
                 }))
         viewState.spotifyLogin = true

@@ -74,9 +74,8 @@ class PlaylistSelectionActivity : AppCompatActivity() {
     }
 
     private fun subscribeToViewModelEvents() {
-        compositeDisposable.add(viewModel.getPlaylistsEvents().subscribe(this::onPlaylistsReceived) {
-            Log.e("ERROR", it.stackTrace.toString())
-        })
+        compositeDisposable.add(viewModel.getPlaylistsEvents()
+                .subscribe(this::onPlaylistsReceived) {})
     }
 
     private fun onPlaylistsReceived(playlists: List<Playlist>) {

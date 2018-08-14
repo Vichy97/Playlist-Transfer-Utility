@@ -1,6 +1,5 @@
 package com.vincent.playlisttransferutility.data
 
-import android.util.Log
 import com.github.felixgail.gplaymusic.api.GPlayMusic
 import com.github.felixgail.gplaymusic.model.Playlist
 import com.google.gson.Gson
@@ -18,17 +17,10 @@ import com.vincent.playlisttransferutility.network.api.SpotifyApi
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
 class Repository {
-
-    companion object {
-        private const val TAG: String = "Repository"
-    }
-
-    private val compositeDisposable: CompositeDisposable
 
     private val dataSource: DataSource
     private val spotifyApi: SpotifyApi
@@ -47,8 +39,6 @@ class Repository {
         spotifyApi = AppComponent.instance.spotifyApi
         spotifyHeaderInterceptor = AppComponent.instance.spotifyHeaderInterceptor
         gson = AppComponent.instance.gson
-
-        compositeDisposable = CompositeDisposable()
 
         googlePlayAuthToken = dataSource.getGooglePlayAuthToken()
         if (googlePlayAuthToken == null) {
@@ -105,32 +95,32 @@ class Repository {
     //endregion Auth Tokens
 
     //region Playlists
-    fun getSpotifyPlaylists(): Observable<List<SpotifyPlaylist>> {
+    fun getSpotifyPlaylists(): Single<List<SpotifyPlaylist>> {
         if (spotifyAuthToken == null || spotifyAuthToken!!.accessToken.isEmpty()) {
-            return Observable.empty()
+            return Single.error(Exception("Invalid Auth Token"))
         }
 
         if (spotifyPlaylists.isNotEmpty()) {
-            return Observable.just(spotifyPlaylists)
+            return Single.just(spotifyPlaylists)
         }
 
         return spotifyApi.getAllPlaylists(null, null)
-                .flatMapObservable {
+                .map {
                     spotifyPlaylists = it.items.toMutableList()
-                    Observable.just(spotifyPlaylists)
+                    return@map spotifyPlaylists
                 }
     }
 
-    fun getGooglePlayMusicPlaylists(): Observable<List<Playlist>> {
+    fun getGooglePlayMusicPlaylists(): Single<List<Playlist>> {
         if (googlePlayAuthToken == null || googlePlayMusicService == null) {
-            return Observable.empty()
+            return Single.error(Exception("Invalid Auth Token"))
         }
 
         if (googlePlayMusicPlaylists.isNotEmpty()) {
-            return Observable.just(googlePlayMusicPlaylists)
+            return Single.just(googlePlayMusicPlaylists)
         }
 
-        return Observable.fromCallable {
+        return Single.fromCallable {
             val jsonString: String = gson.toJson(googlePlayMusicService!!.playlistApi.listPlaylists())
             googlePlayMusicPlaylists = gson.fromJson(jsonString, object : TypeToken<List<Playlist>>() {}.type)
             return@fromCallable googlePlayMusicPlaylists
@@ -190,6 +180,7 @@ class Repository {
 
                     return@flatMapSingle spotifyApi.searchTracks(query, "track", 1)
                 }
+
     }
     //endregion Tracks
 

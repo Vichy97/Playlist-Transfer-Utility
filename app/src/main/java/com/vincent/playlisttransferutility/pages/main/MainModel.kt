@@ -22,7 +22,6 @@ class MainModel {
     }
 
     fun getSpotifyAuthToken(): Single<AuthToken> {
-        //TODO: check time to live against current time and return null if expired
         return repository.getSpotifyAuthToken()
     }
 
@@ -38,5 +37,4 @@ class MainModel {
             it.onComplete()
         }
     }
-
 }

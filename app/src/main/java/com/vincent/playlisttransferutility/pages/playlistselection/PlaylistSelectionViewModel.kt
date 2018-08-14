@@ -11,9 +11,9 @@ import io.reactivex.schedulers.Schedulers
 
 class PlaylistSelectionViewModel : ViewModel() {
 
-    val model: PlaylistSelectionModel
+    private val model: PlaylistSelectionModel
 
-    val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     init {
         model = AppComponent.instance
