@@ -1,5 +1,6 @@
-package com.vincent.playlisttransferutility.pages.main
+package com.vincent.playlisttransferutility.pages.main.di
 
+import com.vincent.playlisttransferutility.pages.main.MainModel
 import dagger.Module
 import dagger.Provides
 

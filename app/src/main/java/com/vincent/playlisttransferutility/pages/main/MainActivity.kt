@@ -12,14 +12,13 @@ import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.ActivityMainBinding
-import com.vincent.playlisttransferutility.pages.playlistselection.PlaylistSelectionActivity
 import com.vincent.playlisttransferutility.utils.BooleanUtils
 import io.reactivex.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var viewModel: MainViewModel
 
     private lateinit var spotifyButton: Button
     private lateinit var googlePlayMusicButton: Button
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         setupDataBinding()
 
         spotifyButton = btn_spotify_button
@@ -43,12 +42,12 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        mainViewModel.onActivityResult(requestCode, resultCode, data)
+        viewModel.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun setupDataBinding() {
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.viewModel = mainViewModel
+        binding.viewModel = viewModel
     }
 
     override fun onPause() {
@@ -65,10 +64,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun subscribeToViewModelEvents() {
         compositeDisposable.addAll(
-                mainViewModel.getToastMessageEvents().subscribe(this::onToastMessageReceived),
-                mainViewModel.getSpotifyLoginRequestEvents().subscribe(this::onSpotifyLoginRequestReceived),
-                mainViewModel.getViewStateEvents().subscribe(this::onViewStateUpdateReceived),
-                mainViewModel.getNavigationEvents().subscribe { navigateToPlaylistSelection() }
+                viewModel.getToastMessageEvents().subscribe(this::onToastMessageReceived),
+                viewModel.getSpotifyLoginRequestEvents().subscribe(this::onSpotifyLoginRequestReceived),
+                viewModel.getViewStateEvents().subscribe(this::onViewStateUpdateReceived)
         )
     }
 
@@ -95,10 +93,5 @@ class MainActivity : AppCompatActivity() {
 
     private fun loginToSpotify(request: AuthenticationRequest) {
         AuthenticationClient.openLoginActivity(this, MainViewModel.SPOTIFY_LOGIN_REQUEST_CODE, request)
-    }
-
-    private fun navigateToPlaylistSelection() {
-        val intent: Intent = Intent(this, PlaylistSelectionActivity::class.java)
-        startActivity(intent)
     }
 }

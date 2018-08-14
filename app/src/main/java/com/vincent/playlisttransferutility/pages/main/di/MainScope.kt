@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.pages.main
+package com.vincent.playlisttransferutility.pages.main.di
 
 import javax.inject.Scope
 

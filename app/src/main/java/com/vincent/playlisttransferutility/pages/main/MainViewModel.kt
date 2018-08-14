@@ -11,6 +11,7 @@ import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyAuthenticationRequestScope
+import com.vincent.playlisttransferutility.pages.main.di.MainModule
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -35,7 +36,6 @@ class MainViewModel : ViewModel() {
     private val toastMessageSubject: PublishSubject<String> = PublishSubject.create()
     private val spotifyLoginRequestSubject: PublishSubject<AuthenticationRequest> = PublishSubject.create()
     private val viewStateSubject: BehaviorSubject<MainViewState> = BehaviorSubject.create()
-    private val navigateSubject: PublishSubject<Boolean> = PublishSubject.create()
 
     private lateinit var viewState: MainViewState
 
@@ -85,11 +85,6 @@ class MainViewModel : ViewModel() {
     fun getViewStateEvents(): Observable<MainViewState> {
         return viewStateSubject
     }
-
-    //TODO: navigator class
-    fun getNavigationEvents(): Observable<Boolean> {
-        return navigateSubject
-    }
     //endregion Events
 
     //region Activity Results
@@ -136,11 +131,10 @@ class MainViewModel : ViewModel() {
     }
 
     fun onGooglePlayMusicClicked() {
-
     }
 
     fun onStartTransferClicked() {
-        navigateSubject.onNext(true)
+
     }
     //endregion View Events
 

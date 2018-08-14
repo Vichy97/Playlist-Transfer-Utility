@@ -15,10 +15,12 @@ import com.vincent.playlisttransferutility.network.HeaderInterceptor
 import com.vincent.playlisttransferutility.network.OkHttpClientModule
 import com.vincent.playlisttransferutility.network.api.NetworkModule
 import com.vincent.playlisttransferutility.network.api.SpotifyApi
-import com.vincent.playlisttransferutility.pages.main.MainComponent
-import com.vincent.playlisttransferutility.pages.main.MainModule
-import com.vincent.playlisttransferutility.pages.playlistselection.PlaylistSelectionComponent
-import com.vincent.playlisttransferutility.pages.playlistselection.PlaylistSelectionModule
+import com.vincent.playlisttransferutility.pages.googlelogin.di.GoogleLoginComponent
+import com.vincent.playlisttransferutility.pages.googlelogin.di.GoogleLoginModule
+import com.vincent.playlisttransferutility.pages.main.di.MainComponent
+import com.vincent.playlisttransferutility.pages.main.di.MainModule
+import com.vincent.playlisttransferutility.pages.playlistselection.di.PlaylistSelectionComponent
+import com.vincent.playlisttransferutility.pages.playlistselection.di.PlaylistSelectionModule
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import com.vincent.playlisttransferutility.utils.resources.ResourceProviderModule
 import dagger.Component
@@ -45,6 +47,7 @@ interface AppComponent {
     val keystore: KeyStore
 
     fun newMainComponent(mainModule: MainModule): MainComponent
+    fun newGoogleLoginComponent(googleLoginModule: GoogleLoginModule): GoogleLoginComponent
     fun newPlaylistSelectionComponent(playlistSelectionModule: PlaylistSelectionModule):
             PlaylistSelectionComponent
 }

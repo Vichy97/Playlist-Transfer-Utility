@@ -14,4 +14,5 @@
     <dimen name="primary_button_width">250dp</dimen>
     <dimen name="playlist_list_view_icon_size">64dp</dimen>
     <dimen name="service_spinner_icon_size">24dp</dimen>
+    <dimen name="dialog_min_width">400dp</dimen>
 </resources>
