@@ -27,5 +27,4 @@
         app:layout_constraintStart_toEndOf="@id/iv_service_icon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Spotify"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

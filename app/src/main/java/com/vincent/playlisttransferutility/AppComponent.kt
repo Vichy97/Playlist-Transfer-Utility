@@ -23,11 +23,13 @@ import com.vincent.playlisttransferutility.pages.playlistselection.di.PlaylistSe
 import com.vincent.playlisttransferutility.pages.playlistselection.di.PlaylistSelectionModule
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import com.vincent.playlisttransferutility.utils.resources.ResourceProviderModule
+import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
+import com.vincent.playlisttransferutility.utils.rx.SchedulersProviderModule
 import dagger.Component
 import javax.inject.Singleton
 
 @Component(modules = [GsonModule::class, NetworkModule::class, ResourceProviderModule::class,
-    RepositoryModule::class, ContextModule::class, DataSourceModule::class,
+    SchedulersProviderModule::class, RepositoryModule::class, ContextModule::class, DataSourceModule::class,
     OkHttpClientModule::class, SharedPreferencesModule::class, KeystoreModule::class])
 @Singleton
 interface AppComponent {
@@ -40,6 +42,7 @@ interface AppComponent {
     val context: Context
     val repository: Repository
     val resourceProvider: ResourceProvider
+    val schedulersProvider: SchedulersProvider
     val spotifyApi: SpotifyApi
     val spotifyHeaderInterceptor: HeaderInterceptor
     val preferencesDataSource: PreferencesDataSource

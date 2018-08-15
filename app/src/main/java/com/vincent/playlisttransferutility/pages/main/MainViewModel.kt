@@ -13,12 +13,11 @@ import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyAuthenticationRequestScope
 import com.vincent.playlisttransferutility.pages.main.di.MainModule
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
+import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -32,6 +31,7 @@ class MainViewModel : ViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mainModel: MainModel
     private val resourceProvider: ResourceProvider
+    private val schedulersProvider: SchedulersProvider
 
     private val toastMessageSubject: PublishSubject<String> = PublishSubject.create()
     private val spotifyLoginRequestSubject: PublishSubject<AuthenticationRequest> = PublishSubject.create()
@@ -42,6 +42,7 @@ class MainViewModel : ViewModel() {
     init {
         mainModel =  AppComponent.instance.newMainComponent(MainModule()).mainModel
         resourceProvider = AppComponent.instance.resourceProvider
+        schedulersProvider = AppComponent.instance.schedulersProvider
 
         initViewState()
     }
@@ -57,8 +58,8 @@ class MainViewModel : ViewModel() {
                                 googlePlayAuthToken.accessToken.isNotEmpty())
                     }
                 })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
                 .subscribe({
                     viewState = it.invoke()
                     viewStateSubject.onNext(viewState)
@@ -108,8 +109,8 @@ class MainViewModel : ViewModel() {
 
     private fun onSpotifyTokenReceived(response: AuthenticationResponse) {
         compositeDisposable.add(mainModel.saveSpotifyAuthToken(response)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
                 .subscribe({
 
                 }, {
@@ -131,6 +132,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun onGooglePlayMusicClicked() {
+
     }
 
     fun onStartTransferClicked() {

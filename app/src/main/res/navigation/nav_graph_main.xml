@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main" app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.vincent.playlisttransferutility.pages.main.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/action_mainFragment_to_playlistSelectionFragment"
+            app:destination="@id/playlistSelectionFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/playlistSelectionFragment"
+        android:name="com.vincent.playlisttransferutility.pages.playlistselection.PlaylistSelectionFragment"
+        android:label="PlaylistSelectionFragment"
+        tools:layout="@layout/fragment_playlist_selection"/>
+</navigation>

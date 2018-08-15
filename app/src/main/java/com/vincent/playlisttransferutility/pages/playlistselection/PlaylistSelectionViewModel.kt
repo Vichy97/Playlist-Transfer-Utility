@@ -5,21 +5,22 @@ import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.pages.playlistselection.di.PlaylistSelectionModule
+import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class PlaylistSelectionViewModel : ViewModel() {
 
-    private val model: PlaylistSelectionModel
-
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    private val model: PlaylistSelectionModel
+    private val schedulersProvider: SchedulersProvider
 
     init {
         model = AppComponent.instance
                 .newPlaylistSelectionComponent(PlaylistSelectionModule())
                 .playlistSelectionModel
+        schedulersProvider = AppComponent.instance.schedulersProvider
     }
 
     override fun onCleared() {
@@ -52,8 +53,8 @@ class PlaylistSelectionViewModel : ViewModel() {
 
     fun onTransferClicked() {
         compositeDisposable.add(model.transfer()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
                 .subscribe())
         //TODO: only enabled if transferFrom and transferTo are not the same, and at least one playlist is selected
     }

@@ -14,14 +14,15 @@ import com.vincent.playlisttransferutility.data.models.spotify.response.*
 import com.vincent.playlisttransferutility.data.sources.DataSource
 import com.vincent.playlisttransferutility.network.HeaderInterceptor
 import com.vincent.playlisttransferutility.network.api.SpotifyApi
+import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
 class Repository {
 
+    private val schedulersProvider: SchedulersProvider
     private val dataSource: DataSource
     private val spotifyApi: SpotifyApi
     private val spotifyHeaderInterceptor: HeaderInterceptor
@@ -35,6 +36,7 @@ class Repository {
     private var spotifyUser: SpotifyUser? = null
 
     init {
+        schedulersProvider = AppComponent.instance.schedulersProvider
         dataSource = AppComponent.instance.preferencesDataSource
         spotifyApi = AppComponent.instance.spotifyApi
         spotifyHeaderInterceptor = AppComponent.instance.spotifyHeaderInterceptor
@@ -45,7 +47,7 @@ class Repository {
             googlePlayAuthToken = AuthToken("", MusicService.GOOGLE_PLAY_MUSIC, -1)
         } else {
             initGooglePlayService(googlePlayAuthToken!!)
-                    .subscribeOn(Schedulers.io())
+                    .subscribeOn(schedulersProvider.io())
                     .subscribe()
         }
         //TODO: auth token expires so fast... might not be worth storing (it would need a timestamp)
@@ -83,7 +85,7 @@ class Repository {
             googlePlayMusicService!!.changeToken(svarzee.gps.gpsoauth.AuthToken(authToken.accessToken))
         } else {
             initGooglePlayService(authToken)
-                    .subscribeOn(Schedulers.io())
+                    .subscribeOn(schedulersProvider.io())
                     .subscribe()
         }
         dataSource.saveGooglePlayAuthToken(authToken)
@@ -183,5 +185,4 @@ class Repository {
 
     }
     //endregion Tracks
-
 }

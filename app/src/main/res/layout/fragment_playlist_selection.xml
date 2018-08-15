@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/triple_spacing"
-        tools:context=".pages.playlistselection.PlaylistSelectionActivity">
+        tools:context=".pages.playlistselection.PlaylistSelectionFragment">
 
         <TextView
             android:id="@+id/tv_service_selection_one_label"
@@ -84,6 +84,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rv_playlist_selection_list"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
