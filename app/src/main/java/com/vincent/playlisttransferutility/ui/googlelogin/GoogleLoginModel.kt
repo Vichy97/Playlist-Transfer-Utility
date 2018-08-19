@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.pages.googlelogin
+package com.vincent.playlisttransferutility.ui.googlelogin
 
 import com.github.felixgail.gplaymusic.util.TokenProvider
 import com.vincent.playlisttransferutility.AppComponent

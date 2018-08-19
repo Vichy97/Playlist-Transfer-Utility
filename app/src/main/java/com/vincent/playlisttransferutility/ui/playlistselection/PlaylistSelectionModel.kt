@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.pages.playlistselection
+package com.vincent.playlisttransferutility.ui.playlistselection
 
 import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.Repository

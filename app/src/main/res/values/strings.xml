@@ -4,4 +4,5 @@
     <string name="google_play_music">Google Play Music</string>
     <string name="apple_music">Apple Music</string>
     <string name="login_error">Login Error</string>
+    <string name="network_error">Network Error. Please check your internet connection.</string>
 </resources>

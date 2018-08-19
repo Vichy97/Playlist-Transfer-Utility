@@ -1,9 +1,9 @@
-package com.vincent.playlisttransferutility.pages.googlelogin
+package com.vincent.playlisttransferutility.ui.googlelogin
 
 import android.text.Editable
 import androidx.lifecycle.ViewModel
 import com.vincent.playlisttransferutility.AppComponent
-import com.vincent.playlisttransferutility.pages.googlelogin.di.GoogleLoginModule
+import com.vincent.playlisttransferutility.ui.googlelogin.di.GoogleLoginModule
 import io.reactivex.disposables.CompositeDisposable
 
 class GoogleLoginViewModel : ViewModel() {

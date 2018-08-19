@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.pages
+package com.vincent.playlisttransferutility.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

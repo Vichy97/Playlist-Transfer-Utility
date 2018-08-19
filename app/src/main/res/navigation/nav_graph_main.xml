@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.vincent.playlisttransferutility.pages.main.MainFragment"
+        android:name="com.vincent.playlisttransferutility.ui.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
 
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/playlistSelectionFragment"
-        android:name="com.vincent.playlisttransferutility.pages.playlistselection.PlaylistSelectionFragment"
+        android:name="com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionFragment"
         android:label="PlaylistSelectionFragment"
         tools:layout="@layout/fragment_playlist_selection"/>
 </navigation>

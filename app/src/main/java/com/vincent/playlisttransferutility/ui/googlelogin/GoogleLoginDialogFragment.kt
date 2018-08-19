@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.pages.googlelogin
+package com.vincent.playlisttransferutility.ui.googlelogin
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,10 @@ import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.FragmentGoogleLoginDialogBinding
 
 class GoogleLoginDialogFragment : DialogFragment() {
+
+    companion object {
+        const val TAG: String = "GoogleLoginDialogFragment"
+    }
 
     private lateinit var viewModel: GoogleLoginViewModel
 

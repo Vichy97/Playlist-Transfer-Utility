@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.pages.main
+package com.vincent.playlisttransferutility.ui.main
 
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.AppComponent

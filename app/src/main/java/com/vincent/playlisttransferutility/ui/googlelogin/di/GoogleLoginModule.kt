@@ -1,6 +1,6 @@
-package com.vincent.playlisttransferutility.pages.googlelogin.di
+package com.vincent.playlisttransferutility.ui.googlelogin.di
 
-import com.vincent.playlisttransferutility.pages.googlelogin.GoogleLoginModel
+import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginModel
 import dagger.Module
 import dagger.Provides
 

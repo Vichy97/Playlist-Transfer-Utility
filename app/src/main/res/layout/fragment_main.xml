@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vincent.playlisttransferutility.pages.main.MainViewModel"/>
+            type="com.vincent.playlisttransferutility.ui.main.MainViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/triple_spacing"
-        tools:context=".pages.main.MainFragment">
+        tools:context=".ui.main.MainFragment">
 
         <!-- Header Text -->
         <TextView

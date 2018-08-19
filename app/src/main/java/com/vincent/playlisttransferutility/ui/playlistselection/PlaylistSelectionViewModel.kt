@@ -1,26 +1,20 @@
-package com.vincent.playlisttransferutility.pages.playlistselection
+package com.vincent.playlisttransferutility.ui.playlistselection
 
-import androidx.lifecycle.ViewModel
 import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
-import com.vincent.playlisttransferutility.pages.playlistselection.di.PlaylistSelectionModule
-import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
+import com.vincent.playlisttransferutility.ui.base.BaseViewModel
+import com.vincent.playlisttransferutility.ui.playlistselection.di.PlaylistSelectionModule
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 
-class PlaylistSelectionViewModel : ViewModel() {
-
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+class PlaylistSelectionViewModel : BaseViewModel() {
 
     private val model: PlaylistSelectionModel
-    private val schedulersProvider: SchedulersProvider
 
     init {
         model = AppComponent.instance
                 .newPlaylistSelectionComponent(PlaylistSelectionModule())
                 .playlistSelectionModel
-        schedulersProvider = AppComponent.instance.schedulersProvider
     }
 
     override fun onCleared() {

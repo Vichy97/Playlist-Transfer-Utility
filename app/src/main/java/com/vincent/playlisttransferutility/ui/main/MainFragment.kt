@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.pages.main
+package com.vincent.playlisttransferutility.ui.main
 
 import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -10,10 +10,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.FragmentMainBinding
+import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginDialogFragment
 import com.vincent.playlisttransferutility.utils.BooleanUtils
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -22,22 +25,25 @@ class MainFragment : Fragment() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var viewModel: MainViewModel
+    private lateinit var navController: NavController
 
     private lateinit var spotifyButton: Button
     private lateinit var googlePlayMusicButton: Button
     private lateinit var appleMusicButton: Button
-
     private lateinit var startTransferButton: Button
+
+    private lateinit var googleLoginDialog: GoogleLoginDialogFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view: View = inflater.inflate(R.layout.fragment_main, container, false)
-
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         val binding: FragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         binding.viewModel = viewModel
 
-        return view
+        navController = Navigation.findNavController(activity!!, R.id.nav_host)
+        googleLoginDialog = GoogleLoginDialogFragment()
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,8 +75,10 @@ class MainFragment : Fragment() {
 
     private fun subscribeToViewModelEvents() {
         compositeDisposable.addAll(
-                viewModel.getToastMessageEvents().subscribe(this::onToastMessageReceived),
+                viewModel.getToastEvents().subscribe(this::onToastMessageReceived),
+                viewModel.getNavigationEvents().subscribe(this::onNavigationEventReceived),
                 viewModel.getSpotifyLoginRequestEvents().subscribe(this::onSpotifyLoginRequestReceived),
+                viewModel.getGoogleLoginRequestEvents().subscribe { onGoogleLoginRequestReceived() },
                 viewModel.getViewStateEvents().subscribe(this::onViewStateUpdateReceived)
         )
     }
@@ -80,7 +88,15 @@ class MainFragment : Fragment() {
     }
 
     private fun onSpotifyLoginRequestReceived(request: AuthenticationRequest) {
-        loginToSpotify(request)
+        showSpotifyLoginDialog(request)
+    }
+
+    private fun onGoogleLoginRequestReceived() {
+        googleLoginDialog.show(fragmentManager, GoogleLoginDialogFragment.TAG)
+    }
+
+    private fun onNavigationEventReceived(actionId: Int) {
+        navController.navigate(actionId)
     }
 
     private fun onViewStateUpdateReceived(viewState: MainViewState) {
@@ -96,7 +112,7 @@ class MainFragment : Fragment() {
                 viewState.appleMusicLogin)
     }
 
-    private fun loginToSpotify(request: AuthenticationRequest) {
+    private fun showSpotifyLoginDialog(request: AuthenticationRequest) {
         AuthenticationClient.openLoginActivity(activity!!, MainViewModel.SPOTIFY_LOGIN_REQUEST_CODE, request)
     }
 }

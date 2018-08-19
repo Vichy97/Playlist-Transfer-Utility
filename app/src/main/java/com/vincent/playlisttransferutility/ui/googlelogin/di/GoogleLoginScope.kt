@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.pages.googlelogin.di
+package com.vincent.playlisttransferutility.ui.googlelogin.di
 
 import javax.inject.Scope
 

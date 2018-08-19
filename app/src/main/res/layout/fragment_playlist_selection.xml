@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vincent.playlisttransferutility.pages.playlistselection.PlaylistSelectionViewModel"/>
+            type="com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/triple_spacing"
-        tools:context=".pages.playlistselection.PlaylistSelectionFragment">
+        tools:context=".ui.playlistselection.PlaylistSelectionFragment">
 
         <TextView
             android:id="@+id/tv_service_selection_one_label"

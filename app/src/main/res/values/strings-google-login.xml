@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_in_header">Sign in with your Google account.</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="email_error">Invalid Email</string>
+    <string name="password_error">Invalid Password</string>
+    <string name="sign_in_button_label">Sign In</string>
+</resources>

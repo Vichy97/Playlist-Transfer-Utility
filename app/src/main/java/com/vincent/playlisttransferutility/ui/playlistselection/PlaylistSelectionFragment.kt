@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.pages.playlistselection
+package com.vincent.playlisttransferutility.ui.playlistselection
 
 import androidx.lifecycle.ViewModelProviders
 import androidx.databinding.DataBindingUtil

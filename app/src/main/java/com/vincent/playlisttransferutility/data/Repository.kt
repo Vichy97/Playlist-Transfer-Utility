@@ -27,6 +27,7 @@ class Repository {
     private val spotifyApi: SpotifyApi
     private val spotifyHeaderInterceptor: HeaderInterceptor
     private val gson: Gson
+
     private var spotifyAuthToken: AuthToken?
     private var googlePlayAuthToken: AuthToken? //TODO: non-nullable
 

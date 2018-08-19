@@ -8,4 +8,7 @@
     <color name="colorSecondaryDark">#aeaeae</color>
     <color name="colorTextPrimary">#000000</color>
     <color name="colorTextSecondary">@color/colorSecondaryDark</color>
+
+    <color name="colorGoogleBlue">#4885ed</color>
+    <color name="colorGoogleBluePressed">#4885ed</color>
 </resources>

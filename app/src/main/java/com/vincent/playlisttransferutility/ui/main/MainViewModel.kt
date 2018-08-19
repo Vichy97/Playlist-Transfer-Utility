@@ -1,6 +1,5 @@
-package com.vincent.playlisttransferutility.pages.main
+package com.vincent.playlisttransferutility.ui.main
 
-import androidx.lifecycle.ViewModel
 import android.content.Intent
 import android.util.Log
 import com.spotify.sdk.android.authentication.AuthenticationClient
@@ -11,38 +10,34 @@ import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyAuthenticationRequestScope
-import com.vincent.playlisttransferutility.pages.main.di.MainModule
-import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
-import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
+import com.vincent.playlisttransferutility.ui.base.BaseViewModel
+import com.vincent.playlisttransferutility.ui.main.di.MainModule
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-class MainViewModel : ViewModel() {
+class MainViewModel : BaseViewModel() {
 
     companion object {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
         const val TAG: String = "MainViewModel"
     }
 
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val mainModel: MainModel
-    private val resourceProvider: ResourceProvider
-    private val schedulersProvider: SchedulersProvider
 
-    private val toastMessageSubject: PublishSubject<String> = PublishSubject.create()
-    private val spotifyLoginRequestSubject: PublishSubject<AuthenticationRequest> = PublishSubject.create()
-    private val viewStateSubject: BehaviorSubject<MainViewState> = BehaviorSubject.create()
+    private val spotifyLoginRequestSubject: PublishSubject<AuthenticationRequest>
+    private val googleLoginRequestSubject: PublishSubject<Boolean>
+    private val viewStateSubject: BehaviorSubject<MainViewState>
 
     private lateinit var viewState: MainViewState
 
     init {
+        spotifyLoginRequestSubject = PublishSubject.create()
+        googleLoginRequestSubject = PublishSubject.create()
+        viewStateSubject = BehaviorSubject.create()
         mainModel =  AppComponent.instance.newMainComponent(MainModule()).mainModel
-        resourceProvider = AppComponent.instance.resourceProvider
-        schedulersProvider = AppComponent.instance.schedulersProvider
 
         initViewState()
     }
@@ -68,19 +63,13 @@ class MainViewModel : ViewModel() {
                 }))
     }
 
-    override fun onCleared() {
-        super.onCleared()
-
-        compositeDisposable.clear()
-    }
-
     //region Events
-    fun getToastMessageEvents(): Observable<String> {
-        return toastMessageSubject
-    }
-
     fun getSpotifyLoginRequestEvents(): Observable<AuthenticationRequest> {
         return spotifyLoginRequestSubject
+    }
+
+    fun getGoogleLoginRequestEvents(): Observable<Boolean> {
+        return googleLoginRequestSubject
     }
 
     fun getViewStateEvents(): Observable<MainViewState> {
@@ -102,7 +91,7 @@ class MainViewModel : ViewModel() {
                 onSpotifyTokenReceived(response)
             }
             else -> {
-                toastMessageSubject.onNext(resourceProvider.getString(R.string.login_error))
+                toastSubject.onNext(resourceProvider.getString(R.string.login_error))
             }
         }
     }
@@ -115,7 +104,7 @@ class MainViewModel : ViewModel() {
 
                 }, {
                     Log.e(TAG, "Error Fetching Spotify User", it)
-                    toastMessageSubject.onNext("Error Fetching Spotify User")
+                    toastSubject.onNext("Error Fetching Spotify User")
                 }))
         viewState.spotifyLogin = true
         viewStateSubject.onNext(viewState)
@@ -132,11 +121,11 @@ class MainViewModel : ViewModel() {
     }
 
     fun onGooglePlayMusicClicked() {
-
+        googleLoginRequestSubject.onNext(true)
     }
 
     fun onStartTransferClicked() {
-
+        navigationSubject.onNext(R.id.action_mainFragment_to_playlistSelectionFragment)
     }
     //endregion View Events
 
