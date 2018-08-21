@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
@@ -23,21 +25,27 @@ class PlaylistSelectionFragment : Fragment() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var viewModel: PlaylistSelectionViewModel
+    private lateinit var navController: NavController
 
     private lateinit var playlistSelectionAdapter: PlaylistSelectionAdapter
     private lateinit var playlistSelectionList: RecyclerView
     private lateinit var musicServiceSelectorOne: AppCompatSpinner
     private lateinit var musicServiceSelectorTwo: Spinner
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        val view: View = inflater.inflate(R.layout.fragment_playlist_selection, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(PlaylistSelectionViewModel::class.java)
+        navController = Navigation.findNavController(activity!!, R.id.nav_host)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         val binding: FragmentPlaylistSelectionBinding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_playlist_selection, container, false)
         binding.viewModel = viewModel
-        return view
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,7 +1,7 @@
 package com.vincent.playlisttransferutility.ui.main
 
 import android.content.Intent
-import android.util.Log
+import com.orhanobut.logger.Logger
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
@@ -22,7 +22,6 @@ class MainViewModel : BaseViewModel() {
 
     companion object {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
-        const val TAG: String = "MainViewModel"
     }
 
     private val mainModel: MainModel
@@ -37,7 +36,7 @@ class MainViewModel : BaseViewModel() {
         spotifyLoginRequestSubject = PublishSubject.create()
         googleLoginRequestSubject = PublishSubject.create()
         viewStateSubject = BehaviorSubject.create()
-        mainModel =  AppComponent.instance.newMainComponent(MainModule()).mainModel
+        mainModel = AppComponent.instance.newMainComponent(MainModule()).mainModel
 
         initViewState()
     }
@@ -59,7 +58,7 @@ class MainViewModel : BaseViewModel() {
                     viewState = it.invoke()
                     viewStateSubject.onNext(viewState)
                 }, {
-                    Log.e("MainViewModel", "Error subscribing to Model Events", it)
+                    Logger.e(it, "Error subscribing to Model Events")
                 }))
     }
 
@@ -100,10 +99,8 @@ class MainViewModel : BaseViewModel() {
         compositeDisposable.add(mainModel.saveSpotifyAuthToken(response)
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
-                .subscribe({
-
-                }, {
-                    Log.e(TAG, "Error Fetching Spotify User", it)
+                .subscribe({}, {
+                    Logger.e(it, "Error Fetching Spotify User")
                     toastSubject.onNext("Error Fetching Spotify User")
                 }))
         viewState.spotifyLogin = true

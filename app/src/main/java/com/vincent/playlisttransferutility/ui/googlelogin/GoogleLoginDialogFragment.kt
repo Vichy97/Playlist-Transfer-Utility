@@ -26,13 +26,11 @@ class GoogleLoginDialogFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view: View = inflater.inflate(R.layout.fragment_google_login_dialog, container, false)
-
         val binding: FragmentGoogleLoginDialogBinding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_google_login_dialog, container, false)
         binding.viewModel = viewModel
 
-        return view
+        return binding.root
     }
 
 }

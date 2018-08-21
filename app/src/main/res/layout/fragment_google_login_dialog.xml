@@ -56,7 +56,6 @@
                 android:layout_height="match_parent"
                 android:afterTextChanged="@{(s) -> viewModel.onEmailChanged(s)}"
                 android:inputType="textEmailAddress"/>
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -79,7 +78,6 @@
                 android:layout_height="match_parent"
                 android:afterTextChanged="@{(s) -> viewModel.onPasswordChanged(s)}"
                 android:inputType="textPassword"/>
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -93,7 +91,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_password"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

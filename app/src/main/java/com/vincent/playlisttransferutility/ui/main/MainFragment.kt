@@ -34,14 +34,18 @@ class MainFragment : Fragment() {
 
     private lateinit var googleLoginDialog: GoogleLoginDialogFragment
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        navController = Navigation.findNavController(activity!!, R.id.nav_host)
+        googleLoginDialog = GoogleLoginDialogFragment()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val binding: FragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         binding.viewModel = viewModel
-
-        navController = Navigation.findNavController(activity!!, R.id.nav_host)
-        googleLoginDialog = GoogleLoginDialogFragment()
 
         return binding.root
     }
