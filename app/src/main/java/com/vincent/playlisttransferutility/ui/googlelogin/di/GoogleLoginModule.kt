@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.vincent.playlisttransferutility.R
+import com.vincent.playlisttransferutility.data.Repository
 import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginDialogFragment
 import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginModel
 import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginViewModel
@@ -17,8 +18,8 @@ class GoogleLoginModule(private val fragment: GoogleLoginDialogFragment) {
 
     @Provides
     @GoogleLoginScope
-    fun provideGoogleLoginModel(): GoogleLoginModel {
-        return GoogleLoginModel()
+    fun provideGoogleLoginModel(repository: Repository): GoogleLoginModel {
+        return GoogleLoginModel(repository)
     }
 
     @Provides

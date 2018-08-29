@@ -2,15 +2,13 @@ package com.vincent.playlisttransferutility.data.sources.preferences
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.vincent.playlisttransferutility.AppComponent
-import com.vincent.playlisttransferutility.ContextModule
 import com.vincent.playlisttransferutility.data.keystore.KeyStore
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.sources.DataSource
 
-class PreferencesDataSource(val sharedPreferences: SharedPreferences,
-                            val gson: Gson,
-                            val keystore: KeyStore) : DataSource {
+class PreferencesDataSource(private val sharedPreferences: SharedPreferences,
+                            private val gson: Gson,
+                            private val keystore: KeyStore) : DataSource {
 
     companion object {
         private const val SPOTIFY_AUTH_TOKEN_KEY: String = "spotify_auth_token_key"
@@ -26,7 +24,7 @@ class PreferencesDataSource(val sharedPreferences: SharedPreferences,
     }
 
     override fun getSpotifyAuthToken(): AuthToken? {
-        val encryptedString: String = sharedPreferences.getString(SPOTIFY_AUTH_TOKEN_KEY, "")
+        val encryptedString: String = sharedPreferences.getString(SPOTIFY_AUTH_TOKEN_KEY, "")!!
         if (encryptedString.isEmpty()) {
             return null
         }
@@ -42,7 +40,7 @@ class PreferencesDataSource(val sharedPreferences: SharedPreferences,
     }
 
     override fun getGooglePlayAuthToken(): AuthToken? {
-        val encryptedString: String = sharedPreferences.getString(GOOGLE_PLAY_AUTH_TOKEN_KEY, "")
+        val encryptedString: String = sharedPreferences.getString(GOOGLE_PLAY_AUTH_TOKEN_KEY, "")!!
         if (encryptedString.isEmpty()) {
             return null
         }

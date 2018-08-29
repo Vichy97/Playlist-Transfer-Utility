@@ -1,18 +1,11 @@
 package com.vincent.playlisttransferutility.ui.googlelogin
 
 import com.github.felixgail.gplaymusic.util.TokenProvider
-import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.Repository
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import io.reactivex.Completable
 
-class GoogleLoginModel {
-
-    private val repository: Repository
-
-    init {
-        repository = AppComponent.instance.repository
-    }
+class GoogleLoginModel(private val repository: Repository) {
 
     fun loginToGooglePlay(email: String, password: String): Completable {
         return Completable.create {

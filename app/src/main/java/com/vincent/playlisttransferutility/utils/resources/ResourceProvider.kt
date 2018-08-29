@@ -3,11 +3,8 @@ package com.vincent.playlisttransferutility.utils.resources
 import android.content.Context
 import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
-import com.vincent.playlisttransferutility.AppComponent
 
-class ResourceProvider {
-
-    private val context: Context = AppComponent.instance.context
+class ResourceProvider(private val context: Context) {
 
     fun getString(@StringRes id: Int): String {
         return context.resources.getString(id)

@@ -67,7 +67,7 @@ class PlaylistSelectionFragment : BaseFragment() {
     }
 
     private fun setupPlaylistSelectionList() {
-        playlistSelectionAdapter = PlaylistSelectionAdapter(viewModel, context!!)
+        playlistSelectionAdapter = PlaylistSelectionAdapter(viewModel, LayoutInflater.from(context!!))
         playlistSelectionList = rv_playlist_selection_list
         playlistSelectionList.layoutManager = LinearLayoutManager(context!!)
         playlistSelectionList.adapter = playlistSelectionAdapter

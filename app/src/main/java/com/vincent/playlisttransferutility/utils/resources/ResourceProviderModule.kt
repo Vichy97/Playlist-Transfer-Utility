@@ -1,5 +1,6 @@
 package com.vincent.playlisttransferutility.utils.resources
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -9,7 +10,7 @@ class ResourceProviderModule {
 
     @Provides
     @Singleton
-    fun provideResourceProvider(): ResourceProvider {
-        return ResourceProvider()
+    fun provideResourceProvider(context: Context): ResourceProvider {
+        return ResourceProvider(context)
     }
 }

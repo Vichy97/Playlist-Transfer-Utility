@@ -1,6 +1,5 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
-import android.content.Context
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -12,28 +11,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.BR
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.Playlist
-import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import kotlinx.android.synthetic.main.playlist_list_view_item.view.*
 
-class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
-                               context: Context) :
-        RecyclerView.Adapter<PlaylistSelectionAdapter.PlaylistSelectionViewHolder>() {
+class PlaylistSelectionAdapter(private val viewModel: PlaylistSelectionViewModel,
+                               private val layoutInflater: LayoutInflater)
+    : RecyclerView.Adapter<PlaylistSelectionAdapter.PlaylistSelectionViewHolder>() {
 
     private val playlists: ArrayList<Playlist> = ArrayList()
-    val context: Context
-    private val layoutInflater: LayoutInflater
-    private val viewModel: PlaylistSelectionViewModel
-
-    init {
-        this.viewModel = viewModel
-        this.context = context
-        this.playlists.addAll(playlists)
-        layoutInflater = LayoutInflater.from(context)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistSelectionViewHolder {
         val view = layoutInflater.inflate(R.layout.playlist_list_view_item, parent, false)
@@ -68,7 +55,6 @@ class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
         private val playlistTitleTextView: TextView
         private val playlistCountTextView: TextView
         private val checkBox: CheckBox
-        private val resourceProvider: ResourceProvider
 
         val viewBinding: ViewDataBinding?
 
@@ -78,7 +64,6 @@ class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
             playlistCountTextView = itemView.tv_playlist_count
             checkBox = itemView.cb_playlist_select
             viewBinding = DataBindingUtil.bind(itemView)
-            resourceProvider = AppComponent.instance.resourceProvider
         }
 
         //TODO: placeholder (or profile pic) for google play music
@@ -95,7 +80,7 @@ class PlaylistSelectionAdapter(viewModel: PlaylistSelectionViewModel,
         }
 
         fun setTitle(title: String) {
-            playlistTitleTextView.setText(title)
+            playlistTitleTextView.text = title
         }
 
         fun setPlaylistCount(count: Int) {
