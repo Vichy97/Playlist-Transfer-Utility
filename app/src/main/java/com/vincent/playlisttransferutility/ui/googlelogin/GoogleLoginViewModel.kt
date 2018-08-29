@@ -2,37 +2,32 @@ package com.vincent.playlisttransferutility.ui.googlelogin
 
 import android.text.Editable
 import androidx.lifecycle.ViewModel
-import com.vincent.playlisttransferutility.AppComponent
-import com.vincent.playlisttransferutility.ui.googlelogin.di.GoogleLoginModule
-import io.reactivex.disposables.CompositeDisposable
+import androidx.lifecycle.ViewModelProvider
+import com.vincent.playlisttransferutility.ui.base.BaseViewModel
+import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
+import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 
-class GoogleLoginViewModel : ViewModel() {
+class GoogleLoginViewModel(resourceProvider: ResourceProvider,
+                           schedulersProvider: SchedulersProvider,
+                           private val model: GoogleLoginModel) : BaseViewModel(resourceProvider, schedulersProvider) {
 
-    private val compositeDisposable: CompositeDisposable
+    class Factory(private val resourceProvider: ResourceProvider,
+                  private val schedulersProvider: SchedulersProvider,
+                  private val model: GoogleLoginModel) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return GoogleLoginViewModel(resourceProvider, schedulersProvider, model) as T
+        }
+    }
 
-    private val model: GoogleLoginModel
     private var email: String = ""
     private var password: String = ""
-
-    init {
-        compositeDisposable = CompositeDisposable()
-        model = AppComponent.instance
-                .newGoogleLoginComponent(GoogleLoginModule())
-                .googleLoginModel
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        compositeDisposable.clear()
-    }
 
     fun onSignInClicked() {
         model.loginToGooglePlay(email, password)
     }
 
     fun onEmailChanged(editable: Editable) {
-       email = editable.toString()
+        email = editable.toString()
     }
 
     fun onPasswordChanged(editable: Editable) {

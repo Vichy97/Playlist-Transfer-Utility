@@ -1,20 +1,25 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
-import com.vincent.playlisttransferutility.AppComponent
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.ui.base.BaseViewModel
-import com.vincent.playlisttransferutility.ui.playlistselection.di.PlaylistSelectionModule
+import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
+import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import io.reactivex.Observable
 
-class PlaylistSelectionViewModel : BaseViewModel() {
+class PlaylistSelectionViewModel(resourceProvider: ResourceProvider,
+                                 schedulersProvider: SchedulersProvider,
+                                 private val model: PlaylistSelectionModel)
+    : BaseViewModel(resourceProvider, schedulersProvider) {
 
-    private val model: PlaylistSelectionModel
-
-    init {
-        model = AppComponent.instance
-                .newPlaylistSelectionComponent(PlaylistSelectionModule())
-                .playlistSelectionModel
+    class Factory(private val resourceProvider: ResourceProvider,
+                  private val schedulersProvider: SchedulersProvider,
+                  private val model: PlaylistSelectionModel) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return PlaylistSelectionViewModel(resourceProvider, schedulersProvider, model) as T
+        }
     }
 
     override fun onCleared() {

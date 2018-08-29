@@ -1,6 +1,5 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
-import androidx.lifecycle.ViewModelProviders
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import androidx.appcompat.widget.AppCompatSpinner
@@ -11,21 +10,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import com.vincent.playlisttransferutility.PlaylistTransferApplication
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.databinding.FragmentPlaylistSelectionBinding
-import io.reactivex.disposables.CompositeDisposable
+import com.vincent.playlisttransferutility.ui.base.BaseFragment
+import com.vincent.playlisttransferutility.ui.playlistselection.di.PlaylistSelectionModule
 import kotlinx.android.synthetic.main.fragment_playlist_selection.*
+import javax.inject.Inject
 
-class PlaylistSelectionFragment : Fragment() {
+class PlaylistSelectionFragment : BaseFragment() {
 
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private lateinit var viewModel: PlaylistSelectionViewModel
-    private lateinit var navController: NavController
+    @Inject
+    lateinit var viewModel: PlaylistSelectionViewModel
 
     private lateinit var playlistSelectionAdapter: PlaylistSelectionAdapter
     private lateinit var playlistSelectionList: RecyclerView
@@ -33,10 +31,11 @@ class PlaylistSelectionFragment : Fragment() {
     private lateinit var musicServiceSelectorTwo: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (activity!!.application as PlaylistTransferApplication)
+                .getAppComponent()
+                .newPlaylistSelectionComponent(PlaylistSelectionModule(this))
+                .inject(this)
         super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this).get(PlaylistSelectionViewModel::class.java)
-        navController = Navigation.findNavController(activity!!, R.id.nav_host)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,19 +73,7 @@ class PlaylistSelectionFragment : Fragment() {
         playlistSelectionList.adapter = playlistSelectionAdapter
     }
 
-    override fun onPause() {
-        super.onPause()
-
-        compositeDisposable.clear()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        subscribeToViewModelEvents()
-    }
-
-    private fun subscribeToViewModelEvents() {
+    override fun subscribeToViewModelEvents() {
         compositeDisposable.add(viewModel.getPlaylistsEvents()
                 .subscribe(this::onPlaylistsReceived) {})
     }

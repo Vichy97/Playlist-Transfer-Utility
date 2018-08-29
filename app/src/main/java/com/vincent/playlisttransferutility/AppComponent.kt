@@ -34,10 +34,6 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
 
-    companion object {
-        lateinit var instance: AppComponent
-    }
-
     val gson: Gson
     val context: Context
     val repository: Repository

@@ -64,6 +64,7 @@ dependencies {
     implementation 'com.spotify.android:auth:1.0.0-alpha'
     implementation 'com.orhanobut:logger:2.2.0'
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     testImplementation 'junit:junit:4.12'

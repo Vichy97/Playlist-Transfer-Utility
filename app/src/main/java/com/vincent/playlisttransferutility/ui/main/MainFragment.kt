@@ -1,6 +1,5 @@
 package com.vincent.playlisttransferutility.ui.main
 
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
@@ -11,21 +10,26 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
+import com.squareup.haha.perflib.Main
+import com.vincent.playlisttransferutility.AppComponent
+import com.vincent.playlisttransferutility.PlaylistTransferApplication
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.FragmentMainBinding
+import com.vincent.playlisttransferutility.ui.base.BaseFragment
 import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginDialogFragment
+import com.vincent.playlisttransferutility.ui.main.di.MainModule
+import com.vincent.playlisttransferutility.ui.playlistselection.di.PlaylistSelectionModule
 import com.vincent.playlisttransferutility.utils.BooleanUtils
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_main.*
+import javax.inject.Inject
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment() {
 
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private lateinit var viewModel: MainViewModel
-    private lateinit var navController: NavController
+    @Inject
+    lateinit var viewModel: MainViewModel
 
     private lateinit var spotifyButton: Button
     private lateinit var googlePlayMusicButton: Button
@@ -35,10 +39,12 @@ class MainFragment : Fragment() {
     private lateinit var googleLoginDialog: GoogleLoginDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (activity!!.application as PlaylistTransferApplication)
+                .getAppComponent()
+                .newMainComponent(MainModule(this))
+                .inject(this)
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        navController = Navigation.findNavController(activity!!, R.id.nav_host)
         googleLoginDialog = GoogleLoginDialogFragment()
     }
 
@@ -65,19 +71,7 @@ class MainFragment : Fragment() {
         viewModel.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun onPause() {
-        super.onPause()
-
-        compositeDisposable.clear()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        subscribeToViewModelEvents()
-    }
-
-    private fun subscribeToViewModelEvents() {
+    override fun subscribeToViewModelEvents() {
         compositeDisposable.addAll(
                 viewModel.getToastEvents().subscribe(this::onToastMessageReceived),
                 viewModel.getNavigationEvents().subscribe(this::onNavigationEventReceived),

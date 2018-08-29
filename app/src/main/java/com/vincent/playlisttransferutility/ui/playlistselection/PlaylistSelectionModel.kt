@@ -1,6 +1,5 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
-import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.data.Repository
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
@@ -13,10 +12,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
-class PlaylistSelectionModel {
-
-    private val repository: Repository
-    private val spotifyApi: SpotifyApi
+class PlaylistSelectionModel(private val repository: Repository,
+                             private val spotifyApi: SpotifyApi) {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val playlistSubject: BehaviorSubject<List<Playlist>> = BehaviorSubject.create()
@@ -24,11 +21,6 @@ class PlaylistSelectionModel {
     private var transferFrom: MusicService = MusicService.GOOGLE_PLAY_MUSIC
     private var transferTo: MusicService = MusicService.SPOTIFY
     private var selectedPlaylistIds: MutableSet<String> = mutableSetOf()
-
-    init {
-        repository = AppComponent.instance.repository
-        spotifyApi = AppComponent.instance.spotifyApi
-    }
 
     fun onClear() {
         compositeDisposable.dispose()

@@ -1,11 +1,11 @@
 package com.vincent.playlisttransferutility.ui.playlistselection.di
 
-import com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionModel
+import com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionFragment
 import dagger.Subcomponent
 
 @Subcomponent(modules = [PlaylistSelectionModule::class])
 @PlaylistSelectionScope
 interface PlaylistSelectionComponent {
 
-    val playlistSelectionModel: PlaylistSelectionModel
+    fun inject(fragment: PlaylistSelectionFragment)
 }

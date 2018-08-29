@@ -6,22 +6,32 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import com.vincent.playlisttransferutility.PlaylistTransferApplication
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.FragmentGoogleLoginDialogBinding
+import com.vincent.playlisttransferutility.ui.googlelogin.di.GoogleLoginModule
+import javax.inject.Inject
 
 class GoogleLoginDialogFragment : DialogFragment() {
 
     companion object {
-        const val TAG: String = "GoogleLoginDialogFragment"
+        val TAG: String = GoogleLoginDialogFragment::class.java.simpleName
     }
 
-    private lateinit var viewModel: GoogleLoginViewModel
+    @Inject
+    lateinit var viewModel: GoogleLoginViewModel
+
+    @Inject
+    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(GoogleLoginViewModel::class.java)
+        (activity!!.application as PlaylistTransferApplication)
+                .getAppComponent()
+                .newGoogleLoginComponent(GoogleLoginModule(this))
+                .inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

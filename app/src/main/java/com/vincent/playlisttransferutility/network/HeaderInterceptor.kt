@@ -7,10 +7,6 @@ class HeaderInterceptor : Interceptor {
 
     private var accessToken: String? = null
 
-       init {
-        accessToken = ""
-    }
-
     fun setAccessToken(accessToken: String) {
         this.accessToken = accessToken
     }

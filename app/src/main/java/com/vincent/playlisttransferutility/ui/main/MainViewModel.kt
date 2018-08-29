@@ -1,30 +1,40 @@
 package com.vincent.playlisttransferutility.ui.main
 
 import android.content.Intent
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.orhanobut.logger.Logger
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
-import com.vincent.playlisttransferutility.AppComponent
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyAuthenticationRequestScope
 import com.vincent.playlisttransferutility.ui.base.BaseViewModel
-import com.vincent.playlisttransferutility.ui.main.di.MainModule
+import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
+import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-class MainViewModel : BaseViewModel() {
+class MainViewModel(resourceProvider: ResourceProvider,
+                    schedulersProvider: SchedulersProvider,
+                    private val model: MainModel) : BaseViewModel(resourceProvider, schedulersProvider) {
+
+    class Factory(private val resourceProvider: ResourceProvider,
+                  private val schedulersProvider: SchedulersProvider,
+                  private val model: MainModel) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return MainViewModel(resourceProvider, schedulersProvider, model) as T
+        }
+    }
 
     companion object {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
     }
-
-    private val mainModel: MainModel
 
     private val spotifyLoginRequestSubject: PublishSubject<AuthenticationRequest>
     private val googleLoginRequestSubject: PublishSubject<Boolean>
@@ -36,15 +46,14 @@ class MainViewModel : BaseViewModel() {
         spotifyLoginRequestSubject = PublishSubject.create()
         googleLoginRequestSubject = PublishSubject.create()
         viewStateSubject = BehaviorSubject.create()
-        mainModel = AppComponent.instance.newMainComponent(MainModule()).mainModel
 
         initViewState()
     }
 
     private fun initViewState() {
         compositeDisposable.add(Single.zip(
-                mainModel.getSpotifyAuthToken(),
-                mainModel.getGooglePlayAuthToken(),
+                model.getSpotifyAuthToken(),
+                model.getGooglePlayAuthToken(),
                 BiFunction { spotifyAuthToken: AuthToken,
                              googlePlayAuthToken: AuthToken ->
                     {
@@ -96,7 +105,7 @@ class MainViewModel : BaseViewModel() {
     }
 
     private fun onSpotifyTokenReceived(response: AuthenticationResponse) {
-        compositeDisposable.add(mainModel.saveSpotifyAuthToken(response)
+        compositeDisposable.add(model.saveSpotifyAuthToken(response)
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe({}, {

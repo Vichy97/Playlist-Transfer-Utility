@@ -8,23 +8,15 @@ import com.vincent.playlisttransferutility.data.keystore.KeyStore
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.sources.DataSource
 
-class PreferencesDataSource : DataSource {
+class PreferencesDataSource(val sharedPreferences: SharedPreferences,
+                            val gson: Gson,
+                            val keystore: KeyStore) : DataSource {
 
     companion object {
         private const val SPOTIFY_AUTH_TOKEN_KEY: String = "spotify_auth_token_key"
         private const val SPOTIFY_KEYSTORE_ALIAS: String = "spotify_keystore"
         private const val GOOGLE_PLAY_AUTH_TOKEN_KEY: String = "google_play_auth_token_key"
         private const val GOOGLE_PLAY_KEYSTORE_ALIAS: String = "google_play_keystore"
-    }
-
-    private val sharedPreferences: SharedPreferences
-    private val gson: Gson
-    private val keystore: KeyStore
-
-    init {
-        keystore = AppComponent.instance.keystore
-        sharedPreferences = AppComponent.instance.sharedPreferences
-        gson = AppComponent.instance.gson
     }
 
     override fun saveSpotifyAuthToken(authToken: AuthToken) {

@@ -1,11 +1,11 @@
 package com.vincent.playlisttransferutility.ui.main.di
 
-import com.vincent.playlisttransferutility.ui.main.MainModel
+import com.vincent.playlisttransferutility.ui.main.MainFragment
 import dagger.Subcomponent
 
 @Subcomponent(modules = [MainModule::class])
 @MainScope
 interface MainComponent {
 
-    val mainModel: MainModel
+    fun inject(mainFragment: MainFragment)
 }

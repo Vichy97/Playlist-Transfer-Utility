@@ -15,15 +15,21 @@ class PlaylistTransferApplication : Application() {
         var googlePlayMusicService: GPlayMusic? = null
     }
 
+    private lateinit var appComponent: AppComponent
+
     override fun onCreate() {
         super.onCreate()
 
-        AppComponent.instance = DaggerAppComponent.builder()
+        appComponent = DaggerAppComponent.builder()
                 .contextModule(ContextModule(this))
                 .build()
 
         setupLeakCanary()
         setupPrettyLogger()
+    }
+
+    fun getAppComponent(): AppComponent {
+        return appComponent
     }
 
     private fun setupLeakCanary() {
