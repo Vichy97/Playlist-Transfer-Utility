@@ -4,7 +4,7 @@ import com.vincent.playlisttransferutility.data.Repository
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
-import com.vincent.playlisttransferutility.network.api.SpotifyApi
+import com.vincent.playlisttransferutility.network.spotify.SpotifyApi
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -57,15 +57,7 @@ class PlaylistSelectionModel(private val repository: Repository,
     }
 
     private fun getPlaylistsFromGooglePlayMusic(): Single<List<Playlist>> {
-        return repository.getGooglePlayMusicPlaylists().map {
-            val playlists: ArrayList<Playlist> = ArrayList()
-
-            for (playlist: com.github.felixgail.gplaymusic.model.Playlist in it) {
-                playlists.add(Playlist.fromGooglePlayMusicPlaylist(playlist))
-            }
-
-            return@map playlists
-        }
+        return Single.error(Exception("Not Implemented"))
     }
 
     private fun getPlaylistsFromAppleMusic(): Single<List<Playlist>> {

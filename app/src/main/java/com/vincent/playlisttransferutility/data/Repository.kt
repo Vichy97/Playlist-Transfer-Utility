@@ -1,64 +1,37 @@
 package com.vincent.playlisttransferutility.data
 
-import com.github.felixgail.gplaymusic.api.GPlayMusic
-import com.github.felixgail.gplaymusic.model.Playlist
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.vincent.playlisttransferutility.PlaylistTransferApplication.Companion.googlePlayMusicService
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Track
 import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyPlaylistRequest
 import com.vincent.playlisttransferutility.data.models.spotify.response.*
 import com.vincent.playlisttransferutility.data.sources.DataSource
-import com.vincent.playlisttransferutility.network.HeaderInterceptor
-import com.vincent.playlisttransferutility.network.api.SpotifyApi
-import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
+import com.vincent.playlisttransferutility.network.spotify.SpotifyHeaderInterceptor
+import com.vincent.playlisttransferutility.network.spotify.SpotifyApi
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.lang.Exception
 
-class Repository(private val schedulersProvider: SchedulersProvider,
-                 private val dataSource: DataSource,
+class Repository(private val dataSource: DataSource,
                  private val spotifyApi: SpotifyApi,
-                 private val spotifyHeaderInterceptor: HeaderInterceptor,
-                 private val gson: Gson) {
+                 private val spotifySpotifyHeaderInterceptor: SpotifyHeaderInterceptor) {
 
     private var spotifyAuthToken: AuthToken?
-    private var googlePlayAuthToken: AuthToken? //TODO: non-nullable
+    private var googlePlayAuthToken: AuthToken?
 
-    //TODO: make cache class
-    private var spotifyPlaylists: MutableList<SpotifyPlaylist> = mutableListOf()
-    private var googlePlayMusicPlaylists: MutableList<Playlist> = mutableListOf()
     private var spotifyUser: SpotifyUser? = null
 
     init {
-        googlePlayAuthToken = dataSource.getGooglePlayAuthToken()
-        if (googlePlayAuthToken == null) {
-            googlePlayAuthToken = AuthToken("", MusicService.GOOGLE_PLAY_MUSIC, -1)
-        } else {
-            initGooglePlayService(googlePlayAuthToken!!)
-                    .subscribeOn(schedulersProvider.io())
-                    .subscribe()
-        }
         spotifyAuthToken = AuthToken("", MusicService.SPOTIFY, -1)
+        googlePlayAuthToken = AuthToken("", MusicService.GOOGLE_PLAY_MUSIC, -1)
     }
 
-    private fun initGooglePlayService(googlePlayAuthToken: AuthToken): Completable {
-        return Completable.create {
-            googlePlayMusicService = GPlayMusic.Builder()
-                    .setAuthToken(svarzee.gps.gpsoauth.AuthToken(googlePlayAuthToken.accessToken, -1))
-                    .setAndroidID("35803508140637")
-                    .build()
-            it.onComplete()
-        }
-    }
 
     //region Auth Tokens
     fun setSpotifyAuthToken(authToken: AuthToken): Completable {
         spotifyAuthToken = authToken
-        spotifyHeaderInterceptor.setAccessToken(authToken.accessToken)
+        spotifySpotifyHeaderInterceptor.setAccessToken(authToken.accessToken)
         dataSource.saveSpotifyAuthToken(authToken)
 
         return Completable.fromSingle<SpotifyUser>(spotifyApi.getCurrentUser().doOnSuccess {
@@ -72,13 +45,6 @@ class Repository(private val schedulersProvider: SchedulersProvider,
 
     fun setGooglePlayAuthToken(authToken: AuthToken) {
         googlePlayAuthToken = authToken
-        if (googlePlayMusicService != null) {
-            googlePlayMusicService!!.changeToken(svarzee.gps.gpsoauth.AuthToken(authToken.accessToken))
-        } else {
-            initGooglePlayService(authToken)
-                    .subscribeOn(schedulersProvider.io())
-                    .subscribe()
-        }
         dataSource.saveGooglePlayAuthToken(authToken)
     }
 
@@ -93,31 +59,10 @@ class Repository(private val schedulersProvider: SchedulersProvider,
             return Single.error(Exception("Invalid Auth Token"))
         }
 
-        if (spotifyPlaylists.isNotEmpty()) {
-            return Single.just(spotifyPlaylists)
-        }
-
         return spotifyApi.getAllPlaylists(null, null)
                 .map {
-                    spotifyPlaylists = it.items.toMutableList()
-                    return@map spotifyPlaylists
+                    return@map it.items.toMutableList()
                 }
-    }
-
-    fun getGooglePlayMusicPlaylists(): Single<List<Playlist>> {
-        if (googlePlayAuthToken == null || googlePlayMusicService == null) {
-            return Single.error(Exception("Invalid Auth Token"))
-        }
-
-        if (googlePlayMusicPlaylists.isNotEmpty()) {
-            return Single.just(googlePlayMusicPlaylists)
-        }
-
-        return Single.fromCallable {
-            val jsonString: String = gson.toJson(googlePlayMusicService!!.playlistApi.listPlaylists())
-            googlePlayMusicPlaylists = gson.fromJson(jsonString, object : TypeToken<List<Playlist>>() {}.type)
-            return@fromCallable googlePlayMusicPlaylists
-        }
     }
 
     fun createSpotifyPlaylist(name: String): Completable {
@@ -126,10 +71,7 @@ class Repository(private val schedulersProvider: SchedulersProvider,
         }
 
         val playlistRequest: SpotifyPlaylistRequest = SpotifyPlaylistRequest(name, null, null, null)
-        return Completable.fromSingle(spotifyApi.createPlaylist(spotifyUser!!.id, playlistRequest)
-                .doOnSuccess {
-                    spotifyPlaylists.add(it)
-                })
+        return Completable.fromSingle(spotifyApi.createPlaylist(spotifyUser!!.id, playlistRequest))
     }
 
     fun addTracksToSpotifyPlaylist(playlistId: String, tracks: List<SpotifyTrack>): Completable {

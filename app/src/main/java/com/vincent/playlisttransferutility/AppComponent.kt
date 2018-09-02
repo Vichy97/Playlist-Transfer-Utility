@@ -11,10 +11,13 @@ import com.vincent.playlisttransferutility.data.keystore.KeystoreModule
 import com.vincent.playlisttransferutility.data.sources.DataSourceModule
 import com.vincent.playlisttransferutility.data.sources.preferences.PreferencesDataSource
 import com.vincent.playlisttransferutility.data.sources.preferences.SharedPreferencesModule
-import com.vincent.playlisttransferutility.network.HeaderInterceptor
-import com.vincent.playlisttransferutility.network.OkHttpClientModule
-import com.vincent.playlisttransferutility.network.api.NetworkModule
-import com.vincent.playlisttransferutility.network.api.SpotifyApi
+import com.vincent.playlisttransferutility.network.BaseNetworkModule
+import com.vincent.playlisttransferutility.network.googleplaymusic.GooglePlayMusicApi
+import com.vincent.playlisttransferutility.network.googleplaymusic.GooglePlayMusicHeaderInterceptor
+import com.vincent.playlisttransferutility.network.googleplaymusic.GooglePlayNetworkModule
+import com.vincent.playlisttransferutility.network.spotify.SpotifyHeaderInterceptor
+import com.vincent.playlisttransferutility.network.spotify.SpotifyNetworkModule
+import com.vincent.playlisttransferutility.network.spotify.SpotifyApi
 import com.vincent.playlisttransferutility.ui.googlelogin.di.GoogleLoginComponent
 import com.vincent.playlisttransferutility.ui.googlelogin.di.GoogleLoginModule
 import com.vincent.playlisttransferutility.ui.main.di.MainComponent
@@ -28,9 +31,17 @@ import com.vincent.playlisttransferutility.utils.rx.SchedulersProviderModule
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = [GsonModule::class, NetworkModule::class, ResourceProviderModule::class,
-    SchedulersProviderModule::class, RepositoryModule::class, ContextModule::class, DataSourceModule::class,
-    OkHttpClientModule::class, SharedPreferencesModule::class, KeystoreModule::class])
+@Component(modules = [GsonModule::class,
+    BaseNetworkModule::class,
+    GooglePlayNetworkModule::class,
+    SpotifyNetworkModule::class,
+    ResourceProviderModule::class,
+    SchedulersProviderModule::class,
+    RepositoryModule::class,
+    ContextModule::class,
+    DataSourceModule::class,
+    SharedPreferencesModule::class,
+    KeystoreModule::class])
 @Singleton
 interface AppComponent {
 
@@ -40,7 +51,9 @@ interface AppComponent {
     val resourceProvider: ResourceProvider
     val schedulersProvider: SchedulersProvider
     val spotifyApi: SpotifyApi
-    val spotifyHeaderInterceptor: HeaderInterceptor
+    val spotifySpotifyHeaderInterceptor: SpotifyHeaderInterceptor
+    val googlePlayMusicApi: GooglePlayMusicApi
+    val googlePlayMusicHeaderInterceptor: GooglePlayMusicHeaderInterceptor
     val preferencesDataSource: PreferencesDataSource
     val sharedPreferences: SharedPreferences
     val keystore: KeyStore

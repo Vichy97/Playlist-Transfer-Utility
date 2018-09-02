@@ -1,7 +1,6 @@
 package com.vincent.playlisttransferutility
 
 import android.app.Application
-import com.github.felixgail.gplaymusic.api.GPlayMusic
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.FormatStrategy
 import com.orhanobut.logger.Logger
@@ -9,11 +8,6 @@ import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
 
 class PlaylistTransferApplication : Application() {
-
-    companion object {
-        //TODO: find a way to inject this...
-        var googlePlayMusicService: GPlayMusic? = null
-    }
 
     private lateinit var appComponent: AppComponent
 

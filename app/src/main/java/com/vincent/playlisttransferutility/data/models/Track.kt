@@ -13,11 +13,5 @@ data class Track(val id: String,
                     spotifyTrack.name,
                     spotifyTrack.artists[0].name)
         }
-
-        fun googlePlayMusicTrack(googlePlayMusicTrack: com.github.felixgail.gplaymusic.model.Track): Track {
-            return Track(googlePlayMusicTrack.id,
-                    googlePlayMusicTrack.title,
-                    googlePlayMusicTrack.artist)
-        }
     }
 }

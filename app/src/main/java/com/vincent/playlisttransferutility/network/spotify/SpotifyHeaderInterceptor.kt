@@ -1,9 +1,9 @@
-package com.vincent.playlisttransferutility.network
+package com.vincent.playlisttransferutility.network.spotify
 
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class HeaderInterceptor : Interceptor {
+class SpotifyHeaderInterceptor : Interceptor {
 
     private var accessToken: String? = null
 
@@ -15,7 +15,6 @@ class HeaderInterceptor : Interceptor {
         val original = chain!!.request()
         val requestBuilder = original.newBuilder()
                 .addHeader("Accept", "application/json")
-                .addHeader("Accept", "text/plain")
                 .method(original.method(), original.body())
 
         if (accessToken != null) {

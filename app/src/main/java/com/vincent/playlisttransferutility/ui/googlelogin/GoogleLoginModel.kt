@@ -1,18 +1,33 @@
 package com.vincent.playlisttransferutility.ui.googlelogin
 
-import com.github.felixgail.gplaymusic.util.TokenProvider
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.telephony.TelephonyManager
+import androidx.core.content.ContextCompat
 import com.vincent.playlisttransferutility.data.Repository
-import com.vincent.playlisttransferutility.data.models.AuthToken
+import com.vincent.playlisttransferutility.network.googleplaymusic.GooglePlayMusicApi
 import io.reactivex.Completable
+import svarzee.gps.gpsoauth.Gpsoauth
 
-class GoogleLoginModel(private val repository: Repository) {
+class GoogleLoginModel(private val context: Context,
+                       private val repository: Repository,
+                       private val gpsoauth: Gpsoauth,
+                       private val telephonyManager: TelephonyManager,
+                       private val googlePlayMusicApi: GooglePlayMusicApi) {
 
+    @SuppressLint("HardwareIds")
     fun loginToGooglePlay(email: String, password: String): Completable {
         return Completable.create {
-            val authToken: AuthToken = AuthToken.fromGooglePlayAuthToken(TokenProvider
-                    .provideToken(email, password, ""))
-            repository.setGooglePlayAuthToken(authToken)
-            it.onComplete()
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                return@create it.onError(Exception("Access to EMEI required for authentication"))
+            }
+
+            val emei: String = telephonyManager.deviceId
+            val authToken: svarzee.gps.gpsoauth.AuthToken = gpsoauth.login(email, password, emei, "sj",
+                    "com.google.android.music", "AIzaSyARTC1h-_puqO0PHCHUoj1BTDjuAOxNVA8")
         }
     }
 }

@@ -18,18 +18,5 @@ data class Playlist(val id: String,
                     spotifyPlaylist.tracks.total,
                     MusicService.SPOTIFY)
         }
-
-        fun fromGooglePlayMusicPlaylist(playlist: com.github.felixgail.gplaymusic.model.Playlist): Playlist {
-            var coverArtUrl: String? = null
-            if (playlist.artRef != null) {
-                coverArtUrl = playlist.artRef[0].url
-            }
-
-            return Playlist(playlist.id,
-                    playlist.name,
-                    coverArtUrl,
-                    -1,
-                    MusicService.GOOGLE_PLAY_MUSIC)
-        }
     }
 }

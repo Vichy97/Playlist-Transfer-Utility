@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.network.api
+package com.vincent.playlisttransferutility.network.spotify
 
 import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyPlaylistRequest
 import com.vincent.playlisttransferutility.data.models.spotify.response.*
