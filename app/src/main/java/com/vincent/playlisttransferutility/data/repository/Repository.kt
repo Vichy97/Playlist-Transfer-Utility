@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.data
+package com.vincent.playlisttransferutility.data.repository
 
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.MusicService
@@ -17,48 +17,32 @@ class Repository(private val dataSource: DataSource,
                  private val spotifyApi: SpotifyApi,
                  private val spotifySpotifyHeaderInterceptor: SpotifyHeaderInterceptor) {
 
-    private var spotifyAuthToken: AuthToken?
-    private var googlePlayAuthToken: AuthToken?
-
+    private var spotifyAuthToken: AuthToken
     private var spotifyUser: SpotifyUser? = null
 
     init {
         spotifyAuthToken = AuthToken("", MusicService.SPOTIFY, -1)
-        googlePlayAuthToken = AuthToken("", MusicService.GOOGLE_PLAY_MUSIC, -1)
     }
-
 
     //region Auth Tokens
     fun setSpotifyAuthToken(authToken: AuthToken): Completable {
         spotifyAuthToken = authToken
         spotifySpotifyHeaderInterceptor.setAccessToken(authToken.accessToken)
-        dataSource.saveSpotifyAuthToken(authToken)
 
-        return Completable.fromSingle<SpotifyUser>(spotifyApi.getCurrentUser().doOnSuccess {
-            spotifyUser = it
-        })
+        return Completable.fromSingle<SpotifyUser>(spotifyApi
+                .getCurrentUser()
+                .doOnSuccess {
+                    spotifyUser = it
+                })
     }
 
     fun getSpotifyAuthToken(): Single<AuthToken> {
         return Single.just(spotifyAuthToken)
     }
-
-    fun setGooglePlayAuthToken(authToken: AuthToken) {
-        googlePlayAuthToken = authToken
-        dataSource.saveGooglePlayAuthToken(authToken)
-    }
-
-    fun getGooglePlayAuthToken(): Single<AuthToken> {
-        return Single.just(googlePlayAuthToken)
-    }
     //endregion Auth Tokens
 
     //region Playlists
     fun getSpotifyPlaylists(): Single<List<SpotifyPlaylist>> {
-        if (spotifyAuthToken == null || spotifyAuthToken!!.accessToken.isEmpty()) {
-            return Single.error(Exception("Invalid Auth Token"))
-        }
-
         return spotifyApi.getAllPlaylists(null, null)
                 .map {
                     return@map it.items.toMutableList()
@@ -71,8 +55,7 @@ class Repository(private val dataSource: DataSource,
         }
 
         val playlistRequest: SpotifyPlaylistRequest = SpotifyPlaylistRequest(name, null, null, null)
-        return Completable.fromSingle(spotifyApi.createPlaylist(spotifyUser!!.id, playlistRequest))
-    }
+        return Completable.fromSingle(spotifyApi.createPlaylist(spotifyUser!!.id, playlistRequest))}
 
     fun addTracksToSpotifyPlaylist(playlistId: String, tracks: List<SpotifyTrack>): Completable {
         if (spotifyUser == null) {
@@ -89,23 +72,20 @@ class Repository(private val dataSource: DataSource,
 
     //region Tracks
     fun getSpotifyTracks(playlistId: String): Single<List<SpotifyTrack>> {
-        if (spotifyAuthToken == null || spotifyAuthToken!!.accessToken.isEmpty()) {
-            return Single.error(Exception("Invalid Auth Token"))
-        }
-
         if (spotifyUser == null) {
             return Single.error(Exception("Spotify User Not Found"))
         }
 
-        return spotifyApi.getTracksForPlaylist(spotifyUser!!.id, playlistId, 200).map {
-            val tracks: MutableList<SpotifyTrack> = mutableListOf()
+        return spotifyApi.getTracksForPlaylist(spotifyUser!!.id, playlistId, 200)
+                .map {
+                    val tracks: MutableList<SpotifyTrack> = mutableListOf()
 
-            for (playlistTrack: SpotifyPlaylistTrack in it.tracks.items) {
-                tracks.add(playlistTrack.track)
-            }
+                    for (playlistTrack: SpotifyPlaylistTrack in it.tracks.items) {
+                        tracks.add(playlistTrack.track)
+                    }
 
-            return@map tracks
-        }
+                    return@map tracks
+                }
     }
 
     fun searchSpotifyTracks(tracks: List<Track>): Observable<SpotifyPagingObject<SpotifyTrack>> {

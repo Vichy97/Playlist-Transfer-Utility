@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.telephony.TelephonyManager
 import androidx.core.content.ContextCompat
-import com.vincent.playlisttransferutility.data.Repository
+import com.vincent.playlisttransferutility.data.repository.Repository
 import com.vincent.playlisttransferutility.network.googleplaymusic.GooglePlayMusicApi
 import io.reactivex.Completable
 import svarzee.gps.gpsoauth.Gpsoauth

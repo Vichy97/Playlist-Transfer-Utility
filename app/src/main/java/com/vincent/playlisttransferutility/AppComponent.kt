@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.vincent.playlisttransferutility.data.GsonModule
-import com.vincent.playlisttransferutility.data.Repository
+import com.vincent.playlisttransferutility.data.repository.Repository
 import com.vincent.playlisttransferutility.data.RepositoryModule
 import com.vincent.playlisttransferutility.data.keystore.KeyStore
 import com.vincent.playlisttransferutility.data.keystore.KeystoreModule

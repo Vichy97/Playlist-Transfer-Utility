@@ -1,6 +1,6 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
-import com.vincent.playlisttransferutility.data.Repository
+import com.vincent.playlisttransferutility.data.repository.Repository
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist

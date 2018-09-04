@@ -9,14 +9,11 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
-import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyAuthenticationRequestScope
 import com.vincent.playlisttransferutility.ui.base.BaseViewModel
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
@@ -51,24 +48,24 @@ class MainViewModel(resourceProvider: ResourceProvider,
     }
 
     private fun initViewState() {
-        compositeDisposable.add(Single.zip(
-                model.getSpotifyAuthToken(),
-                model.getGooglePlayAuthToken(),
-                BiFunction { spotifyAuthToken: AuthToken,
-                             googlePlayAuthToken: AuthToken ->
-                    {
-                        MainViewState(spotifyAuthToken.accessToken.isNotEmpty(),
-                                googlePlayAuthToken.accessToken.isNotEmpty())
-                    }
-                })
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe({
-                    viewState = it.invoke()
-                    viewStateSubject.onNext(viewState)
-                }, {
-                    Logger.e(it, "Error subscribing to Model Events")
-                }))
+//        compositeDisposable.add(Single.zip(
+//                model.getSpotifyAuthToken(),
+//                model.getGooglePlayAuthToken(),
+//                BiFunction { spotifyAuthToken: AuthToken,
+//                             googlePlayAuthToken: AuthToken ->
+//                    {
+//                        MainViewState(spotifyAuthToken.accessToken.isNotEmpty(),
+//                                googlePlayAuthToken.accessToken.isNotEmpty())
+//                    }
+//                })
+//                .subscribeOn(schedulersProvider.io())
+//                .observeOn(schedulersProvider.ui())
+//                .subscribe({
+//                    viewState = it.invoke()
+//                    viewStateSubject.onNext(viewState)
+//                }, {
+//                    Logger.e(it, "Error subscribing to Model Events")
+//                }))
     }
 
     //region Events

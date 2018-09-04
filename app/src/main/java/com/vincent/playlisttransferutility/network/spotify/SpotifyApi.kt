@@ -18,7 +18,7 @@ interface SpotifyApi {
     @POST("/v1/users/{userId}/playlists/{playlistId}/tracks")
     fun addTracksToPlaylist(@Path("userId") userId: String,
                             @Path("playlistId") playlistId: String,
-                            @Body trackUris: List<String>): Single<Response<ResponseBody>>
+                            @Body trackUris: List<String>): Single<SpotifyPlaylist>
 
     @POST("/v1/users/{userId}/playlists")
     fun createPlaylist(@Path("userId") userId: String,

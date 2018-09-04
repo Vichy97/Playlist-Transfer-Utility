@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.vincent.playlisttransferutility.R
-import com.vincent.playlisttransferutility.data.Repository
+import com.vincent.playlisttransferutility.data.repository.Repository
 import com.vincent.playlisttransferutility.ui.main.MainFragment
 import com.vincent.playlisttransferutility.ui.main.MainModel
 import com.vincent.playlisttransferutility.ui.main.MainViewModel

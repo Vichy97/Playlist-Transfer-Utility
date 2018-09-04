@@ -3,11 +3,11 @@ package com.vincent.playlisttransferutility.network.spotify
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class SpotifyHeaderInterceptor : Interceptor {
+open class SpotifyHeaderInterceptor : Interceptor {
 
     private var accessToken: String? = null
 
-    fun setAccessToken(accessToken: String) {
+    open fun setAccessToken(accessToken: String) {
         this.accessToken = accessToken
     }
 
