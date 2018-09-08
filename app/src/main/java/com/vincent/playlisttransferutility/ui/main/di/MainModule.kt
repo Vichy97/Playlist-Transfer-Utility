@@ -1,44 +1,32 @@
 package com.vincent.playlisttransferutility.ui.main.di
 
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import com.vincent.playlisttransferutility.R
-import com.vincent.playlisttransferutility.data.repository.Repository
-import com.vincent.playlisttransferutility.ui.main.MainFragment
+import androidx.lifecycle.ViewModel
+import com.vincent.playlisttransferutility.data.spotify.SpotifyRepository
+import com.vincent.playlisttransferutility.di.ViewModelKey
 import com.vincent.playlisttransferutility.ui.main.MainModel
 import com.vincent.playlisttransferutility.ui.main.MainViewModel
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
 
 @Module
-class MainModule(private val fragment: MainFragment) {
+class MainModule {
 
     @Provides
-    @MainScope
-    fun provideMainModel(repository: Repository): MainModel {
-        return MainModel(repository)
+    //@MainScope
+    fun provideMainModel(spotifyRepository: SpotifyRepository): MainModel {
+        return MainModel(spotifyRepository)
     }
 
     @Provides
-    @MainScope
-    fun provideMainViewModelFactory(resourceProvider: ResourceProvider,
-                                    schedulersProvider: SchedulersProvider,
-                                    model: MainModel): MainViewModel.Factory {
-        return MainViewModel.Factory(resourceProvider, schedulersProvider, model)
-    }
-
-    @Provides
-    @MainScope
-    fun provideMainViewModel(factory: MainViewModel.Factory): MainViewModel {
-        return ViewModelProviders.of(fragment, factory)[MainViewModel::class.java]
-    }
-
-    @Provides
-    @MainScope
-    fun provideNavController(): NavController {
-        return Navigation.findNavController(fragment.activity!!, R.id.nav_host)
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    //@MainScope
+    fun provideMainViewModel(resourceProvider: ResourceProvider,
+                             schedulersProvider: SchedulersProvider,
+                             model: MainModel): ViewModel {
+        return MainViewModel(resourceProvider, schedulersProvider, model)
     }
 }

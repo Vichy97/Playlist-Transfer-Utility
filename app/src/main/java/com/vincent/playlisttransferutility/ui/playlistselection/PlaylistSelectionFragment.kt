@@ -1,5 +1,6 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
+import android.content.Context
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import androidx.appcompat.widget.AppCompatSpinner
@@ -10,19 +11,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import com.vincent.playlisttransferutility.PlaylistTransferApplication
+import androidx.lifecycle.ViewModelProviders
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.databinding.FragmentPlaylistSelectionBinding
 import com.vincent.playlisttransferutility.ui.base.BaseFragment
-import com.vincent.playlisttransferutility.ui.playlistselection.di.PlaylistSelectionModule
+import com.vincent.playlisttransferutility.ui.base.ViewModelFactory
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_playlist_selection.*
 import javax.inject.Inject
 
 class PlaylistSelectionFragment : BaseFragment() {
 
     @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     lateinit var viewModel: PlaylistSelectionViewModel
 
     private lateinit var playlistSelectionAdapter: PlaylistSelectionAdapter
@@ -30,15 +33,20 @@ class PlaylistSelectionFragment : BaseFragment() {
     private lateinit var musicServiceSelectorOne: AppCompatSpinner
     private lateinit var musicServiceSelectorTwo: Spinner
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        (activity!!.application as PlaylistTransferApplication)
-                .getAppComponent()
-                .newPlaylistSelectionComponent(PlaylistSelectionModule(this))
-                .inject(this)
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[PlaylistSelectionViewModel::class.java]
+    }
+
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val binding: FragmentPlaylistSelectionBinding = DataBindingUtil
                 .inflate(inflater, R.layout.fragment_playlist_selection, container, false)
@@ -47,7 +55,8 @@ class PlaylistSelectionFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View,
+                               savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupPlaylistSelectionList()

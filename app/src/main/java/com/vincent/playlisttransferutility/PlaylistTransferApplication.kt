@@ -1,29 +1,37 @@
 package com.vincent.playlisttransferutility
 
+import android.app.Activity
 import android.app.Application
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.FormatStrategy
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
+import com.vincent.playlisttransferutility.di.ContextModule
+import dagger.android.AndroidInjector
+import dagger.android.HasActivityInjector
+import dagger.android.DispatchingAndroidInjector
+import javax.inject.Inject
 
-class PlaylistTransferApplication : Application() {
+class PlaylistTransferApplication : Application(), HasActivityInjector {
 
-    private lateinit var appComponent: AppComponent
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
     override fun onCreate() {
         super.onCreate()
 
-        appComponent = DaggerAppComponent.builder()
-                .contextModule(ContextModule(this))
-                .build()
+//        DaggerAppComponent.builder()
+//                .application(this)
+//                .build()
+//                .inject(this)
 
         setupLeakCanary()
         setupPrettyLogger()
     }
 
-    fun getAppComponent(): AppComponent {
-        return appComponent
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return dispatchingAndroidInjector
     }
 
     private fun setupLeakCanary() {

@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.data.models.spotify.request
+package com.vincent.playlisttransferutility.data.spotify.models.request
 
 import com.google.gson.annotations.SerializedName
 

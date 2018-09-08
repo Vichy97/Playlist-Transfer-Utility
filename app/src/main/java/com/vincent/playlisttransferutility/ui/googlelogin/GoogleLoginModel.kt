@@ -6,16 +6,12 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.telephony.TelephonyManager
 import androidx.core.content.ContextCompat
-import com.vincent.playlisttransferutility.data.repository.Repository
-import com.vincent.playlisttransferutility.network.googleplaymusic.GooglePlayMusicApi
 import io.reactivex.Completable
 import svarzee.gps.gpsoauth.Gpsoauth
 
 class GoogleLoginModel(private val context: Context,
-                       private val repository: Repository,
                        private val gpsoauth: Gpsoauth,
-                       private val telephonyManager: TelephonyManager,
-                       private val googlePlayMusicApi: GooglePlayMusicApi) {
+                       private val telephonyManager: TelephonyManager) {
 
     @SuppressLint("HardwareIds")
     fun loginToGooglePlay(email: String, password: String): Completable {

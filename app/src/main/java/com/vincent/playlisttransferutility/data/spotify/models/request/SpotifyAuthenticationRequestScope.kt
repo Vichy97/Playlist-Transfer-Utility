@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.data.models.spotify.request
+package com.vincent.playlisttransferutility.data.spotify.models.request
 
 enum class SpotifyAuthenticationRequestScope(private val stringValue: String) {
     MODIFY_PLAYLIST_PRIVATE("playlist-modify-private"),

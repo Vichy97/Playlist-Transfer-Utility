@@ -1,5 +1,6 @@
 package com.vincent.playlisttransferutility.ui.googlelogin
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,22 +10,24 @@ import android.widget.Toast.LENGTH_SHORT
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import com.vincent.playlisttransferutility.PlaylistTransferApplication
+import androidx.lifecycle.ViewModelProviders
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.FragmentGoogleLoginDialogBinding
-import com.vincent.playlisttransferutility.ui.googlelogin.di.GoogleLoginModule
+import com.vincent.playlisttransferutility.ui.base.ViewModelFactory
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
+import dagger.android.support.AndroidSupportInjection
 
 class GoogleLoginDialogFragment : DialogFragment() {
 
     companion object {
         val TAG: String = GoogleLoginDialogFragment::class.java.simpleName
-        val REQUEST_CODE: Int = 125;
+        const val REQUEST_CODE: Int = 125
     }
 
     @Inject
-    lateinit var viewModel: GoogleLoginViewModel
+    lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel: GoogleLoginViewModel
 
     private val compositeDisposable: CompositeDisposable
 
@@ -32,13 +35,15 @@ class GoogleLoginDialogFragment : DialogFragment() {
         compositeDisposable = CompositeDisposable()
     }
 
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (activity!!.application as PlaylistTransferApplication)
-                .getAppComponent()
-                .newGoogleLoginComponent(GoogleLoginModule(this))
-                .inject(this)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[GoogleLoginViewModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

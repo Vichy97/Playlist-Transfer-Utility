@@ -1,10 +1,11 @@
 package com.vincent.playlisttransferutility.network.spotify
 
-import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyPlaylistRequest
-import com.vincent.playlisttransferutility.data.models.spotify.response.*
+import com.vincent.playlisttransferutility.data.spotify.models.request.SpotifyPlaylistRequest
+import com.vincent.playlisttransferutility.data.spotify.models.response.SpotifyPagingObject
+import com.vincent.playlisttransferutility.data.spotify.models.response.SpotifyPlaylist
+import com.vincent.playlisttransferutility.data.spotify.models.response.SpotifyTrack
+import com.vincent.playlisttransferutility.data.spotify.models.response.SpotifyUser
 import io.reactivex.Single
-import okhttp3.ResponseBody
-import retrofit2.Response
 import retrofit2.http.*
 
 interface SpotifyApi {

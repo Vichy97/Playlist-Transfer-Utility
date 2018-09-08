@@ -1,26 +1,22 @@
-package com.vincent.playlisttransferutility.data.repository
+package com.vincent.playlisttransferutility.data.spotify
 
+import com.vincent.playlisttransferutility.BaseTest
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.MusicService
-import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyPlaylistRequest
-import com.vincent.playlisttransferutility.data.models.spotify.response.*
+import com.vincent.playlisttransferutility.data.spotify.models.request.SpotifyPlaylistRequest
 import com.vincent.playlisttransferutility.data.sources.DataSource
+import com.vincent.playlisttransferutility.data.spotify.models.response.*
 import com.vincent.playlisttransferutility.network.spotify.SpotifyApi
 import com.vincent.playlisttransferutility.network.spotify.SpotifyHeaderInterceptor
 import io.reactivex.Single
-import okhttp3.ResponseBody
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
-import org.mockito.Mockito.validateMockitoUsage
-import retrofit2.Response
 
-open class RepositoryTest {
+open class SpotifyRepositoryTest : BaseTest() {
 
     @Mock
     private lateinit var dataSource: DataSource
@@ -29,24 +25,13 @@ open class RepositoryTest {
     @Mock
     private lateinit var spotifyHeaderInterceptor: SpotifyHeaderInterceptor
 
-    private lateinit var testRepository: Repository
-
-    private fun <T> any(): T {
-        Mockito.any<T>()
-        return uninitialized()
-    }
-    private fun <T> uninitialized(): T = null as T
+    private lateinit var testRepository: SpotifyRepository
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
 
-        testRepository = Repository(dataSource, spotifyApi, spotifyHeaderInterceptor)
-    }
-
-    @After
-    fun validate() {
-        validateMockitoUsage()
+        testRepository = SpotifyRepository(dataSource, spotifyApi, spotifyHeaderInterceptor)
     }
 
     @Test

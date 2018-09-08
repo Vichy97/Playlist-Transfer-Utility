@@ -1,11 +1,11 @@
-package com.vincent.playlisttransferutility.data.repository
+package com.vincent.playlisttransferutility.data.spotify
 
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Track
-import com.vincent.playlisttransferutility.data.models.spotify.request.SpotifyPlaylistRequest
-import com.vincent.playlisttransferutility.data.models.spotify.response.*
+import com.vincent.playlisttransferutility.data.spotify.models.request.SpotifyPlaylistRequest
 import com.vincent.playlisttransferutility.data.sources.DataSource
+import com.vincent.playlisttransferutility.data.spotify.models.response.*
 import com.vincent.playlisttransferutility.network.spotify.SpotifyHeaderInterceptor
 import com.vincent.playlisttransferutility.network.spotify.SpotifyApi
 import io.reactivex.Completable
@@ -13,9 +13,9 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import java.lang.Exception
 
-class Repository(private val dataSource: DataSource,
-                 private val spotifyApi: SpotifyApi,
-                 private val spotifySpotifyHeaderInterceptor: SpotifyHeaderInterceptor) {
+class SpotifyRepository(private val dataSource: DataSource,
+                        private val spotifyApi: SpotifyApi,
+                        private val spotifySpotifyHeaderInterceptor: SpotifyHeaderInterceptor) {
 
     private var spotifyAuthToken: AuthToken
     private var spotifyUser: SpotifyUser? = null

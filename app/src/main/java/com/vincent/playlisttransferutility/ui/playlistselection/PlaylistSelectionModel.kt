@@ -1,9 +1,9 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
-import com.vincent.playlisttransferutility.data.repository.Repository
 import com.vincent.playlisttransferutility.data.models.MusicService
+import com.vincent.playlisttransferutility.data.spotify.SpotifyRepository
 import com.vincent.playlisttransferutility.data.models.Playlist
-import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyPlaylist
+import com.vincent.playlisttransferutility.data.spotify.models.response.SpotifyPlaylist
 import com.vincent.playlisttransferutility.network.spotify.SpotifyApi
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -12,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
-class PlaylistSelectionModel(private val repository: Repository,
+class PlaylistSelectionModel(private val spotifyRepository: SpotifyRepository,
                              private val spotifyApi: SpotifyApi) {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
@@ -45,7 +45,7 @@ class PlaylistSelectionModel(private val repository: Repository,
     }
 
     private fun getPlaylistsFromSpotify(): Single<List<Playlist>> {
-        return repository.getSpotifyPlaylists().map {
+        return spotifyRepository.getSpotifyPlaylists().map {
             val playlists: ArrayList<Playlist> = ArrayList()
 
             for (spotifyPlaylist: SpotifyPlaylist in it) {

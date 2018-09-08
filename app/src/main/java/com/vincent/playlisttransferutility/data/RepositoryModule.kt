@@ -1,6 +1,6 @@
 package com.vincent.playlisttransferutility.data
 
-import com.vincent.playlisttransferutility.data.repository.Repository
+import com.vincent.playlisttransferutility.data.spotify.SpotifyRepository
 import com.vincent.playlisttransferutility.data.sources.preferences.PreferencesDataSource
 import com.vincent.playlisttransferutility.network.spotify.SpotifyHeaderInterceptor
 import com.vincent.playlisttransferutility.network.spotify.SpotifyApi
@@ -15,8 +15,8 @@ class RepositoryModule {
     @Singleton
     fun provideRepository(dataSource: PreferencesDataSource,
                           spotifyApi: SpotifyApi,
-                          spotifySpotifyHeaderInterceptor: SpotifyHeaderInterceptor): Repository {
-        return Repository(dataSource,
+                          spotifySpotifyHeaderInterceptor: SpotifyHeaderInterceptor): SpotifyRepository {
+        return SpotifyRepository(dataSource,
                 spotifyApi,
                 spotifySpotifyHeaderInterceptor)
     }

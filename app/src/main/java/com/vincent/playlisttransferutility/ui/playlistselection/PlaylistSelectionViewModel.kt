@@ -1,7 +1,5 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.ui.base.BaseViewModel
@@ -14,18 +12,9 @@ class PlaylistSelectionViewModel(resourceProvider: ResourceProvider,
                                  private val model: PlaylistSelectionModel)
     : BaseViewModel(resourceProvider, schedulersProvider) {
 
-    class Factory(private val resourceProvider: ResourceProvider,
-                  private val schedulersProvider: SchedulersProvider,
-                  private val model: PlaylistSelectionModel) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return PlaylistSelectionViewModel(resourceProvider, schedulersProvider, model) as T
-        }
-    }
-
     override fun onCleared() {
         super.onCleared()
 
-        compositeDisposable.dispose()
         model.onClear()
     }
 

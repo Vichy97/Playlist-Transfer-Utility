@@ -13,15 +13,8 @@ import io.reactivex.subjects.BehaviorSubject
 
 class GoogleLoginViewModel(resourceProvider: ResourceProvider,
                            schedulersProvider: SchedulersProvider,
-                           private val model: GoogleLoginModel) : BaseViewModel(resourceProvider, schedulersProvider) {
-
-    class Factory(private val resourceProvider: ResourceProvider,
-                  private val schedulersProvider: SchedulersProvider,
-                  private val model: GoogleLoginModel) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return GoogleLoginViewModel(resourceProvider, schedulersProvider, model) as T
-        }
-    }
+                           private val model: GoogleLoginModel)
+    : BaseViewModel(resourceProvider, schedulersProvider) {
 
     private companion object {
         val TAG: String = GoogleLoginViewModel::class.java.simpleName

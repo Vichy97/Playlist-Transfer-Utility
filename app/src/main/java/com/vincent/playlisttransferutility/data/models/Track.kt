@@ -1,6 +1,6 @@
 package com.vincent.playlisttransferutility.data.models
 
-import com.vincent.playlisttransferutility.data.models.spotify.response.SpotifyTrack
+import com.vincent.playlisttransferutility.data.spotify.models.response.SpotifyTrack
 
 data class Track(val id: String,
                  val name: String,
