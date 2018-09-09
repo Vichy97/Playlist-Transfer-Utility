@@ -1,5 +1,6 @@
 package com.vincent.playlisttransferutility.ui.main
 
+import android.util.Log
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.vincent.playlisttransferutility.data.spotify.SpotifyRepository
 import com.vincent.playlisttransferutility.data.models.AuthToken
@@ -7,6 +8,10 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 class MainModel(private val spotifyRepository: SpotifyRepository) {
+
+    init {
+        Log.d("1", "")
+    }
 
     fun saveSpotifyAuthToken(authenticationResponse: AuthenticationResponse): Completable {
         val authToken: AuthToken = AuthToken.fromSpotifyAuthenticationResponse(authenticationResponse)

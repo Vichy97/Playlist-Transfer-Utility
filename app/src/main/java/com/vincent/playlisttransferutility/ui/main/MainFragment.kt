@@ -9,13 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.FragmentMainBinding
 import com.vincent.playlisttransferutility.ui.base.BaseFragment
-import com.vincent.playlisttransferutility.ui.base.ViewModelFactory
 import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginDialogFragment
 import com.vincent.playlisttransferutility.utils.BooleanUtils
 import dagger.android.support.AndroidSupportInjection
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class MainFragment : BaseFragment() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var viewModel: MainViewModel
 
     private lateinit var spotifyButton: Button

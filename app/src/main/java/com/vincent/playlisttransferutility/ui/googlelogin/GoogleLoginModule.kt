@@ -1,16 +1,11 @@
-package com.vincent.playlisttransferutility.ui.googlelogin.di
+package com.vincent.playlisttransferutility.ui.googlelogin
 
 import android.content.Context
 import android.telephony.TelephonyManager
-import androidx.lifecycle.ViewModel
-import com.vincent.playlisttransferutility.di.ViewModelKey
-import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginModel
-import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginViewModel
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import dagger.Module
 import dagger.Provides
-import dagger.multibindings.IntoMap
 import okhttp3.OkHttpClient
 import svarzee.gps.gpsoauth.Gpsoauth
 import javax.inject.Named
@@ -19,7 +14,6 @@ import javax.inject.Named
 class GoogleLoginModule {
 
     @Provides
-    //@GoogleLoginScope
     fun provideGoogleLoginModel(context: Context,
                                 gpsoauth: Gpsoauth,
                                 telephonyManager: TelephonyManager): GoogleLoginModel {
@@ -27,23 +21,18 @@ class GoogleLoginModule {
     }
 
     @Provides
-    @IntoMap
-    @ViewModelKey(GoogleLoginViewModel::class)
-   // @GoogleLoginScope
     fun provideGoogleViewModel(resourceProvider: ResourceProvider,
                                schedulersProvider: SchedulersProvider,
-                               model: GoogleLoginModel): ViewModel {
+                               model: GoogleLoginModel): GoogleLoginViewModel {
         return GoogleLoginViewModel(resourceProvider, schedulersProvider, model)
     }
 
     @Provides
-    //@GoogleLoginScope
     fun provideGpsOauth(@Named("GooglePlayMusic") okHttpClient: OkHttpClient): Gpsoauth {
         return Gpsoauth(okHttpClient)
     }
 
     @Provides
-    //@GoogleLoginScope
     fun provideTelephonyManager(context: Context): TelephonyManager {
         return context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     }

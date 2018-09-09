@@ -1,5 +1,6 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
+import android.util.Log
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.ui.base.BaseViewModel
@@ -11,6 +12,10 @@ class PlaylistSelectionViewModel(resourceProvider: ResourceProvider,
                                  schedulersProvider: SchedulersProvider,
                                  private val model: PlaylistSelectionModel)
     : BaseViewModel(resourceProvider, schedulersProvider) {
+
+    init {
+        Log.d("", "")
+    }
 
     override fun onCleared() {
         super.onCleared()

@@ -2,11 +2,11 @@ package com.vincent.playlisttransferutility.di
 
 import com.vincent.playlisttransferutility.ui.MainActivity
 import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginDialogFragment
-import com.vincent.playlisttransferutility.ui.googlelogin.di.GoogleLoginModule
+import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginModule
 import com.vincent.playlisttransferutility.ui.main.MainFragment
-import com.vincent.playlisttransferutility.ui.main.di.MainModule
+import com.vincent.playlisttransferutility.ui.main.MainModule
 import com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionFragment
-import com.vincent.playlisttransferutility.ui.playlistselection.di.PlaylistSelectionModule
+import com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

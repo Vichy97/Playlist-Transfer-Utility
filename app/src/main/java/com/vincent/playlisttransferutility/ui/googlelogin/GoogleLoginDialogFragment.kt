@@ -10,10 +10,10 @@ import android.widget.Toast.LENGTH_SHORT
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.databinding.FragmentGoogleLoginDialogBinding
-import com.vincent.playlisttransferutility.ui.base.ViewModelFactory
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 import dagger.android.support.AndroidSupportInjection
@@ -26,7 +26,7 @@ class GoogleLoginDialogFragment : DialogFragment() {
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: GoogleLoginViewModel
 
     private val compositeDisposable: CompositeDisposable

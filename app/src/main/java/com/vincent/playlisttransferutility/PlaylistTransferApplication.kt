@@ -7,7 +7,7 @@ import com.orhanobut.logger.FormatStrategy
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
-import com.vincent.playlisttransferutility.di.ContextModule
+import com.vincent.playlisttransferutility.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.DispatchingAndroidInjector
@@ -21,10 +21,10 @@ class PlaylistTransferApplication : Application(), HasActivityInjector {
     override fun onCreate() {
         super.onCreate()
 
-//        DaggerAppComponent.builder()
-//                .application(this)
-//                .build()
-//                .inject(this)
+       DaggerAppComponent.builder()
+               .application(this)
+               .build()
+               .inject(this)
 
         setupLeakCanary()
         setupPrettyLogger()
