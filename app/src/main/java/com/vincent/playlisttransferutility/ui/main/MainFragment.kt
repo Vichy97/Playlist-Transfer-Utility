@@ -1,6 +1,5 @@
 package com.vincent.playlisttransferutility.ui.main
 
-import android.content.Context
 import android.content.Intent
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
@@ -18,14 +16,10 @@ import com.vincent.playlisttransferutility.databinding.FragmentMainBinding
 import com.vincent.playlisttransferutility.ui.base.BaseFragment
 import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginDialogFragment
 import com.vincent.playlisttransferutility.utils.BooleanUtils
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_main.*
-import javax.inject.Inject
 
 class MainFragment : BaseFragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var viewModel: MainViewModel
 
     private lateinit var spotifyButton: Button
@@ -34,11 +28,6 @@ class MainFragment : BaseFragment() {
     private lateinit var startTransferButton: Button
 
     private lateinit var googleLoginDialog: GoogleLoginDialogFragment
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

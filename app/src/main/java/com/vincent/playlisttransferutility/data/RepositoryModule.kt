@@ -13,7 +13,7 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(dataSource: PreferencesDataSource,
+    fun provideSpotifyRepository(dataSource: PreferencesDataSource,
                           spotifyApi: SpotifyApi,
                           spotifySpotifyHeaderInterceptor: SpotifyHeaderInterceptor): SpotifyRepository {
         return SpotifyRepository(dataSource,

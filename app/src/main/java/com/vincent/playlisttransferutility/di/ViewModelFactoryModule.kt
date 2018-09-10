@@ -14,6 +14,6 @@ class ViewModelFactoryModule {
     @Singleton
     fun provideViewModelFactory(providerMap: Map<Class<out ViewModel>,
             @JvmSuppressWildcards Provider<ViewModel>>): ViewModelFactory {
-        return ViewModelFactory(providerMap);
+        return ViewModelFactory(providerMap)
     }
 }

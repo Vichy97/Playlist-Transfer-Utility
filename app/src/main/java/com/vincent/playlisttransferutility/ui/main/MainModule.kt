@@ -5,6 +5,7 @@ import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
 @Module
 class MainModule {
@@ -17,7 +18,8 @@ class MainModule {
     @Provides
     fun provideMainViewModel(resourceProvider: ResourceProvider,
                              schedulersProvider: SchedulersProvider,
+                             compositeDisposable: CompositeDisposable,
                              model: MainModel): MainViewModel {
-        return MainViewModel(resourceProvider, schedulersProvider, model)
+        return MainViewModel(resourceProvider, schedulersProvider, compositeDisposable, model)
     }
 }

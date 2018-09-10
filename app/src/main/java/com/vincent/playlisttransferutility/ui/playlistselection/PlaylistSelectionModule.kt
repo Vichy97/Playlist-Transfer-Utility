@@ -6,6 +6,7 @@ import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
 @Module
 class PlaylistSelectionModule {
@@ -19,7 +20,8 @@ class PlaylistSelectionModule {
     @Provides
     fun providePlaylistSelectionViewModel(resourceProvider: ResourceProvider,
                                           schedulersProvider: SchedulersProvider,
+                                          compositeDisposable: CompositeDisposable,
                                           model: PlaylistSelectionModel): PlaylistSelectionViewModel {
-        return PlaylistSelectionViewModel(resourceProvider, schedulersProvider, model)
+        return PlaylistSelectionViewModel(resourceProvider, schedulersProvider, compositeDisposable, model)
     }
 }

@@ -7,12 +7,14 @@ import com.vincent.playlisttransferutility.ui.base.BaseViewModel
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
 class GoogleLoginViewModel(resourceProvider: ResourceProvider,
                            schedulersProvider: SchedulersProvider,
+                           compositeDisposable: CompositeDisposable,
                            private val model: GoogleLoginModel)
-    : BaseViewModel(resourceProvider, schedulersProvider) {
+    : BaseViewModel(resourceProvider, schedulersProvider, compositeDisposable) {
 
     private companion object {
         val TAG: String = GoogleLoginViewModel::class.java.simpleName

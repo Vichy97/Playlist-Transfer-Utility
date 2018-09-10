@@ -6,6 +6,7 @@ import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import okhttp3.OkHttpClient
 import svarzee.gps.gpsoauth.Gpsoauth
 import javax.inject.Named
@@ -23,8 +24,9 @@ class GoogleLoginModule {
     @Provides
     fun provideGoogleViewModel(resourceProvider: ResourceProvider,
                                schedulersProvider: SchedulersProvider,
+                               compositeDisposable: CompositeDisposable,
                                model: GoogleLoginModel): GoogleLoginViewModel {
-        return GoogleLoginViewModel(resourceProvider, schedulersProvider, model)
+        return GoogleLoginViewModel(resourceProvider, schedulersProvider, compositeDisposable, model)
     }
 
     @Provides

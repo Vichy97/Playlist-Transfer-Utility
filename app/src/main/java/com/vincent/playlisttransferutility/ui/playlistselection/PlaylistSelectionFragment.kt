@@ -1,6 +1,5 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
-import android.content.Context
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import androidx.appcompat.widget.AppCompatSpinner
@@ -11,32 +10,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.databinding.FragmentPlaylistSelectionBinding
 import com.vincent.playlisttransferutility.ui.base.BaseFragment
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_playlist_selection.*
-import javax.inject.Inject
 
 class PlaylistSelectionFragment : BaseFragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var viewModel: PlaylistSelectionViewModel
 
     private lateinit var playlistSelectionAdapter: PlaylistSelectionAdapter
     private lateinit var playlistSelectionList: RecyclerView
     private lateinit var musicServiceSelectorOne: AppCompatSpinner
     private lateinit var musicServiceSelectorTwo: Spinner
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

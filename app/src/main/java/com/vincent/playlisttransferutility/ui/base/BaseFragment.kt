@@ -1,5 +1,6 @@
 package com.vincent.playlisttransferutility.ui.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,25 +9,28 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.vincent.playlisttransferutility.R
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 abstract class BaseFragment : Fragment() {
 
+    @Inject
+    protected lateinit var compositeDisposable: CompositeDisposable
+    @Inject
+    protected lateinit var viewModelFactory: ViewModelFactory
     protected lateinit var navController: NavController
 
-    protected val compositeDisposable: CompositeDisposable
-
-    init {
-        compositeDisposable = CompositeDisposable()
-    }
-
     protected abstract fun subscribeToViewModelEvents()
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         navController = Navigation.findNavController(activity!!, R.id.nav_host)
-
         return view
     }
 

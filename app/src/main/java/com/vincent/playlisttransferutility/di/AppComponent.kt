@@ -13,7 +13,7 @@ import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginModule
 import com.vincent.playlisttransferutility.ui.main.MainModule
 import com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionModule
 import com.vincent.playlisttransferutility.utils.resources.ResourceProviderModule
-import com.vincent.playlisttransferutility.utils.rx.SchedulersProviderModule
+import com.vincent.playlisttransferutility.utils.rx.RxModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -23,14 +23,14 @@ import javax.inject.Singleton
     MainModule::class,
     PlaylistSelectionModule::class,
     ViewModelFactoryModule::class,
-    ViewModelModule::class,
+    ViewModelBindingModule::class,
     BuildersModule::class,
     GsonModule::class,
     BaseNetworkModule::class,
     GooglePlayNetworkModule::class,
     SpotifyNetworkModule::class,
     ResourceProviderModule::class,
-    SchedulersProviderModule::class,
+    RxModule::class,
     RepositoryModule::class,
     ContextModule::class,
     DataSourceModule::class,

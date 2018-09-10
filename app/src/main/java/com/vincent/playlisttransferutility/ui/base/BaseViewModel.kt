@@ -8,17 +8,11 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
 abstract class BaseViewModel(protected val resourceProvider: ResourceProvider,
-                             protected val schedulersProvider: SchedulersProvider) : ViewModel() {
+                             protected val schedulersProvider: SchedulersProvider,
+                             protected val compositeDisposable: CompositeDisposable) : ViewModel() {
 
-    protected val compositeDisposable: CompositeDisposable
-    protected val navigationSubject: PublishSubject<Int>
-    protected val toastSubject: PublishSubject<String>
-
-    init {
-        compositeDisposable = CompositeDisposable()
-        navigationSubject = PublishSubject.create()
-        toastSubject = PublishSubject.create()
-    }
+    protected val navigationSubject: PublishSubject<Int> = PublishSubject.create()
+    protected val toastSubject: PublishSubject<String> = PublishSubject.create()
 
     override fun onCleared() {
         super.onCleared()

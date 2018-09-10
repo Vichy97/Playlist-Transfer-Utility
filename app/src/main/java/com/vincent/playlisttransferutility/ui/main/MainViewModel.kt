@@ -12,13 +12,15 @@ import com.vincent.playlisttransferutility.ui.base.BaseViewModel
 import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
 import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 class MainViewModel(resourceProvider: ResourceProvider,
                     schedulersProvider: SchedulersProvider,
+                    compositeDisposable: CompositeDisposable,
                     private val model: MainModel)
-    : BaseViewModel(resourceProvider, schedulersProvider) {
+    : BaseViewModel(resourceProvider, schedulersProvider, compositeDisposable) {
 
     companion object {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337

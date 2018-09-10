@@ -16,8 +16,6 @@ class DataSourceModule {
     fun providePreferencesDataSource(sharedPreferences: SharedPreferences,
                                      gson: Gson,
                                      keystore: KeyStore): PreferencesDataSource {
-        return PreferencesDataSource(sharedPreferences,
-                gson,
-                keystore)
+        return PreferencesDataSource(sharedPreferences, gson, keystore)
     }
 }
