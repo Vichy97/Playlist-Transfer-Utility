@@ -79,7 +79,7 @@ class MainFragment : BaseFragment() {
     }
 
     private fun onGoogleLoginRequestReceived() {
-        googleLoginDialog.show(fragmentManager, GoogleLoginDialogFragment.TAG)
+        googleLoginDialog.show(fragmentManager!!, GoogleLoginDialogFragment.TAG)
     }
 
     private fun onNavigationEventReceived(actionId: Int) {

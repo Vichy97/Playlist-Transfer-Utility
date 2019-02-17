@@ -2,8 +2,10 @@ package com.vincent.playlisttransferutility.ui.googlelogin
 
 import android.content.Context
 import android.telephony.TelephonyManager
-import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
-import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
+import com.vincent.playlisttransferutility.network.googleplaymusic.GooglePlayMusicApi
+import com.vincent.playlisttransferutility.utils.CipherUtil
+import com.vincent.playlisttransferutility.utils.ResourceProvider
+import com.vincent.playlisttransferutility.utils.RxProvider
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -16,17 +18,18 @@ class GoogleLoginModule {
 
     @Provides
     fun provideGoogleLoginModel(context: Context,
+                                googlePlayMusicApi: GooglePlayMusicApi,
                                 gpsoauth: Gpsoauth,
+                                cipherUtil: CipherUtil,
                                 telephonyManager: TelephonyManager): GoogleLoginModel {
-        return GoogleLoginModel(context, gpsoauth, telephonyManager)
+        return GoogleLoginModel(context, googlePlayMusicApi, telephonyManager, cipherUtil)
     }
 
     @Provides
     fun provideGoogleViewModel(resourceProvider: ResourceProvider,
-                               schedulersProvider: SchedulersProvider,
-                               compositeDisposable: CompositeDisposable,
+                               rxProvider: RxProvider,
                                model: GoogleLoginModel): GoogleLoginViewModel {
-        return GoogleLoginViewModel(resourceProvider, schedulersProvider, compositeDisposable, model)
+        return GoogleLoginViewModel(resourceProvider, rxProvider, model)
     }
 
     @Provides
@@ -37,5 +40,10 @@ class GoogleLoginModule {
     @Provides
     fun provideTelephonyManager(context: Context): TelephonyManager {
         return context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+    }
+
+    @Provides
+    fun provideCipherUtil(): CipherUtil {
+        return CipherUtil()
     }
 }

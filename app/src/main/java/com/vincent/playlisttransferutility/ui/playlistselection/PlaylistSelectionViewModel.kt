@@ -3,16 +3,14 @@ package com.vincent.playlisttransferutility.ui.playlistselection
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.ui.base.BaseViewModel
-import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
-import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
+import com.vincent.playlisttransferutility.utils.ResourceProvider
+import com.vincent.playlisttransferutility.utils.RxProvider
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 
 class PlaylistSelectionViewModel(resourceProvider: ResourceProvider,
-                                 schedulersProvider: SchedulersProvider,
-                                 compositeDisposable: CompositeDisposable,
+                                 rxProvider: RxProvider,
                                  private val model: PlaylistSelectionModel)
-    : BaseViewModel(resourceProvider, schedulersProvider, compositeDisposable) {
+    : BaseViewModel(resourceProvider, rxProvider) {
 
     override fun onCleared() {
         super.onCleared()
@@ -43,8 +41,8 @@ class PlaylistSelectionViewModel(resourceProvider: ResourceProvider,
 
     fun onTransferClicked() {
         compositeDisposable.add(model.transfer()
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
+                .subscribeOn(rxProvider.ioScheduler())
+                .observeOn(rxProvider.uiScheduler())
                 .subscribe())
         //TODO: only enabled if transferFrom and transferTo are not the same, and at least one playlist is selected
     }

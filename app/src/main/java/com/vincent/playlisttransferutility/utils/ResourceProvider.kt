@@ -1,10 +1,13 @@
-package com.vincent.playlisttransferutility.utils.resources
+package com.vincent.playlisttransferutility.utils
 
 import android.content.Context
 import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ResourceProvider(private val context: Context) {
+@Singleton
+class ResourceProvider @Inject constructor(private val context: Context) {
 
     fun getString(@StringRes id: Int): String {
         return context.resources.getString(id)

@@ -29,11 +29,7 @@ class GoogleLoginDialogFragment : DialogFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: GoogleLoginViewModel
 
-    private val compositeDisposable: CompositeDisposable
-
-    init {
-        compositeDisposable = CompositeDisposable()
-    }
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)

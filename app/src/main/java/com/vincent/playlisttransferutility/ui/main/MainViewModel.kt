@@ -9,34 +9,28 @@ import com.vincent.playlisttransferutility.BuildConfig
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.spotify.models.request.SpotifyAuthenticationRequestScope
 import com.vincent.playlisttransferutility.ui.base.BaseViewModel
-import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
-import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
+import com.vincent.playlisttransferutility.utils.ResourceProvider
+import com.vincent.playlisttransferutility.utils.RxProvider
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 class MainViewModel(resourceProvider: ResourceProvider,
-                    schedulersProvider: SchedulersProvider,
-                    compositeDisposable: CompositeDisposable,
+                    rxProvider: RxProvider,
                     private val model: MainModel)
-    : BaseViewModel(resourceProvider, schedulersProvider, compositeDisposable) {
+    : BaseViewModel(resourceProvider, rxProvider) {
 
     companion object {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
     }
 
-    private val spotifyLoginRequestSubject: PublishSubject<AuthenticationRequest>
-    private val googleLoginRequestSubject: PublishSubject<Boolean>
-    private val viewStateSubject: BehaviorSubject<MainViewState>
+    private val spotifyLoginRequestSubject: PublishSubject<AuthenticationRequest> = PublishSubject.create()
+    private val googleLoginRequestSubject: PublishSubject<Boolean> = PublishSubject.create()
+    private val viewStateSubject: BehaviorSubject<MainViewState> = BehaviorSubject.create()
 
     private lateinit var viewState: MainViewState
 
     init {
-        spotifyLoginRequestSubject = PublishSubject.create()
-        googleLoginRequestSubject = PublishSubject.create()
-        viewStateSubject = BehaviorSubject.create()
-
         initViewState()
     }
 
@@ -51,8 +45,8 @@ class MainViewModel(resourceProvider: ResourceProvider,
 //                                googlePlayAuthToken.accessToken.isNotEmpty())
 //                    }
 //                })
-//                .subscribeOn(schedulersProvider.io())
-//                .observeOn(schedulersProvider.ui())
+//                .subscribeOn(rxProvider.ioScheduler())
+//                .observeOn(rxProvider.uiScheduler())
 //                .subscribe({
 //                    viewState = it.invoke()
 //                    viewStateSubject.onNext(viewState)
@@ -96,8 +90,8 @@ class MainViewModel(resourceProvider: ResourceProvider,
 
     private fun onSpotifyTokenReceived(response: AuthenticationResponse) {
         compositeDisposable.add(model.saveSpotifyAuthToken(response)
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
+                .subscribeOn(rxProvider.ioScheduler())
+                .observeOn(rxProvider.uiScheduler())
                 .subscribe({}, {
                     Logger.e(it, "Error Fetching Spotify User")
                     toastSubject.onNext("Error Fetching Spotify User")

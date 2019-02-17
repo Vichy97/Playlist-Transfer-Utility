@@ -9,6 +9,6 @@ class ViewModelFactory(private val providerMap: Map<Class<out ViewModel>,
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return providerMap[modelClass]!!.get() as T
+        return providerMap.getValue(modelClass).get() as T
     }
 }

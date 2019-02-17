@@ -4,17 +4,15 @@ import android.Manifest
 import android.text.Editable
 import android.util.Log
 import com.vincent.playlisttransferutility.ui.base.BaseViewModel
-import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
-import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
+import com.vincent.playlisttransferutility.utils.ResourceProvider
+import com.vincent.playlisttransferutility.utils.RxProvider
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 
 class GoogleLoginViewModel(resourceProvider: ResourceProvider,
-                           schedulersProvider: SchedulersProvider,
-                           compositeDisposable: CompositeDisposable,
-                           private val model: GoogleLoginModel)
-    : BaseViewModel(resourceProvider, schedulersProvider, compositeDisposable) {
+                           rxProvider: RxProvider,
+                           private val model: GoogleLoginModel) : BaseViewModel(resourceProvider, rxProvider) {
 
     private companion object {
         val TAG: String = GoogleLoginViewModel::class.java.simpleName
@@ -36,8 +34,8 @@ class GoogleLoginViewModel(resourceProvider: ResourceProvider,
 
     fun onSignInClicked() {
         compositeDisposable.add(model.loginToGooglePlay(email, password)
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
+                .subscribeOn(rxProvider.ioScheduler())
+                .observeOn(rxProvider.uiScheduler())
                 .subscribe(this::onSignInSuccess, this::onSignInError))
     }
 

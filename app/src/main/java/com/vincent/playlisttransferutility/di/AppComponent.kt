@@ -12,13 +12,13 @@ import com.vincent.playlisttransferutility.network.spotify.SpotifyNetworkModule
 import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginModule
 import com.vincent.playlisttransferutility.ui.main.MainModule
 import com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionModule
-import com.vincent.playlisttransferutility.utils.resources.ResourceProviderModule
-import com.vincent.playlisttransferutility.utils.rx.RxModule
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Component(modules = [
+    AndroidSupportInjectionModule::class,
     GoogleLoginModule::class,
     MainModule::class,
     PlaylistSelectionModule::class,
@@ -29,13 +29,12 @@ import javax.inject.Singleton
     BaseNetworkModule::class,
     GooglePlayNetworkModule::class,
     SpotifyNetworkModule::class,
-    ResourceProviderModule::class,
-    RxModule::class,
     RepositoryModule::class,
     ContextModule::class,
     DataSourceModule::class,
     SharedPreferencesModule::class,
-    KeystoreModule::class])
+    KeystoreModule::class
+])
 @Singleton
 interface AppComponent {
 

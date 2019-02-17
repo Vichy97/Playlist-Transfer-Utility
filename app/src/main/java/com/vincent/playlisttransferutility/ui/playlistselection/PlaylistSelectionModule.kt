@@ -2,8 +2,8 @@ package com.vincent.playlisttransferutility.ui.playlistselection
 
 import com.vincent.playlisttransferutility.data.spotify.SpotifyRepository
 import com.vincent.playlisttransferutility.network.spotify.SpotifyApi
-import com.vincent.playlisttransferutility.utils.resources.ResourceProvider
-import com.vincent.playlisttransferutility.utils.rx.SchedulersProvider
+import com.vincent.playlisttransferutility.utils.ResourceProvider
+import com.vincent.playlisttransferutility.utils.RxProvider
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -19,9 +19,8 @@ class PlaylistSelectionModule {
 
     @Provides
     fun providePlaylistSelectionViewModel(resourceProvider: ResourceProvider,
-                                          schedulersProvider: SchedulersProvider,
-                                          compositeDisposable: CompositeDisposable,
+                                          rxProvider: RxProvider,
                                           model: PlaylistSelectionModel): PlaylistSelectionViewModel {
-        return PlaylistSelectionViewModel(resourceProvider, schedulersProvider, compositeDisposable, model)
+        return PlaylistSelectionViewModel(resourceProvider, rxProvider, model)
     }
 }

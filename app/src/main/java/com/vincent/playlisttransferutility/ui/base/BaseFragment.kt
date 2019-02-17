@@ -16,10 +16,10 @@ import javax.inject.Inject
 abstract class BaseFragment : Fragment() {
 
     @Inject
-    protected lateinit var compositeDisposable: CompositeDisposable
-    @Inject
     protected lateinit var viewModelFactory: ViewModelFactory
     protected lateinit var navController: NavController
+
+    protected val compositeDisposable = CompositeDisposable()
 
     protected abstract fun subscribeToViewModelEvents()
 
