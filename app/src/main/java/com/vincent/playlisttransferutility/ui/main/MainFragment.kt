@@ -1,18 +1,14 @@
 package com.vincent.playlisttransferutility.ui.main
 
 import android.content.Intent
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.vincent.playlisttransferutility.R
-import com.vincent.playlisttransferutility.databinding.FragmentMainBinding
 import com.vincent.playlisttransferutility.ui.base.BaseFragment
 import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginDialogFragment
 import com.vincent.playlisttransferutility.utils.BooleanUtils
@@ -29,20 +25,15 @@ class MainFragment : BaseFragment() {
 
     private lateinit var googleLoginDialog: GoogleLoginDialogFragment
 
+    override fun getLayoutId(): Int {
+        return R.layout.fragment_main
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
-
         googleLoginDialog = GoogleLoginDialogFragment()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        val binding: FragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-        binding.viewModel = viewModel
-
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

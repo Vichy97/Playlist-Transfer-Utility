@@ -1,68 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
-    <data>
-        <variable
-            name="viewModel"
-            type="com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionViewModel"/>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
+    android:layout_marginTop="@dimen/spacing">
 
-        <variable
-            name="playlistId"
-            type="String"/>
-    </data>
+    <ImageView
+        android:id="@+id/iv_playlist_cover_art"
+        android:layout_width="@dimen/playlist_list_view_icon_size"
+        android:layout_height="@dimen/playlist_list_view_icon_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_playlist_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginTop="@dimen/spacing">
+        android:layout_marginStart="@dimen/double_spacing"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toTopOf="@id/tv_playlist_count"
+        app:layout_constraintStart_toEndOf="@id/iv_playlist_cover_art"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Chill Summer Playlist"/>
 
-        <ImageView
-            android:id="@+id/iv_playlist_cover_art"
-            android:layout_width="@dimen/playlist_list_view_icon_size"
-            android:layout_height="@dimen/playlist_list_view_icon_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:id="@+id/tv_playlist_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/double_spacing"
+        android:layout_marginTop="@dimen/spacing"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_playlist_cover_art"
+        app:layout_constraintTop_toBottomOf="@id/tv_playlist_title"
+        tools:text="32 tracks"/>
 
-        <TextView
-            android:id="@+id/tv_playlist_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/double_spacing"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintBottom_toTopOf="@id/tv_playlist_count"
-            app:layout_constraintStart_toEndOf="@id/iv_playlist_cover_art"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Chill Summer Playlist"/>
-
-        <TextView
-            android:id="@+id/tv_playlist_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/double_spacing"
-            android:layout_marginTop="@dimen/spacing"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/text_size_small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_playlist_cover_art"
-            app:layout_constraintTop_toBottomOf="@id/tv_playlist_title"
-            tools:text="32 tracks"/>
-
-        <CheckBox
-            android:id="@+id/cb_playlist_select"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onCheckedChanged="@{(switch, checked) -> viewModel.onPlaylistSelectionChanged(playlistId, checked)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <CheckBox
+        android:id="@+id/cb_playlist_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

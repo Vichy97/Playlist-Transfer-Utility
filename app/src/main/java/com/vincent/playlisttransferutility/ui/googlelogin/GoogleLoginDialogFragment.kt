@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.core.app.ActivityCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.vincent.playlisttransferutility.R
-import com.vincent.playlisttransferutility.databinding.FragmentGoogleLoginDialogBinding
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 import dagger.android.support.AndroidSupportInjection
@@ -44,13 +42,11 @@ class GoogleLoginDialogFragment : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val binding: FragmentGoogleLoginDialogBinding = DataBindingUtil
-                .inflate(inflater, R.layout.fragment_google_login_dialog, container, false)
-        binding.viewModel = viewModel
+        val view = inflater.inflate(R.layout.fragment_google_login_dialog, container, false)
 
         subscribeToViewModelEvents()
 
-        return binding.root
+        return view
     }
 
     private fun subscribeToViewModelEvents() {

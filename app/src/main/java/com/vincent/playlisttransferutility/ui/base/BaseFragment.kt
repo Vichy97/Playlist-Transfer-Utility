@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -29,7 +30,7 @@ abstract class BaseFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
+        val view = inflater.inflate(getLayoutId(), container, false)
         navController = Navigation.findNavController(activity!!, R.id.nav_host)
         return view
     }
@@ -45,4 +46,7 @@ abstract class BaseFragment : Fragment() {
 
         compositeDisposable.clear()
     }
+
+    @LayoutRes
+    abstract fun getLayoutId(): Int
 }

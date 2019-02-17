@@ -1,7 +1,5 @@
 package com.vincent.playlisttransferutility.ui.playlistselection
 
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.vincent.playlisttransferutility.BR
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.Playlist
 import kotlinx.android.synthetic.main.playlist_list_view_item.view.*
@@ -29,10 +26,6 @@ class PlaylistSelectionAdapter(private val viewModel: PlaylistSelectionViewModel
 
     override fun onBindViewHolder(holder: PlaylistSelectionViewHolder, position: Int) {
         val playlist: Playlist = playlists[position]
-
-        holder.viewBinding!!.setVariable(BR.viewModel, viewModel)
-        holder.viewBinding.setVariable(BR.playlistId, playlist.id)
-        holder.viewBinding.executePendingBindings()
 
         holder.setTitle(playlist.name)
         holder.setCoverArt(playlist.coverArtUrl)
@@ -56,14 +49,11 @@ class PlaylistSelectionAdapter(private val viewModel: PlaylistSelectionViewModel
         private val playlistCountTextView: TextView
         private val checkBox: CheckBox
 
-        val viewBinding: ViewDataBinding?
-
         init {
             playlistCoverArtView = itemView.iv_playlist_cover_art
             playlistTitleTextView = itemView.tv_playlist_title
             playlistCountTextView = itemView.tv_playlist_count
             checkBox = itemView.cb_playlist_select
-            viewBinding = DataBindingUtil.bind(itemView)
         }
 
         //TODO: placeholder (or profile pic) for google play music

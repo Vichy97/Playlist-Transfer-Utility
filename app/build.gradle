@@ -29,10 +29,6 @@ android {
         it.buildConfigField 'String', 'SPOTIFY_CLIENT_SECRET', SpotifyClientSecret
     }
 
-    dataBinding {
-        enabled true
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

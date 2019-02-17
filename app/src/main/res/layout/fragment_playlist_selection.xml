@@ -1,88 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionViewModel"/>
-    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/triple_spacing"
+    tools:context=".ui.playlistselection.PlaylistSelectionFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/triple_spacing"
-        tools:context=".ui.playlistselection.PlaylistSelectionFragment">
+    <TextView
+        android:id="@+id/tv_service_selection_one_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/playlist_selection_service_one_label"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toBottomOf="@id/sp_service_selection_one"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/sp_service_selection_one"/>
 
-        <TextView
-            android:id="@+id/tv_service_selection_one_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/playlist_selection_service_one_label"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintBottom_toBottomOf="@id/sp_service_selection_one"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/sp_service_selection_one"/>
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/sp_service_selection_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/service_selection_spinner_item"/>
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/sp_service_selection_one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onItemSelected="@{(p, v, pos, id) -> viewModel.onFromMusicServiceSelectionChanged(pos)}"
-            tools:listitem="@layout/service_selection_spinner_item"/>
+    <TextView
+        android:id="@+id/tv_service_selection_two_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/playlist_selection_service_two_label"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toBottomOf="@id/sp_service_selection_two"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/sp_service_selection_two"/>
 
-        <TextView
-            android:id="@+id/tv_service_selection_two_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/playlist_selection_service_two_label"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_constraintBottom_toBottomOf="@id/sp_service_selection_two"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/sp_service_selection_two"/>
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/sp_service_selection_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_spacing"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sp_service_selection_one"
+        tools:listitem="@layout/service_selection_spinner_item"/>
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/sp_service_selection_two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/double_spacing"
-            android:gravity="end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sp_service_selection_one"
-            android:onItemSelected="@{(p, v, pos, id) -> viewModel.onToMusicServiceSelectionChanged(pos)}"
-            tools:listitem="@layout/service_selection_spinner_item"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_playlist_selection_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/double_spacing"
+        app:layout_constraintBottom_toTopOf="@id/btn_transfer_playlists"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sp_service_selection_two"
+        tools:listitem="@layout/playlist_list_view_item"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_playlist_selection_list"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/double_spacing"
-            app:layout_constraintBottom_toTopOf="@id/btn_transfer_playlists"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sp_service_selection_two"
-            tools:listitem="@layout/playlist_list_view_item"/>
-
-        <Button
-            android:id="@+id/btn_transfer_playlists"
-            style="@style/AppTheme.Button.Primary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/double_spacing"
-            android:text="@string/playlist_selection_transfer_button_label"
-            android:textAllCaps="true"
-            android:onClick="@{() -> viewModel.onTransferClicked()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_playlist_selection_list"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <Button
+        android:id="@+id/btn_transfer_playlists"
+        style="@style/AppTheme.Button.Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/double_spacing"
+        android:text="@string/playlist_selection_transfer_button_label"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_playlist_selection_list"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
