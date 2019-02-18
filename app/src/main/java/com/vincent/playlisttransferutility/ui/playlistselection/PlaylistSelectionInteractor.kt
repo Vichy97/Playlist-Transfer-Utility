@@ -11,9 +11,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import javax.inject.Inject
 
-class PlaylistSelectionModel(private val spotifyRepository: SpotifyRepository,
-                             private val spotifyApi: SpotifyApi) {
+class PlaylistSelectionInteractor @Inject constructor(private val spotifyRepository: SpotifyRepository,
+                                                      private val spotifyApi: SpotifyApi) {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val playlistSubject: BehaviorSubject<List<Playlist>> = BehaviorSubject.create()
@@ -88,13 +89,13 @@ class PlaylistSelectionModel(private val spotifyRepository: SpotifyRepository,
 
         transferFrom = musicService
         compositeDisposable.add(
-        getPlaylists().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    playlistSubject.onNext(it)
-                }, {
-                    playlistSubject.onError(it)
-                }))
+                getPlaylists().subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            playlistSubject.onNext(it)
+                        }, {
+                            playlistSubject.onError(it)
+                        }))
     }
 
     fun setTransferTo(musicService: MusicService) {

@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.di
+package com.vincent.playlisttransferutility.di.modules
 
 import android.content.Context
 import com.vincent.playlisttransferutility.PlaylistTransferApplication

@@ -1,6 +1,7 @@
 package com.vincent.playlisttransferutility.ui.main
 
 import android.content.Intent
+import androidx.navigation.NavController
 import com.orhanobut.logger.Logger
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
@@ -14,11 +15,13 @@ import com.vincent.playlisttransferutility.utils.RxProvider
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
 
-class MainViewModel(resourceProvider: ResourceProvider,
-                    rxProvider: RxProvider,
-                    private val model: MainModel)
-    : BaseViewModel(resourceProvider, rxProvider) {
+class MainViewModel @Inject constructor(resourceProvider: ResourceProvider,
+                                        rxProvider: RxProvider,
+                                        navController: NavController,
+                                        private val interactor: MainInteractor)
+    : BaseViewModel(resourceProvider, rxProvider, navController) {
 
     companion object {
         const val SPOTIFY_LOGIN_REQUEST_CODE: Int = 1337
@@ -89,7 +92,7 @@ class MainViewModel(resourceProvider: ResourceProvider,
     }
 
     private fun onSpotifyTokenReceived(response: AuthenticationResponse) {
-        compositeDisposable.add(model.saveSpotifyAuthToken(response)
+        compositeDisposable.add(interactor.saveSpotifyAuthToken(response)
                 .subscribeOn(rxProvider.ioScheduler())
                 .observeOn(rxProvider.uiScheduler())
                 .subscribe({}, {
@@ -115,7 +118,7 @@ class MainViewModel(resourceProvider: ResourceProvider,
     }
 
     fun onStartTransferClicked() {
-        navigationSubject.onNext(R.id.action_mainFragment_to_playlistSelectionFragment)
+        //navigationSubject.onNext(R.id.action_mainFragment_to_playlistSelectionFragment)
     }
     //endregion View Events
 

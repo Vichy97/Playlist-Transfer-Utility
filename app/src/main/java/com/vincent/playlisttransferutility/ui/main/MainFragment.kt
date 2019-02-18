@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.vincent.playlisttransferutility.R
@@ -14,9 +13,7 @@ import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginDialogFragm
 import com.vincent.playlisttransferutility.utils.BooleanUtils
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment : BaseFragment() {
-
-    lateinit var viewModel: MainViewModel
+class MainFragment : BaseFragment<MainViewModel>() {
 
     private lateinit var spotifyButton: Button
     private lateinit var googlePlayMusicButton: Button
@@ -32,8 +29,7 @@ class MainFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
-        googleLoginDialog = GoogleLoginDialogFragment()
+        //googleLoginDialog = GoogleLoginDialogFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +50,6 @@ class MainFragment : BaseFragment() {
     override fun subscribeToViewModelEvents() {
         compositeDisposable.addAll(
                 viewModel.getToastEvents().subscribe(this::onToastMessageReceived),
-                viewModel.getNavigationEvents().subscribe(this::onNavigationEventReceived),
                 viewModel.getSpotifyLoginRequestEvents().subscribe(this::onSpotifyLoginRequestReceived),
                 viewModel.getGoogleLoginRequestEvents().subscribe { onGoogleLoginRequestReceived() },
                 viewModel.getViewStateEvents().subscribe(this::onViewStateUpdateReceived)
@@ -71,10 +66,6 @@ class MainFragment : BaseFragment() {
 
     private fun onGoogleLoginRequestReceived() {
         googleLoginDialog.show(fragmentManager!!, GoogleLoginDialogFragment.TAG)
-    }
-
-    private fun onNavigationEventReceived(actionId: Int) {
-        navController.navigate(actionId)
     }
 
     private fun onViewStateUpdateReceived(viewState: MainViewState) {

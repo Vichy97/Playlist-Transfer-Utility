@@ -16,11 +16,12 @@ import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.Response
 import java.math.BigInteger
+import javax.inject.Inject
 
-class GoogleLoginModel(private val context: Context,
-                       private val googlePlayMusicApi: GooglePlayMusicApi,
-                       private val telephonyManager: TelephonyManager,
-                       private val cipherUtil: CipherUtil) {
+class GoogleLoginInteractor @Inject constructor(private val context: Context,
+                                                private val googlePlayMusicApi: GooglePlayMusicApi,
+                                                private val telephonyManager: TelephonyManager,
+                                                private val cipherUtil: CipherUtil) {
 
     companion object {
         private const val AUTH_URL = "https://android.clients.google.com/auth"

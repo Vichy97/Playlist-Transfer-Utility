@@ -3,28 +3,30 @@ package com.vincent.playlisttransferutility.ui.googlelogin
 import android.Manifest
 import android.text.Editable
 import android.util.Log
+import androidx.navigation.NavController
 import com.vincent.playlisttransferutility.ui.base.BaseViewModel
 import com.vincent.playlisttransferutility.utils.ResourceProvider
 import com.vincent.playlisttransferutility.utils.RxProvider
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
+import javax.inject.Inject
 
-class GoogleLoginViewModel(resourceProvider: ResourceProvider,
-                           rxProvider: RxProvider,
-                           private val model: GoogleLoginModel) : BaseViewModel(resourceProvider, rxProvider) {
+class GoogleLoginViewModel @Inject constructor(resourceProvider: ResourceProvider,
+                                               rxProvider: RxProvider,
+                                               navController: NavController,
+                                               private val interactor: GoogleLoginInteractor)
+    : BaseViewModel(resourceProvider, rxProvider, navController) {
 
     private companion object {
         val TAG: String = GoogleLoginViewModel::class.java.simpleName
     }
 
-    private val permissionsSubject: BehaviorSubject<Array<String>>
+    private val permissionsSubject: BehaviorSubject<Array<String>> = BehaviorSubject.create()
 
     private var email: String = ""
     private var password: String = ""
 
     init {
-        permissionsSubject = BehaviorSubject.create()
         permissionsSubject.onNext(arrayOf(Manifest.permission.READ_PHONE_STATE))
     }
 
@@ -33,7 +35,7 @@ class GoogleLoginViewModel(resourceProvider: ResourceProvider,
     }
 
     fun onSignInClicked() {
-        compositeDisposable.add(model.loginToGooglePlay(email, password)
+        compositeDisposable.add(interactor.loginToGooglePlay(email, password)
                 .subscribeOn(rxProvider.ioScheduler())
                 .observeOn(rxProvider.uiScheduler())
                 .subscribe(this::onSignInSuccess, this::onSignInError))

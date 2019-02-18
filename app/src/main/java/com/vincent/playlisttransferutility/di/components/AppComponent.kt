@@ -1,4 +1,4 @@
-package com.vincent.playlisttransferutility.di
+package com.vincent.playlisttransferutility.di.components
 
 import com.vincent.playlisttransferutility.PlaylistTransferApplication
 import com.vincent.playlisttransferutility.data.GsonModule
@@ -6,12 +6,11 @@ import com.vincent.playlisttransferutility.data.RepositoryModule
 import com.vincent.playlisttransferutility.data.keystore.KeystoreModule
 import com.vincent.playlisttransferutility.data.sources.DataSourceModule
 import com.vincent.playlisttransferutility.data.sources.preferences.SharedPreferencesModule
+import com.vincent.playlisttransferutility.di.modules.ActivityBuildersModule
+import com.vincent.playlisttransferutility.di.modules.ContextModule
 import com.vincent.playlisttransferutility.network.BaseNetworkModule
 import com.vincent.playlisttransferutility.network.googleplaymusic.GooglePlayNetworkModule
 import com.vincent.playlisttransferutility.network.spotify.SpotifyNetworkModule
-import com.vincent.playlisttransferutility.ui.googlelogin.GoogleLoginModule
-import com.vincent.playlisttransferutility.ui.main.MainModule
-import com.vincent.playlisttransferutility.ui.playlistselection.PlaylistSelectionModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -19,12 +18,7 @@ import javax.inject.Singleton
 
 @Component(modules = [
     AndroidSupportInjectionModule::class,
-    GoogleLoginModule::class,
-    MainModule::class,
-    PlaylistSelectionModule::class,
-    ViewModelFactoryModule::class,
-    ViewModelBindingModule::class,
-    BuildersModule::class,
+    ActivityBuildersModule::class,
     GsonModule::class,
     BaseNetworkModule::class,
     GooglePlayNetworkModule::class,

@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-abstract class BaseFragment<V : BaseViewModel> : Fragment() {
+abstract class BaseDialogFragment<V : BaseViewModel> : DialogFragment() {
 
     @Inject
     protected lateinit var viewModelFactory: BaseViewModelFactory

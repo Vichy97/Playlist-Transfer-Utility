@@ -7,7 +7,7 @@ import com.orhanobut.logger.FormatStrategy
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.squareup.leakcanary.LeakCanary
-import com.vincent.playlisttransferutility.di.DaggerAppComponent
+import com.vincent.playlisttransferutility.di.components.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.DispatchingAndroidInjector

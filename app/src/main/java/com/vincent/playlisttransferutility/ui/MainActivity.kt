@@ -16,15 +16,14 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
-
-    private lateinit var navController: NavController
+    @Inject
+    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        navController = Navigation.findNavController(this, R.id.nav_host)
+        AndroidInjection.inject(this)
     }
 
     override fun onNavigateUp(): Boolean {

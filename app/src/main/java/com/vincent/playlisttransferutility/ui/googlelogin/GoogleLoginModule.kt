@@ -2,48 +2,44 @@ package com.vincent.playlisttransferutility.ui.googlelogin
 
 import android.content.Context
 import android.telephony.TelephonyManager
-import com.vincent.playlisttransferutility.network.googleplaymusic.GooglePlayMusicApi
+import com.vincent.playlisttransferutility.di.scopes.PerFragment
+import com.vincent.playlisttransferutility.ui.base.BaseViewModelFactory
 import com.vincent.playlisttransferutility.utils.CipherUtil
-import com.vincent.playlisttransferutility.utils.ResourceProvider
-import com.vincent.playlisttransferutility.utils.RxProvider
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import okhttp3.OkHttpClient
 import svarzee.gps.gpsoauth.Gpsoauth
 import javax.inject.Named
 
 @Module
-class GoogleLoginModule {
+abstract class GoogleLoginModule {
 
-    @Provides
-    fun provideGoogleLoginModel(context: Context,
-                                googlePlayMusicApi: GooglePlayMusicApi,
-                                gpsoauth: Gpsoauth,
-                                cipherUtil: CipherUtil,
-                                telephonyManager: TelephonyManager): GoogleLoginModel {
-        return GoogleLoginModel(context, googlePlayMusicApi, telephonyManager, cipherUtil)
+    @Module
+    companion object {
+
+        @JvmStatic
+        @Provides
+        @PerFragment
+        fun provideGpsOauth(@Named("GooglePlayMusic") okHttpClient: OkHttpClient): Gpsoauth {
+            return Gpsoauth(okHttpClient)
+        }
+
+        @JvmStatic
+        @Provides
+        @PerFragment
+        fun provideTelephonyManager(context: Context): TelephonyManager {
+            return context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        }
+
+        @JvmStatic
+        @Provides
+        @PerFragment
+        fun provideCipherUtil(): CipherUtil {
+            return CipherUtil()
+        }
     }
 
-    @Provides
-    fun provideGoogleViewModel(resourceProvider: ResourceProvider,
-                               rxProvider: RxProvider,
-                               model: GoogleLoginModel): GoogleLoginViewModel {
-        return GoogleLoginViewModel(resourceProvider, rxProvider, model)
-    }
-
-    @Provides
-    fun provideGpsOauth(@Named("GooglePlayMusic") okHttpClient: OkHttpClient): Gpsoauth {
-        return Gpsoauth(okHttpClient)
-    }
-
-    @Provides
-    fun provideTelephonyManager(context: Context): TelephonyManager {
-        return context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-    }
-
-    @Provides
-    fun provideCipherUtil(): CipherUtil {
-        return CipherUtil()
-    }
+    @Binds
+    abstract fun bindViewModelFactory(viewModelFactory: GoogleLoginViewModelFactory) : BaseViewModelFactory
 }

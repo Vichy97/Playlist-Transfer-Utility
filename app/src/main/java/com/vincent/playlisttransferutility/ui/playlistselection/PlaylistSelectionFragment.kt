@@ -8,16 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.lifecycle.ViewModelProviders
 import com.vincent.playlisttransferutility.R
 import com.vincent.playlisttransferutility.data.models.MusicService
 import com.vincent.playlisttransferutility.data.models.Playlist
 import com.vincent.playlisttransferutility.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_playlist_selection.*
 
-class PlaylistSelectionFragment : BaseFragment() {
-
-    lateinit var viewModel: PlaylistSelectionViewModel
+class PlaylistSelectionFragment : BaseFragment<PlaylistSelectionViewModel>() {
 
     private lateinit var playlistSelectionAdapter: PlaylistSelectionAdapter
     private lateinit var playlistSelectionList: RecyclerView
@@ -26,12 +23,6 @@ class PlaylistSelectionFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_playlist_selection
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[PlaylistSelectionViewModel::class.java]
     }
 
     override fun onViewCreated(view: View,

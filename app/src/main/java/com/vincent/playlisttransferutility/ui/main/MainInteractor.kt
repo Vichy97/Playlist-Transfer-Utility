@@ -6,8 +6,9 @@ import com.vincent.playlisttransferutility.data.spotify.SpotifyRepository
 import com.vincent.playlisttransferutility.data.models.AuthToken
 import io.reactivex.Completable
 import io.reactivex.Single
+import javax.inject.Inject
 
-class MainModel(private val spotifyRepository: SpotifyRepository) {
+class MainInteractor @Inject constructor(private val spotifyRepository: SpotifyRepository) {
 
     init {
         Log.d("1", "")
